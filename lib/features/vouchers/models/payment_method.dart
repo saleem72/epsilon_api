@@ -1,0 +1,6 @@
+//
+
+enum PaymentMethod {
+  cheque,
+  chash;
+}

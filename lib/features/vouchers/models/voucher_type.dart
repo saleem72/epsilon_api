@@ -1,0 +1,6 @@
+//
+
+enum VoucherType {
+  recipient,
+  payment,
+}
