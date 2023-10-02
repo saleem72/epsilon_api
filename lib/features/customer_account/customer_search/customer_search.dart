@@ -5,6 +5,7 @@ import 'package:epsilon_api/core/extensions/num_extension.dart';
 import 'package:epsilon_api/core/widgets/app_nav_bar.dart';
 import 'package:epsilon_api/dependancy_injection.dart' as di;
 import 'package:epsilon_api/features/customer_account/customer_search/presentation/customer_search_bloc/customer_search_bloc.dart';
+import 'package:epsilon_api/features/customer_account/customer_search/presentation/widgets/customer_error_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -36,6 +37,7 @@ class CustomerSearchContent extends StatelessWidget {
         children: [
           _mainContent(context),
           const CustomerSearchLoadingView(),
+          const CustomerErrorView(),
         ],
       ),
     );

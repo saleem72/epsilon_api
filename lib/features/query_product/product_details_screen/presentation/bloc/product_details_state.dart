@@ -9,6 +9,9 @@ abstract class ProductDetailsState extends Equatable {
       ProductDetailsWithSuccess(product: product);
   factory ProductDetailsState.withFailure(GetProductFailure failure) =>
       ProductDetailsWithFailure(failure: failure);
+  factory ProductDetailsState.withSearchSuccess(
+          List<ProductDetails> products) =>
+      ProductDetailsSearchName(products: products);
 
   @override
   List<Object?> get props => [];
@@ -36,4 +39,14 @@ class ProductDetailsWithFailure extends ProductDetailsState {
 
   @override
   List<Object?> get props => [failure];
+}
+
+class ProductDetailsSearchName extends ProductDetailsState {
+  final List<ProductDetails> products;
+  const ProductDetailsSearchName({
+    required this.products,
+  });
+
+  @override
+  List<Object?> get props => [products];
 }

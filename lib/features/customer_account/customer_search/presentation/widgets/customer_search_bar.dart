@@ -9,8 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CustomerSearchBar extends StatefulWidget {
-  const CustomerSearchBar({super.key});
-
+  const CustomerSearchBar({
+    super.key,
+  });
   @override
   State<CustomerSearchBar> createState() => _CustomerSearchBarState();
 }
@@ -58,6 +59,11 @@ class _CustomerSearchBarState extends State<CustomerSearchBar> {
               style: Topology.smallTitle.copyWith(
                 color: AppColors.primaryDark,
               ),
+              onSubmitted: (value) => context.read<CustomerSearchBloc>().add(
+                  CustomerSearchEvent.searchByName(
+                      searchTerm: _searchTerm.text)),
+              keyboardType: TextInputType.text,
+              textInputAction: TextInputAction.search,
               decoration: InputDecoration(
                 hintText: context.translate.search,
                 hintStyle: Topology.smallTitle.copyWith(

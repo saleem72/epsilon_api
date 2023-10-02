@@ -36,3 +36,23 @@ class LoginUsernameHasChanged extends LoginEvent {
 class LoginClearFailure extends LoginEvent {}
 
 class LoginExecute extends LoginEvent {}
+
+class LoginHostHasChanged extends LoginEvent {
+  final String host;
+  const LoginHostHasChanged({
+    required this.host,
+  });
+
+  @override
+  List<Object> get props => [host];
+}
+
+class LoginCompanyHasChanged extends LoginEvent {
+  final Company company;
+  const LoginCompanyHasChanged({
+    required this.company,
+  });
+
+  @override
+  List<Object> get props => [company];
+}

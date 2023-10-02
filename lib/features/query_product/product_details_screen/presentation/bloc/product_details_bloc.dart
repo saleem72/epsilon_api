@@ -3,6 +3,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../data/dtos/search_by_name_dto.dart';
 import '../../domain/failures/get_product_failure.dart';
 import '../../domain/models/barcode_or_serial.dart';
 import '../../domain/models/product_datails.dart';
@@ -62,7 +63,10 @@ class ProductDetailsBloc
       (failure) {
         emit(ProductDetailsState.withFailure(failure));
       },
-      (product) => emit(ProductDetailsState.withSuccess(product)),
+      (products) {
+        print(products);
+        emit(ProductDetailsState.withSearchSuccess(products));
+      },
     );
   }
 }

@@ -23,8 +23,8 @@ class CustomerAccountScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<CustomerAccountBloc>(
-      create: (context) => di.locator()
-        ..add(CustomerAccountEvent.getBalance(guid: customer.guid)),
+      create: (context) =>
+          di.locator()..add(CustomerAccountEvent.getBalance(id: customer.id)),
       child: CustomerAccountContent(
         customer: customer,
       ),
@@ -152,12 +152,16 @@ class CustomerAccountSuccessView extends StatelessWidget {
                 children: [
                   Expanded(
                     flex: 1,
-                    child: BalanceListView(list: state.balance.balance ?? []),
+                    child: BalanceListView(
+                      list: state.balance.first.items ?? [],
+                      currency: state.balance.first.currency,
+                    ),
                   ),
-                  Expanded(
-                    flex: 1,
-                    child: CurrencyListView(list: state.balance.currency ?? []),
-                  ),
+                  // Expanded(
+                  //   flex: 1,
+                  //   // child: CurrencyListView(currency: state.),
+                  //   child: Container(),
+                  // ),
                 ],
               )
             : const SizedBox.shrink();
@@ -169,10 +173,10 @@ class CustomerAccountSuccessView extends StatelessWidget {
 class CurrencyListView extends StatelessWidget {
   const CurrencyListView({
     super.key,
-    required this.list,
+    required this.currency,
   });
 
-  final List<Currency> list;
+  final Currency? currency;
 
   @override
   Widget build(BuildContext context) {
@@ -214,15 +218,7 @@ class CurrencyListView extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 8),
-          Expanded(
-            child: ListView.builder(
-              itemCount: list.length,
-              itemBuilder: (BuildContext context, int index) {
-                final curreny = list[index];
-                return CurrencyTile(curreny: curreny);
-              },
-            ),
-          ),
+          CurrencyTile(curreny: currency),
         ],
       ),
     );
@@ -235,7 +231,7 @@ class CurrencyTile extends StatelessWidget {
     required this.curreny,
   });
 
-  final Currency curreny;
+  final Currency? curreny;
 
   @override
   Widget build(BuildContext context) {
@@ -243,12 +239,12 @@ class CurrencyTile extends StatelessWidget {
       children: [
         Expanded(
           child: Text(
-            curreny.code ?? '',
+            curreny?.code ?? '',
           ),
         ),
         Expanded(
           child: Text(
-            curreny.name ?? '',
+            curreny?.name ?? '',
           ),
         ),
       ],
@@ -260,9 +256,11 @@ class BalanceListView extends StatelessWidget {
   const BalanceListView({
     super.key,
     required this.list,
+    required this.currency,
   });
 
-  final List<Balance> list;
+  final List<EntryModel> list;
+  final Currency? currency;
 
   @override
   Widget build(BuildContext context) {
@@ -281,10 +279,10 @@ class BalanceListView extends StatelessWidget {
                 Expanded(
                   flex: 2,
                   child: Text(
-                    'Customer',
+                    context.translate.currency,
                     style: context.textTheme.bodyMedium?.copyWith(
                       fontStyle: FontStyle.italic,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.bold,
                       fontSize: 18,
                     ),
                     // textAlign: TextAlign.center,
@@ -293,10 +291,10 @@ class BalanceListView extends StatelessWidget {
                 Expanded(
                   flex: 1,
                   child: Text(
-                    'Balance',
+                    context.translate.bill_amount,
                     style: context.textTheme.bodyMedium?.copyWith(
                       fontStyle: FontStyle.italic,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.bold,
                       fontSize: 18,
                     ),
                     textAlign: TextAlign.center,
@@ -305,10 +303,10 @@ class BalanceListView extends StatelessWidget {
                 Expanded(
                   flex: 1,
                   child: Text(
-                    'Checked',
+                    context.translate.date,
                     style: context.textTheme.bodyMedium?.copyWith(
                       fontStyle: FontStyle.italic,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.bold,
                       fontSize: 18,
                     ),
                     textAlign: TextAlign.center,
@@ -323,7 +321,7 @@ class BalanceListView extends StatelessWidget {
               itemCount: list.length,
               itemBuilder: (BuildContext context, int index) {
                 final balance = list[index];
-                return BalanceTile(balance: balance);
+                return BalanceTile(balance: balance, currency: currency);
               },
             ),
           ),
@@ -337,36 +335,58 @@ class BalanceTile extends StatelessWidget {
   const BalanceTile({
     super.key,
     required this.balance,
+    required this.currency,
   });
 
-  final Balance balance;
+  final EntryModel balance;
+  final Currency? currency;
 
   @override
   Widget build(BuildContext context) {
     final numberFormatter = intl.NumberFormat('#,##0.##');
     final dateFormatter = intl.DateFormat('yyyy/M/d');
-    return Row(
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(
-          flex: 2,
-          child: Text(
-            balance.cuName ?? '',
-          ),
+        Row(
+          children: [
+            Expanded(
+              flex: 2,
+              child: Text(
+                currency?.name ?? '',
+              ),
+            ),
+            Expanded(
+              flex: 1,
+              child: Text(
+                numberFormatter.format(balance.balance ?? 0),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            Expanded(
+              flex: 1,
+              child: Text(
+                balance.date == null ? '' : dateFormatter.format(balance.date!),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ],
         ),
-        Expanded(
-          flex: 1,
-          child: Text(
-            numberFormatter.format(balance.balance ?? 0),
-            textAlign: TextAlign.center,
-          ),
-        ),
-        Expanded(
-          flex: 1,
-          child: Text(
-            balance.lastCheckDate == null
-                ? ''
-                : dateFormatter.format(balance.lastCheckDate!),
-            textAlign: TextAlign.center,
+        const SizedBox(height: 8),
+        RichText(
+          text: TextSpan(
+            text: '${context.translate.bill_notes}: ',
+            style: context.textTheme.bodyMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+              fontStyle: FontStyle.italic,
+              fontSize: 16,
+            ),
+            children: <TextSpan>[
+              TextSpan(
+                  text: balance.notes ?? '',
+                  style: context.textTheme.bodyMedium),
+            ],
           ),
         ),
       ],

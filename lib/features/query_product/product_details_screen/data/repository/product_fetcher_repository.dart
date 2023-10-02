@@ -7,6 +7,7 @@ import 'package:epsilon_api/features/query_product/product_details_screen/domain
 import '../../../../../../core/helpers/network_info/network_info.dart';
 import '../../domain/failures/get_product_failure.dart';
 import '../../domain/repository/i_product_fetcher_repository.dart';
+import '../dtos/search_by_name_dto.dart';
 
 class ProductFetcherRepository implements IProductFetcherRepository {
   final NetworkInfo _networkInfo;
@@ -36,34 +37,20 @@ class ProductFetcherRepository implements IProductFetcherRepository {
   }
 
   @override
-  Future<Either<GetProductFailure, ProductDetails>> getProductBySerial({
+  Future<Either<GetProductFailure, List<ProductDetails>>> getProductBySerial({
     required String serial,
   }) async {
-    // final isConnected = await _networkInfo.isConnected;
-    // if (!isConnected) {
-    //   return const Left(GetProductFailure.noInternet());
-    // }
-    // final query = await _sqlProvider.statementForSerial(serial);
+    final isConnected = await _networkInfo.isConnected;
+    if (!isConnected) {
+      return Left(GetProductFailure.noInternet());
+    }
 
-    // final eitherConnection = await _connectionGetter.get();
-
-    // return eitherConnection.fold(
-    //   (l) => const Left(GetProductFailure.connectionFailure(message: '')),
-    //   (cachedConnection) async {
-    //     final result = await _connectionManager.executeStatmet(
-    //         query: query, params: cachedConnection);
-    //     return result.fold(
-    //       (failure) {
-    //         return Left(GetProductFailure.connectionFailure(
-    //             message: failure.toString()));
-    //       },
-    //       (records) {
-    //         return _mapToProductDetails(records);
-    //       },
-    //     );
-    //   },
-    // );
-
-    throw UnimplementedError();
+    try {
+      final result = await _service.searchByName(serial);
+      final products = result.map((e) => e.toProduct()).toList();
+      return right(products);
+    } catch (e) {
+      return left(GetProductFailure.unexpected(message: e.toString()));
+    }
   }
 }

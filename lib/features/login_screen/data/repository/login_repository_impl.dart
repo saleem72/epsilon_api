@@ -1,6 +1,7 @@
 //
 
 import 'package:dartz/dartz.dart';
+import 'package:epsilon_api/core/helpers/network_info/network_info.dart';
 import 'package:epsilon_api/features/login_screen/domain/failures/login_failure.dart';
 import 'package:epsilon_api/features/login_screen/domain/repository/login_repository.dart';
 
@@ -9,18 +10,25 @@ import '../data_source/i_login_service.dart';
 
 class LoginRepositoryImpl implements LoginRepository {
   final ILoginService service;
-
+  final NetworkInfo networkInfo;
   LoginRepositoryImpl({
     required this.service,
+    required this.networkInfo,
   });
 
   @override
   Future<Either<HttpFailure, String>> login(
       {required String username, required String password}) async {
     try {
-      final token = await service.login(username: username, password: password);
-      return Right(token);
+      final isConnected = await networkInfo.isConnected;
+      if (!isConnected) {
+        return Left(HttpFailure.connectionFailure());
+      }
+      final data = await service.login(username: username, password: password);
+      return Right(data.token);
     } on InvalidUsernameOrPasswordException {
+      return Left(HttpFailure.invalidUsernameOrPassword());
+    } on ServerException {
       return Left(HttpFailure.invalidUsernameOrPassword());
     } catch (error) {
       final failure = mapError(error);
@@ -49,6 +57,10 @@ class LoginRepositoryImpl implements LoginRepository {
     if (error is NotExsitsRouteException) {}
     if (error is ServerException) {
       return HttpFailure.serverError();
+    }
+
+    if (error is ServerException) {
+      return HttpFailure.invalidUsernameOrPassword();
     }
 
     // if (error is UnExpectedException) {}

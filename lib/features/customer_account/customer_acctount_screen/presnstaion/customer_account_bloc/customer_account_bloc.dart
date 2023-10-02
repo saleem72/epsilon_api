@@ -21,7 +21,7 @@ class CustomerAccountBloc
 
   _onGetBalance(_GetBalance event, Emitter<CustomerAccountState> emit) async {
     emit(CustomerAccountLoading());
-    final either = await _repository.getAccountBalance(event.guid);
+    final either = await _repository.getAccountBalance(event.id);
 
     either.fold(
       (l) => emit(CustomerAccountFailure(failure: l)),

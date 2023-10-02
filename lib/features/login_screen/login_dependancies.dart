@@ -17,16 +17,20 @@ initLoginDependancies(GetIt locator) {
         repository: locator(),
         usernameValidator: locator(),
         passwordValidator: locator(),
+        safe: locator(),
       ));
 
   // Repository
   locator.registerLazySingleton<LoginRepository>(() => LoginRepositoryImpl(
         service: locator(),
+        networkInfo: locator(),
       ));
 
   // Service
-  locator.registerLazySingleton<ILoginService>(
-      () => LoginService(apiHelper: locator()));
+  locator.registerLazySingleton<ILoginService>(() => LoginService(
+        apiHelper: locator(),
+        safe: locator(),
+      ));
 
   locator.registerLazySingleton(() => ValidateUsername());
   locator.registerLazySingleton(() => ValidatePassword());

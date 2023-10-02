@@ -1,5 +1,6 @@
 //
 
+import 'package:epsilon_api/features/login_screen/domain/models/company.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -13,10 +14,13 @@ class SafeKeys {
   static const String themeKey = 'themeKey';
   static const String isFirstRun = 'is_first_run';
 
-  static const String token = 'restlist_token';
-  static const String tokenExpireDate = 'restlist_token_expire';
+  static const String token = 'epsilon_token';
+  static const String tokenExpireDate = 'epsilon_token_expire';
 
-  static const String onBoarding = 'restlist_onboarding';
+  static const String onBoarding = 'epsilon_onboarding';
+
+  static const String host = 'epsilon_host';
+  static const String company = 'epsilon_company';
 }
 
 enum AuthOption { none, home, login }
@@ -109,5 +113,23 @@ class Safe {
     } else {
       return AuthOption.login;
     }
+  }
+
+  Future setHost(String host) {
+    return _storage.setString(SafeKeys.host, host);
+  }
+
+  String getHost() {
+    final host = _storage.getString(SafeKeys.host);
+    return host ?? '';
+  }
+
+  Future setCompany(Company company) {
+    return _storage.setInt(SafeKeys.company, company.value);
+  }
+
+  Company getCompany() {
+    final companyId = _storage.getInt(SafeKeys.company) ?? 1;
+    return Company.fromValue(companyId);
   }
 }

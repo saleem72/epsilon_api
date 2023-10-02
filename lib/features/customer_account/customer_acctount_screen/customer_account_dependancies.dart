@@ -9,6 +9,7 @@ import 'package:get_it/get_it.dart';
 initCustomerAccountDependancies(GetIt locator) {
   locator.registerLazySingleton(() => CustomerAccountService(
         apiHelper: locator(),
+        safe: locator(),
       ));
 
   locator.registerLazySingleton<IAccountBalanceRepository>(

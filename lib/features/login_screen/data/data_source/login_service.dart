@@ -2,39 +2,46 @@
 //
 
 import 'package:epsilon_api/configuration/api_end_points.dart';
+import 'package:epsilon_api/core/errors/exceptions/app_exceptions.dart';
 import 'package:epsilon_api/core/helpers/api_helper/domain/api_helper.dart';
+import 'package:epsilon_api/core/helpers/safe.dart';
 
+import 'dtos/login_data_dto.dart';
 import 'i_login_service.dart';
 
 class LoginService implements ILoginService {
   final ApiHelper apiHelper;
+  final Safe safe;
 
-  const LoginService({required this.apiHelper});
+  const LoginService({
+    required this.apiHelper,
+    required this.safe,
+  });
   @override
-  Future<String> login(
+  Future<LoginDataDTO> login(
       {required String username, required String password}) async {
-    final Map<String, String> params = {
-      "user": "مدير",
-      "passerd": "",
+    Map<String, String> params = {
+      "user": username,
+      "password": password,
+      // "host": Uri.encodeFull(safe.getHost()),
     };
 
+    final url = '${safe.getHost()}/api/';
+    const endPoint = ApiEndPoints.login;
+
     final response = await apiHelper.get(
-      url: ApiEndPoints.baseURL,
-      endPoint: ApiEndPoints.login,
+      url: url, // ApiEndPoints.baseURL,
+      endPoint: endPoint,
       params: params,
     );
 
-    final result = response.body;
+    if (response.statusCode < 200 || response.statusCode > 299) {
+      throw InvalidUsernameOrPasswordException();
+    }
 
-    final token = result.replaceAll('"', '');
+    final result = LoginDataDTO.fromJson(response.body);
 
-    return token;
-
-    // await Future.delayed(const Duration(seconds: 1));
-    // if (username == 'aaaa' && password == 'aaaa') {
-    //   return 'It is ok';
-    // }
-    // throw InvalidUsernameOrPasswordException();
+    return result;
   }
 }
 

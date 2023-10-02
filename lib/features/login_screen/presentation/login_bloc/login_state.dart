@@ -9,15 +9,23 @@ class LoginState extends Equatable {
   final HttpFailure? failure;
   final bool loginSuccessfully;
   final String? token;
+  final String username;
+  final String password;
+  final Company company;
+  final String host;
 
   const LoginState({
-    this.isLoading = false,
-    this.usernameStatus,
-    this.passwordStatus,
-    this.isValid = false,
-    this.failure,
-    this.loginSuccessfully = false,
-    this.token,
+    required this.isLoading,
+    required this.usernameStatus,
+    required this.passwordStatus,
+    required this.isValid,
+    required this.failure,
+    required this.loginSuccessfully,
+    required this.token,
+    required this.username,
+    required this.password,
+    required this.company,
+    required this.host,
   });
 
   @override
@@ -29,6 +37,10 @@ class LoginState extends Equatable {
         failure,
         loginSuccessfully,
         token,
+        username,
+        password,
+        company,
+        host,
       ];
 
   LoginState copyWith({
@@ -39,6 +51,10 @@ class LoginState extends Equatable {
     HttpFailure? failure,
     bool? loginSuccessfully,
     String? token,
+    String? username,
+    String? password,
+    Company? company,
+    String? host,
   }) {
     return LoginState(
       isLoading: isLoading ?? this.isLoading,
@@ -48,6 +64,10 @@ class LoginState extends Equatable {
       failure: failure ?? this.failure,
       loginSuccessfully: loginSuccessfully ?? this.loginSuccessfully,
       token: token,
+      username: username ?? this.username,
+      password: password ?? this.password,
+      company: company ?? this.company,
+      host: host ?? this.host,
     );
   }
 
@@ -59,6 +79,11 @@ class LoginState extends Equatable {
       passwordStatus: passwordStatus,
       failure: null,
       loginSuccessfully: loginSuccessfully,
+      username: username,
+      password: password,
+      company: company,
+      host: host,
+      token: token,
     );
   }
 
@@ -70,6 +95,11 @@ class LoginState extends Equatable {
       passwordStatus: passwordStatus,
       failure: failure,
       loginSuccessfully: loginSuccessfully,
+      username: username,
+      password: password,
+      company: company,
+      host: host,
+      token: token,
     );
   }
 
@@ -81,6 +111,25 @@ class LoginState extends Equatable {
       passwordStatus: null,
       failure: failure,
       loginSuccessfully: loginSuccessfully,
+      username: username,
+      password: password,
+      company: company,
+      host: host,
+      token: token,
     );
   }
+
+  factory LoginState.initial(Safe safe) => LoginState(
+        isLoading: false,
+        usernameStatus: null,
+        passwordStatus: null,
+        isValid: false,
+        failure: null,
+        loginSuccessfully: false,
+        token: null,
+        username: '',
+        password: '',
+        company: safe.getCompany(),
+        host: safe.getHost(),
+      );
 }

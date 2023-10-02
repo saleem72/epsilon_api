@@ -5,6 +5,7 @@ import 'dart:math';
 import 'package:epsilon_api/configuration/styling/assets/app_icons.dart';
 import 'package:epsilon_api/configuration/styling/colors/app_colors.dart';
 import 'package:epsilon_api/core/extensions/build_context_extension.dart';
+import 'package:epsilon_api/features/query_product/products_list_screen/products_list_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/widgets/app_nav_bar.dart';
@@ -124,19 +125,31 @@ class _QueryProductScreenState extends State<QueryProductScreen> {
   Widget _executeButton(BuildContext context) {
     return GradientButton(
       label: context.translate.ok_button,
-      isEnabled: _serial.text.isNotEmpty,
+      isEnabled: true, // _serial.text.isNotEmpty,
       onPressed: () {
         FocusManager.instance.primaryFocus?.unfocus();
         if (_serial.text.isNotEmpty) {
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
-              builder: (context) => ProductDetailsScreen(
-                // input: BarcodeOrSerial.serial(serial: _serial.text),
+              builder: (context) => ProductsListScreen(
+                input: BarcodeOrSerial.serial(serial: _serial.text),
                 // 800199  CHR-ADBZ-EG-02270315
-                input: BarcodeOrSerial.barcode(barcode: '800199'),
+
+                // input: BarcodeOrSerial.barcode(barcode: '01-321'),
               ),
             ),
           );
+
+          // Navigator.of(context).pushReplacement(
+          //   MaterialPageRoute(
+          //     builder: (context) => ProductDetailsScreen(
+          //       // input: BarcodeOrSerial.serial(serial: _serial.text),
+          //       // 800199  CHR-ADBZ-EG-02270315
+
+          //       input: BarcodeOrSerial.barcode(barcode: _serial.text),
+          //     ),
+          //   ),
+          // );
         }
       },
     );
@@ -179,7 +192,10 @@ class _QueryProductScreenState extends State<QueryProductScreen> {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) => ProductDetailsScreen(
-          input: BarcodeOrSerial.barcode(barcode: barcode),
+          input: ProductDetailsInput(
+            barcode: BarcodeOrSerial.barcode(barcode: barcode),
+            product: null,
+          ),
         ),
       ),
     );

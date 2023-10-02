@@ -9,6 +9,7 @@ abstract class CustomerSearchEvent extends Equatable {
 
   factory CustomerSearchEvent.searchByName({required String searchTerm}) =>
       _SearchByName(searchTerm: searchTerm);
+  factory CustomerSearchEvent.clearError() => _ClearError();
 }
 
 class _SearchByName extends CustomerSearchEvent {
@@ -20,3 +21,5 @@ class _SearchByName extends CustomerSearchEvent {
   @override
   List<Object?> get props => [searchTerm];
 }
+
+class _ClearError extends CustomerSearchEvent {}

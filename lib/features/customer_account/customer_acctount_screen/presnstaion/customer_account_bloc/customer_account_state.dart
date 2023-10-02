@@ -13,7 +13,7 @@ class CustomerAccountInitial extends CustomerAccountState {}
 class CustomerAccountLoading extends CustomerAccountState {}
 
 class CustomerAccountSuccess extends CustomerAccountState {
-  final AccountBalance balance;
+  final List<AccountBalance> balance;
   const CustomerAccountSuccess({
     required this.balance,
   });

@@ -3,18 +3,18 @@ part of 'customer_account_bloc.dart';
 
 abstract class CustomerAccountEvent extends Equatable {
   const CustomerAccountEvent();
-  factory CustomerAccountEvent.getBalance({required String guid}) =>
-      _GetBalance(guid: guid);
+  factory CustomerAccountEvent.getBalance({required int id}) =>
+      _GetBalance(id: id);
   @override
   List<Object> get props => [];
 }
 
 class _GetBalance extends CustomerAccountEvent {
-  final String guid;
+  final int id;
   const _GetBalance({
-    required this.guid,
+    required this.id,
   });
 
   @override
-  List<Object> get props => [guid];
+  List<Object> get props => [id];
 }

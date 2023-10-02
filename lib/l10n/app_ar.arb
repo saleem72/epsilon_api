@@ -84,5 +84,14 @@
     "invoice_num": "رقم الفاتورة",
     "invoice_date": "تاريخ الفاتورة",
     "invoice_client": "العميل",
-    "invoice_client_hint": "ابحث عن العميل"
+    "invoice_client_hint": "ابحث عن العميل",
+
+    "search_by_name_result": "نتائج البحث عن اسم",
+
+    "currency": "العملة",
+    "bill_amount": "مبلغ الدفع",
+    "bill_notes": "البيان",
+
+    "unauthorized_message": "يجب عليك اعادة تسجيل الدخول\nالرجاء تسجيل الخروج ومن ثم تسجيل دخول",
+    "demo": "نسخة تجريبية"
 }

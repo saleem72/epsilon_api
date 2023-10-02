@@ -14,11 +14,11 @@ class AccountBalanceRepository implements IAccountBalanceRepository {
     required CustomerAccountService service,
   }) : _service = service;
   @override
-  Future<Either<AccountBalanceFailure, AccountBalance>> getAccountBalance(
-      String guid) async {
+  Future<Either<AccountBalanceFailure, List<AccountBalance>>> getAccountBalance(
+      int id) async {
     try {
-      final balance = await _service.getAccountBalance(guid);
-      final result = balance.toAccountBalance();
+      final balance = await _service.getAccountBalance(id);
+      final result = balance.map((e) => e.toAccountBalance()).toList();
       return right(result);
     } catch (e) {
       return left(GeneralAccountBalanceFailure(message: e.toString()));

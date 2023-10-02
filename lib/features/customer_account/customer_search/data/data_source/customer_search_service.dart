@@ -17,36 +17,37 @@ class CustomerSearchService {
     required this.safe,
   });
 
-  Future<List<CustomerDto>> searchCustomersByName(String searchTerm) async {
-    // const endPoint = 'Clients/Customers';
-    // {{host}}/Clients/Customers?cust=شركة&Guid={{guid}}
+  Future<List<CustomerDTO>> searchCustomersByName(String searchTerm) async {
     final Map<String, String> params = {
       "cust": searchTerm,
-      "Guid": safe.getToken() ?? '',
     };
 
+    final headers = {
+      "Authorization": "Bearer ${safe.getToken() ?? ''}",
+      "Accept": "application/json"
+    };
+
+    final url = '${safe.getHost()}/api/';
+
     final response = await apiHelper.get(
-      url: ApiEndPoints.baseURL,
+      url: url,
       endPoint: ApiEndPoints.customersByName,
+      headers: headers,
       params: params,
     );
 
     return _decodeResponse(response);
   }
 
-  List<CustomerDto> _decodeResponse(http.Response response) {
-    try {
-      final str = response.body;
-      final pure = str.replaceAll('"', '');
-      if (pure == "Empty") {
-        return [];
-      }
-
-      final result = customerDtoFromJson(str);
-
-      return result;
-    } catch (_) {
-      throw const DecodingException();
+  List<CustomerDTO> _decodeResponse(http.Response response) {
+    if (response.statusCode < 200 || response.statusCode > 299) {
+      throw const UnExpectedException();
     }
+
+    final str = response.body;
+
+    final result = searchCustomerResponseFromJson(str);
+
+    return result.data?.customers ?? [];
   }
 }

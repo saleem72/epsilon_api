@@ -1,5 +1,7 @@
 //
 
+import 'dart:async';
+
 import 'package:epsilon_api/features/customer_account/customer_search/domain/failures/customer_search_failure.dart';
 import 'package:epsilon_api/features/customer_account/customer_search/domain/models/customer.dart';
 import 'package:epsilon_api/features/customer_account/customer_search/domain/repository/i_customer_search_repository.dart';
@@ -17,6 +19,7 @@ class CustomerSearchBloc
   })  : _repository = repository,
         super(CustomerSearchInitial()) {
     on<_SearchByName>(_onSearchByName);
+    on<_ClearError>(_onClearError);
   }
 
   _onSearchByName(
@@ -32,8 +35,14 @@ class CustomerSearchBloc
         emit(CustomerSearchFailureState(failure: failure));
       },
       (customers) {
+        print(customers);
         emit(CustomerSearchSuccess(customers: customers));
       },
     );
+  }
+
+  FutureOr<void> _onClearError(
+      _ClearError event, Emitter<CustomerSearchState> emit) {
+    emit(CustomerSearchInitial());
   }
 }

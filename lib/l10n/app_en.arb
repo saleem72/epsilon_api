@@ -85,5 +85,14 @@
     "invoice_num": "Invoice number",
     "invoice_date": "Invoice date",
     "invoice_client": "Invoice client",
-    "invoice_client_hint": "Search for client"
+    "invoice_client_hint": "Search for client",
+
+    "search_by_name_result": "Search by name result",
+
+    "currency": "Currency",
+    "bill_amount": "Amount",
+    "bill_notes": "Notes",
+
+    "unauthorized_message": "You need to re login again\nplease logout then login again",
+    "demo": "Demo"
 }

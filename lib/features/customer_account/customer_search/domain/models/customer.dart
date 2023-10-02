@@ -1,7 +1,7 @@
 //
 
 class Customer {
-  String guid;
+  int id;
   double number;
   String customerName;
   String nationality;
@@ -11,7 +11,7 @@ class Customer {
   String telex;
   String notes;
   Customer({
-    required this.guid,
+    required this.id,
     required this.number,
     required this.customerName,
     required this.nationality,

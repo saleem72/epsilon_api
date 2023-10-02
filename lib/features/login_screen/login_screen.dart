@@ -19,6 +19,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../dependancy_injection.dart' as di;
 import 'presentation/login_bloc/login_bloc.dart';
+import 'presentation/widgets/companies_dropdown.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -31,61 +32,91 @@ class LoginScreen extends StatelessWidget {
   }
 }
 
-class LoginScreenContent extends StatelessWidget {
+class LoginScreenContent extends StatefulWidget {
   const LoginScreenContent({
     super.key,
   });
+
+  @override
+  State<LoginScreenContent> createState() => _LoginScreenContentState();
+}
+
+class _LoginScreenContentState extends State<LoginScreenContent> {
+  final TextEditingController _host = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _host.text = context.read<LoginBloc>().state.host;
+    });
+  }
+
+  @override
+  void dispose() {
+    _host.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    return BlocConsumer<LoginBloc, LoginState>(
+      listenWhen: (previous, current) =>
+          previous.loginSuccessfully != current.loginSuccessfully,
+      listener: (context, state) {
+        if (state.loginSuccessfully && state.token != null) {
+          context
+              .read<AuthBloc>()
+              .add(AuthEvent.authorized(token: state.token!));
+          Navigator.of(context).pushReplacementNamed(AppScreens.home);
+        }
+      },
+      builder: (context, state) {
+        return Scaffold(
+          // appBar: AppBar(),
+          resizeToAvoidBottomInset: false,
+          body: Stack(
+            children: [
+              _decorationImage(),
+              _content(context, state),
+              LoadingView(isLoading: state.isLoading),
+              _errorView(context, state.failure),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Scaffold _content(BuildContext context, LoginState state) {
     return Scaffold(
-      // appBar: AppBar(),
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       body: Container(
         color: AppColors.neutral95,
         child: Column(
           children: [
-            AppNavBar(title: context.translate.login),
-            BlocConsumer<LoginBloc, LoginState>(
-              listenWhen: (previous, current) =>
-                  previous.loginSuccessfully != current.loginSuccessfully,
-              listener: (context, state) {
-                if (state.loginSuccessfully && state.token != null) {
-                  context
-                      .read<AuthBloc>()
-                      .add(AuthEvent.authorized(token: state.token!));
-                  Navigator.of(context).pushReplacementNamed(AppScreens.home);
-                }
-              },
-              builder: (context, state) {
-                return Expanded(
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        bottom: 0,
-                        right: 0,
-                        child: Transform.translate(
-                          offset: const Offset(118, 157),
-                          child: _decorationImage(),
-                        ),
-                      ),
-                      _textFields(context, state),
-                      LoadingView(isLoading: state.isLoading),
-                      state.failure != null
-                          ? GeneralErrorView(
-                              onAction: () => context
-                                  .read<LoginBloc>()
-                                  .add(LoginClearFailure()),
-                              failure:
-                                  _getFailureMessage(context, state.failure!),
-                            )
-                          : const SizedBox.shrink(),
-                    ],
-                  ),
-                );
-              },
+            AppNavBar(
+              title: context.translate.login,
+              showBackButton: false,
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                child: _textFields(context, state),
+              ),
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Positioned _decorationImage() {
+    return Positioned(
+      bottom: 0,
+      right: 0,
+      child: Transform.translate(
+        offset: const Offset(118, 157),
+        child: const AppDecorationImage(),
       ),
     );
   }
@@ -99,14 +130,41 @@ class LoginScreenContent extends StatelessWidget {
         const SizedBox(height: 30),
         _passwordTextField(context, state.passwordStatus),
         const SizedBox(height: 30),
+        _databaseURl(context),
+        const SizedBox(height: 30),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: CompaniesDropDown(
+            intialValue: context.read<LoginBloc>().state.company,
+            onChange: (company) {
+              context
+                  .read<LoginBloc>()
+                  .add(LoginCompanyHasChanged(company: company));
+            },
+          ),
+        ),
+        const SizedBox(height: 30),
         _loginButton(context, state.isValid),
       ],
     ));
   }
 
-  Widget _decorationImage() {
-    // width: 177.63, height: 401.2
-    return const AppDecorationImage();
+  Widget _databaseURl(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: LabledValidateTextFIeld(
+        controller: _host,
+        label: context.translate.database_url,
+        hint: context.translate.database_url_hint,
+        icon: AppIcons.database,
+        iconSize: 26,
+        onChange: (value) {
+          context.read<LoginBloc>().add(LoginHostHasChanged(host: value));
+        },
+        onHasFocus: () {},
+        onLoseFocus: () {},
+      ),
+    );
   }
 
   Widget _loginButton(BuildContext context, bool isEnabled) {
@@ -174,5 +232,14 @@ class LoginScreenContent extends StatelessWidget {
     }
 
     context.translate.unexpected_failure;
+  }
+
+  Widget _errorView(BuildContext context, HttpFailure? failure) {
+    return failure != null
+        ? GeneralErrorView(
+            onAction: () => context.read<LoginBloc>().add(LoginClearFailure()),
+            failure: _getFailureMessage(context, failure),
+          )
+        : const SizedBox.shrink();
   }
 }
