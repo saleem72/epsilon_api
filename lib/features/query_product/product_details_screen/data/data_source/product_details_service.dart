@@ -5,6 +5,7 @@ import 'package:epsilon_api/core/errors/exceptions/app_exceptions.dart';
 import 'package:epsilon_api/core/helpers/api_helper/domain/api_helper.dart';
 import 'package:epsilon_api/core/helpers/safe.dart';
 import 'package:epsilon_api/features/query_product/product_details_screen/data/dtos/product_dto.dart';
+import 'package:epsilon_api/features/query_product/product_details_screen/domain/models/price.dart';
 import 'package:http/http.dart' as http;
 
 import '../dtos/new_product_dto.dart';
@@ -20,32 +21,21 @@ class ProductDetailsService {
     required this.safe,
   });
 
-  Future<ProductDTOWithStores> getProductDetails(String barcode) async {
-    // final urlString = "{{host}}/Proucts/GetProductByBaroode?Barcode=800199&PriceId=44&PriceId2=-1&Guid={{guid}}&id=62028"
-
-    // {{host}}/Proucts/GetProductByBaroode?
-    // Barcode=800199&
-    // PriceId=44&
-    // PriceId2=-1&
-    // Guid={{guid}}&
-    // id=62028
-
+  Future<ProductDTOWithStores> getProductDetails(
+      String barcode, List<Price> prices) async {
     final Map<String, String> params = {
       "searchWord": barcode,
-      "PriceId": "44",
-      "PriceId2": "-1",
-      // "id": "62028"
+      "PriceId": prices.isEmpty ? "44" : prices.first.id.toString(),
+      "PriceId2": prices.length > 1 ? prices[1].id.toString() : "-1",
     };
+
+    print(params);
 
     final headers = {
       "Authorization": "Bearer ${safe.getToken() ?? ''}",
       "Accept": "application/json"
     };
 
-    // final response = await apiHelper.get(
-    //   url: urlString,
-    //   endPoint: '',
-    // );
     final url = '${safe.getHost()}/api/';
     final response = await apiHelper.get(
       url: url, // ApiEndPoints.baseURL,
@@ -75,7 +65,8 @@ class ProductDetailsService {
     }
   }
 
-  Future<List<ProductDto>> searchByName(String serial) async {
+  Future<List<ProductDto>> searchByName(
+      String serial, List<Price> prices) async {
     final Map<String, String> params = {
       "searchKeyWord": serial,
     };

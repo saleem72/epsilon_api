@@ -6,9 +6,9 @@ class ProductDetailsEvent extends Equatable {
   const ProductDetailsEvent();
   factory ProductDetailsEvent.getProduct({required BarcodeOrSerial product}) =>
       _GetProduct(product: product);
-  factory ProductDetailsEvent.getProductBySerial({required String serial}) =>
+  factory ProductDetailsEvent.getProductBySerial({required Serial serial}) =>
       _GetProductBySerial(serial: serial);
-  factory ProductDetailsEvent.getProductByBarcode({required String barcode}) =>
+  factory ProductDetailsEvent.getProductByBarcode({required Barcode barcode}) =>
       _GetProductByBarcode(barcode: barcode);
   factory ProductDetailsEvent.clearError() = _ClearError;
 
@@ -27,7 +27,7 @@ class _GetProduct extends ProductDetailsEvent {
 }
 
 class _GetProductBySerial extends ProductDetailsEvent {
-  final String serial;
+  final Serial serial;
   const _GetProductBySerial({
     required this.serial,
   });
@@ -36,7 +36,7 @@ class _GetProductBySerial extends ProductDetailsEvent {
 }
 
 class _GetProductByBarcode extends ProductDetailsEvent {
-  final String barcode;
+  final Barcode barcode;
   const _GetProductByBarcode({
     required this.barcode,
   });

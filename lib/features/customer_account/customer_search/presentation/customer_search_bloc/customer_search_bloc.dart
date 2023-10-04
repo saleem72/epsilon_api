@@ -35,7 +35,6 @@ class CustomerSearchBloc
         emit(CustomerSearchFailureState(failure: failure));
       },
       (customers) {
-        print(customers);
         emit(CustomerSearchSuccess(customers: customers));
       },
     );

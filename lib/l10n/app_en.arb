@@ -94,5 +94,8 @@
     "bill_notes": "Notes",
 
     "unauthorized_message": "You need to re login again\nplease logout then login again",
-    "demo": "Demo"
+    "demo": "Demo",
+    "prices": "Prices",
+    "select_prices": "Select Prices",
+    "ok": "Ok"
 }

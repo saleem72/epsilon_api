@@ -24,7 +24,6 @@ class _LandingScreenState extends State<LandingScreen> {
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
-        print('LandingScreen: ${state.toString()}');
         if (state is AuthHome) {
           target = AuthOption.home;
           _handleNavigation(context);

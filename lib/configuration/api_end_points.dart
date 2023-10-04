@@ -9,9 +9,8 @@ class ApiEndPoints {
 
   static const customersByName = 'Clients/Customers';
   static const customerBalance = 'Clients/CPS';
-  // Proucts/GetProductByBaroode
-  static const productByBaroode = 'Products/GetProductByBarcode';
 
-  // {{host}}/Products/GetProducts?product=بيبسي&Guid={{guid}}
+  static const productByBaroode = 'Products/GetProductByBarcode';
   static const seachByName = 'Products/GetProducts';
+  static const getPrices = 'Products/GetPrices';
 }

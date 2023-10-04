@@ -5,6 +5,7 @@ import 'dart:math';
 import 'package:epsilon_api/configuration/styling/assets/app_icons.dart';
 import 'package:epsilon_api/configuration/styling/colors/app_colors.dart';
 import 'package:epsilon_api/core/extensions/build_context_extension.dart';
+import 'package:epsilon_api/features/query_product/product_details_screen/domain/models/price.dart';
 import 'package:epsilon_api/features/query_product/products_list_screen/products_list_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +14,7 @@ import '../../../../core/widgets/app_text_field.dart';
 import '../../../../core/widgets/gradient_button.dart';
 import '../product_details_screen/domain/models/barcode_or_serial.dart';
 import '../product_details_screen/product_details_screen.dart';
+import 'presentation/widgets/prices_selector/prices_selector.dart';
 import 'presentation/widgets/scanner_view.dart';
 
 class QueryProductScreen extends StatefulWidget {
@@ -24,7 +26,7 @@ class QueryProductScreen extends StatefulWidget {
 
 class _QueryProductScreenState extends State<QueryProductScreen> {
   final TextEditingController _serial = TextEditingController();
-
+  List<Price> prices = [];
   @override
   void dispose() {
     _serial.dispose();
@@ -45,9 +47,17 @@ class _QueryProductScreenState extends State<QueryProductScreen> {
                 child: Column(
                   children: [
                     _scnnerArea(context),
-                    const SizedBox(height: 45),
+                    const SizedBox(height: 16),
+                    PricesSelector(
+                      onChange: (selectedPrices) {
+                        setState(() {
+                          prices = selectedPrices.map((e) => e).toList();
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 16),
                     _orRow(context),
-                    const SizedBox(height: 45),
+                    const SizedBox(height: 16),
                     _serialTextFIeld(context),
                   ],
                 ),
@@ -65,11 +75,14 @@ class _QueryProductScreenState extends State<QueryProductScreen> {
         +
         (30 * 2) // scan area vertical padding
         +
-        45 // gap
+        56 // prices section
+        +
+        64 +
+        16 // gap
         +
         24 // or
         +
-        45 // gap
+        16 // gap
         +
         82 // text field
         +
@@ -132,10 +145,9 @@ class _QueryProductScreenState extends State<QueryProductScreen> {
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
               builder: (context) => ProductsListScreen(
-                input: BarcodeOrSerial.serial(serial: _serial.text),
-                // 800199  CHR-ADBZ-EG-02270315
-
-                // input: BarcodeOrSerial.barcode(barcode: '01-321'),
+                input: BarcodeOrSerial.serial(
+                    serial: _serial.text, prices: prices),
+                prices: prices,
               ),
             ),
           );
@@ -193,7 +205,7 @@ class _QueryProductScreenState extends State<QueryProductScreen> {
       MaterialPageRoute(
         builder: (context) => ProductDetailsScreen(
           input: ProductDetailsInput(
-            barcode: BarcodeOrSerial.barcode(barcode: barcode),
+            barcode: BarcodeOrSerial.barcode(barcode: barcode, prices: prices),
             product: null,
           ),
         ),

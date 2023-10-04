@@ -5,6 +5,7 @@ import 'package:epsilon_api/features/customer_account/customer_acctount_screen/c
 import 'package:epsilon_api/features/customer_account/customer_search/customers_dependancies.dart';
 import 'package:epsilon_api/features/login_screen/login_dependancies.dart';
 import 'package:epsilon_api/features/query_product/product_details_dependancies.dart';
+import 'package:epsilon_api/features/query_product/query_product_screen/presentation/widgets/prices_selector/prices_selector_dependancies.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -24,6 +25,8 @@ Future<void> initDependancies() async {
 
   // // Product Details
   initProductDetails(locator);
+
+  initPricesSelectorDependancies();
 
   // // App common Helpers
   initHelpers(locator);

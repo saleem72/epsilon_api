@@ -44,15 +44,11 @@ class InvoicesSearchContentScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 32),
                     InvoiceSearchDatePicker(
-                      onChange: (date) {
-                        print(date);
-                      },
+                      onChange: (date) {},
                     ),
                     const SizedBox(height: 32),
                     InvoiceSearchClientPicker(
-                      onChange: (name) {
-                        print(name);
-                      },
+                      onChange: (name) {},
                     ),
                     const SizedBox(height: 32),
                     Row(

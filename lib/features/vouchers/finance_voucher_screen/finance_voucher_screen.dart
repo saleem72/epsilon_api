@@ -51,9 +51,7 @@ class _FinanceVoucherScreenState extends State<FinanceVoucherScreen> {
                         AppTextFieldWithLabel(
                           label: context.translate.recived_from,
                           hint: context.translate.recipient,
-                          onChanged: (p0) {
-                            print(p0);
-                          },
+                          onChanged: (p0) {},
                         ),
                         const SizedBox(height: 32),
                         PaymentMethodSelector(
@@ -67,9 +65,7 @@ class _FinanceVoucherScreenState extends State<FinanceVoucherScreen> {
                         AppTextFieldWithLabel(
                           label: context.translate.chach_amount,
                           hint: context.translate.amount,
-                          onChanged: (p0) {
-                            print(p0);
-                          },
+                          onChanged: (p0) {},
                         ),
                         if (method == PaymentMethod.cheque)
                           const SizedBox(height: 32),
@@ -77,17 +73,13 @@ class _FinanceVoucherScreenState extends State<FinanceVoucherScreen> {
                           AppTextFieldWithLabel(
                             label: context.translate.cheque_num,
                             hint: context.translate.cheque_num,
-                            onChanged: (p0) {
-                              print(p0);
-                            },
+                            onChanged: (p0) {},
                           ),
                         const SizedBox(height: 32),
                         AppTextFieldWithLabel(
                           label: context.translate.in_return,
                           hint: context.translate.notes,
-                          onChanged: (p0) {
-                            print(p0);
-                          },
+                          onChanged: (p0) {},
                         ),
                         const SizedBox(height: 32),
                         Row(
@@ -117,7 +109,6 @@ class _FinanceVoucherScreenState extends State<FinanceVoucherScreen> {
       child: AppDatePicker(
         restorationId: "RecipientVoucherScreen",
         onChange: (date) {
-          print(date);
           setState(() {
             _selectedDate = date;
           });

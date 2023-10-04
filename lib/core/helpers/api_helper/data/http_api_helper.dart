@@ -34,7 +34,7 @@ class HttpApiHelper implements ApiHelper {
         throw const NoInternetException();
       }
       final uri = Uri.parse(url + endPoint).replace(queryParameters: params);
-      print(uri);
+
       if (headers != null) {
         request = client.get(uri, headers: headers);
       } else {

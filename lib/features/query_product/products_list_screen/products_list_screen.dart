@@ -7,14 +7,13 @@ import 'package:epsilon_api/core/extensions/build_context_extension.dart';
 import 'package:epsilon_api/core/widgets/app_nav_bar.dart';
 import 'package:epsilon_api/core/widgets/error_view.dart';
 import 'package:epsilon_api/core/widgets/loading_view.dart';
-import 'package:epsilon_api/features/query_product/product_details_screen/data/dtos/search_by_name_dto.dart';
+import 'package:epsilon_api/features/query_product/product_details_screen/domain/models/price.dart';
 import 'package:epsilon_api/features/query_product/product_details_screen/domain/models/product_datails.dart';
 import 'package:epsilon_api/features/query_product/product_details_screen/presentation/bloc/product_details_bloc.dart';
 import 'package:epsilon_api/features/query_product/product_details_screen/product_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../configuration/routing/app_screens.dart';
 import '../../../dependancy_injection.dart' as di;
 import '../product_details_screen/domain/models/barcode_or_serial.dart';
 
@@ -22,20 +21,26 @@ class ProductsListScreen extends StatelessWidget {
   const ProductsListScreen({
     super.key,
     required this.input,
+    required this.prices,
   });
   final BarcodeOrSerial input;
+  final List<Price> prices;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => di.locator<ProductDetailsBloc>()
         ..add(ProductDetailsEvent.getProduct(product: input)),
-      child: const ProductsListContentScreen(),
+      child: ProductsListContentScreen(prices: prices),
     );
   }
 }
 
 class ProductsListContentScreen extends StatelessWidget {
-  const ProductsListContentScreen({super.key});
+  const ProductsListContentScreen({
+    super.key,
+    required this.prices,
+  });
+  final List<Price> prices;
 
   @override
   Widget build(BuildContext context) {
@@ -98,8 +103,23 @@ class ProductsListContentScreen extends StatelessWidget {
         final product = products[index];
         return ProductTile(
           product: product,
+          onTap: () => _handleNavigate(context, product),
         );
       },
+    );
+  }
+
+  _handleNavigate(BuildContext context, ProductDetails product) {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) => ProductDetailsScreen(
+          input: ProductDetailsInput(
+            barcode:
+                BarcodeOrSerial.barcode(barcode: product.code, prices: prices),
+            product: null,
+          ),
+        ),
+      ),
     );
   }
 }
@@ -108,13 +128,15 @@ class ProductTile extends StatelessWidget {
   const ProductTile({
     super.key,
     required this.product,
+    required this.onTap,
   });
   final ProductDetails product;
+  final Function() onTap;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
-      onTap: () => _handleNavigate(context),
+      onTap: () => onTap(),
       child: SizedBox(
         height: 64,
         child: Row(
@@ -134,18 +156,6 @@ class ProductTile extends StatelessWidget {
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  _handleNavigate(BuildContext context) {
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (context) => ProductDetailsScreen(
-          input: ProductDetailsInput(
-              barcode: BarcodeOrSerial.barcode(barcode: product.code),
-              product: null),
         ),
       ),
     );

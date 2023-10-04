@@ -3,7 +3,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../data/dtos/search_by_name_dto.dart';
 import '../../domain/failures/get_product_failure.dart';
 import '../../domain/models/barcode_or_serial.dart';
 import '../../domain/models/product_datails.dart';
@@ -32,10 +31,10 @@ class ProductDetailsBloc
   _onGetProduct(_GetProduct event, Emitter<ProductDetailsState> emit) async {
     final product = event.product;
     if (product is Barcode) {
-      add(ProductDetailsEvent.getProductByBarcode(barcode: product.barcode));
+      add(ProductDetailsEvent.getProductByBarcode(barcode: product));
     }
     if (product is Serial) {
-      add(ProductDetailsEvent.getProductBySerial(serial: product.serial));
+      add(ProductDetailsEvent.getProductBySerial(serial: product));
     }
   }
 
@@ -43,7 +42,8 @@ class ProductDetailsBloc
       _GetProductByBarcode event, Emitter<ProductDetailsState> emit) async {
     emit(ProductDetailsState.loading());
     final response = await _repository.getProductByBarcode(
-      barcode: event.barcode,
+      barcode: event.barcode.barcode,
+      prices: event.barcode.prices,
     );
     response.fold(
       (failure) {
@@ -57,14 +57,14 @@ class ProductDetailsBloc
       _GetProductBySerial event, Emitter<ProductDetailsState> emit) async {
     emit(ProductDetailsState.loading());
     final response = await _repository.getProductBySerial(
-      serial: event.serial,
+      serial: event.serial.serial,
+      prices: event.serial.prices,
     );
     response.fold(
       (failure) {
         emit(ProductDetailsState.withFailure(failure));
       },
       (products) {
-        print(products);
         emit(ProductDetailsState.withSearchSuccess(products));
       },
     );
