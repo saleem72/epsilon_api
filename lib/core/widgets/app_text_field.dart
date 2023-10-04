@@ -22,6 +22,7 @@ class LabledValidateTextFIeld extends StatelessWidget {
     this.keyboard = TextInputType.text,
     this.formmaters,
     this.iconSize = 30,
+    this.labelStyle,
   });
   final TextEditingController? controller;
   final FocusNode? focusNode;
@@ -36,6 +37,7 @@ class LabledValidateTextFIeld extends StatelessWidget {
   final TextInputType keyboard;
   final List<TextInputFormatter>? formmaters;
   final double iconSize;
+  final TextStyle? labelStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +46,7 @@ class LabledValidateTextFIeld extends StatelessWidget {
       children: [
         Text(
           label,
-          style: Topology.subTitle,
+          style: labelStyle ?? Topology.subTitle,
         ),
         const SizedBox(height: 10),
         AppTextField(

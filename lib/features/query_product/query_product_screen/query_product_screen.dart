@@ -27,6 +27,18 @@ class QueryProductScreen extends StatefulWidget {
 class _QueryProductScreenState extends State<QueryProductScreen> {
   final TextEditingController _serial = TextEditingController();
   List<Price> prices = [];
+  bool isReady = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      setState(() {
+        isReady = true;
+      });
+    });
+  }
+
   @override
   void dispose() {
     _serial.dispose();
@@ -47,7 +59,7 @@ class _QueryProductScreenState extends State<QueryProductScreen> {
                 child: Column(
                   children: [
                     _scnnerArea(context),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 32),
                     PricesSelector(
                       onChange: (selectedPrices) {
                         setState(() {
@@ -71,24 +83,27 @@ class _QueryProductScreenState extends State<QueryProductScreen> {
   }
 
   double getScanAreaHeight(BuildContext context) {
-    const double contentHeight = 88 // appBar
-        +
-        (30 * 2) // scan area vertical padding
-        +
-        56 // prices section
-        +
-        64 +
-        16 // gap
-        +
-        24 // or
-        +
-        16 // gap
-        +
-        82 // text field
-        +
-        60; // button
-    final totalHeight = MediaQuery.of(context).size.height;
-    return totalHeight - contentHeight;
+    // const double contentHeight = 88 // appBar
+    //     +
+    //     (30 * 2) // scan area vertical padding
+    //     +
+    //     56 // prices section
+    //     +
+    //     64 +
+    //     16 // gap
+    //     +
+    //     24 // or
+    //     +
+    //     16 // gap
+    //     +
+    //     82 // text field
+    //     +
+    //     60; // button
+    // final totalHeight = MediaQuery.of(context).size.height;
+    // return totalHeight - contentHeight;
+
+    final width = context.mediaQuery.size.width - 32;
+    return width / 2;
   }
 
   Widget _scnnerArea(BuildContext context) {
@@ -100,7 +115,7 @@ class _QueryProductScreenState extends State<QueryProductScreen> {
         borderRadius: BorderRadius.circular(30),
       ),
       alignment: Alignment.center,
-      child: _scannerView(context, height),
+      child: isReady ? _scannerView(context, height) : const SizedBox.shrink(),
     );
   }
 
@@ -169,12 +184,15 @@ class _QueryProductScreenState extends State<QueryProductScreen> {
 
   Widget _serialTextFIeld(BuildContext context) {
     return LabledValidateTextFIeld(
-      controller: _serial,
-      label: context.translate.serial_number,
-      hint: context.translate.serial_number_hint,
-      icon: AppIcons.serialNumber,
-      onChange: (_) {},
-    );
+        controller: _serial,
+        label: context.translate.product_search,
+        hint: context.translate.product_search_hint,
+        icon: AppIcons.serialNumber,
+        onChange: (_) {},
+        labelStyle: context.textTheme.titleMedium?.copyWith(
+          fontWeight: FontWeight.w600,
+          color: context.colorScheme.primary,
+        ));
   }
 
   Widget _orRow(BuildContext context) {
@@ -188,7 +206,13 @@ class _QueryProductScreenState extends State<QueryProductScreen> {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 4),
-          child: Text(context.translate.or_label),
+          child: Text(
+            context.translate.or_label,
+            style: context.textTheme.titleMedium?.copyWith(
+              fontWeight: FontWeight.w600,
+              color: context.colorScheme.primary,
+            ),
+          ),
         ),
         Expanded(
           child: Container(

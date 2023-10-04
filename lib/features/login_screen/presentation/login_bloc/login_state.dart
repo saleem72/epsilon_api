@@ -6,7 +6,7 @@ class LoginState extends Equatable {
   final ValidationStatus? usernameStatus;
   final ValidationStatus? passwordStatus;
   final bool isValid;
-  final HttpFailure? failure;
+  final Failure? failure;
   final bool loginSuccessfully;
   final String? token;
   final String username;
@@ -48,7 +48,7 @@ class LoginState extends Equatable {
     ValidationStatus? usernameStatus,
     ValidationStatus? passwordStatus,
     bool? isValid,
-    HttpFailure? failure,
+    Failure? failure,
     bool? loginSuccessfully,
     String? token,
     String? username,

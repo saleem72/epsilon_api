@@ -2,6 +2,7 @@
 
 import 'package:epsilon_api/configuration/styling/colors/app_colors.dart';
 import 'package:epsilon_api/configuration/styling/topology/topology.dart';
+import 'package:epsilon_api/core/errors/failure.dart';
 import 'package:epsilon_api/core/extensions/build_context_extension.dart';
 import 'package:flutter/material.dart';
 
@@ -65,8 +66,9 @@ class GeneralErrorView extends StatelessWidget {
     this.failure,
     required this.onAction,
   });
-  final String? failure;
+  final Failure? failure;
   final Function onAction;
+
   @override
   Widget build(BuildContext context) {
     return failure != null
@@ -88,7 +90,7 @@ class GeneralErrorView extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Text(
-                            failure!,
+                            context.getFailureMessageFor(failure!),
                             style: Topology.largeTitle.copyWith(
                               color: AppColors.primaryDark,
                             ),
@@ -100,6 +102,7 @@ class GeneralErrorView extends StatelessWidget {
                     const SizedBox(height: 18),
                     GradientButton(
                       label: context.translate.try_again,
+                      // TODO: if failyre UNAuthorized you have to lgout
                       onPressed: () => onAction(),
                     ),
                   ],

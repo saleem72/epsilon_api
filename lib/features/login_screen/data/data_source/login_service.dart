@@ -45,25 +45,6 @@ class LoginService implements ILoginService {
   }
 }
 
-/*
-const String baseURL = ApiEndPoints.baseURL;
-    const String endPoint = ApiEndPoints.login;
-    final params = LoginParams(email: username, password: password);
-
-    final response = await apiHelper.post(
-      url: baseURL,
-      endPoint: endPoint,
-      body: params.toMap(),
-      printResult: true,
-    );
-    final loginDataResponse =
-        CodersResponse<LoginDataDTO>.fromMap(response, (map) {
-      return LoginDataDTO.fromMap(map);
-    });
-
-    final loginData = loginDataResponse.getData();
-*/
-
 class LoginParams {
   final String email;
   final String password;

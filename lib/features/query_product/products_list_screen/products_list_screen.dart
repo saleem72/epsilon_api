@@ -68,7 +68,7 @@ class ProductsListContentScreen extends StatelessWidget {
                               onAction: () => context
                                   .read<ProductDetailsBloc>()
                                   .add(ProductDetailsEvent.clearError()),
-                              failure: context.translate.unexpected_failure,
+                              failure: state.failure,
                             )
                           : const SizedBox.shrink(),
                       state is ProductDetailsSearchName

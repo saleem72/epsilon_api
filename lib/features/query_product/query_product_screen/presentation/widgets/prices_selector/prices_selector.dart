@@ -89,6 +89,7 @@ class _PricesSelectorContent extends StatelessWidget {
                 context.translate.prices,
                 style: context.textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.w600,
+                  color: context.colorScheme.primary,
                 ),
               ),
             ),

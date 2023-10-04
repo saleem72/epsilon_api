@@ -23,7 +23,7 @@ class CustomerSearchSuccess extends CustomerSearchState {
 }
 
 class CustomerSearchFailureState extends CustomerSearchState {
-  final CustomerSearchFailure failure;
+  final Failure failure;
   const CustomerSearchFailureState({
     required this.failure,
   });

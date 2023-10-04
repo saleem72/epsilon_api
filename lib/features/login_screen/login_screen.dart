@@ -4,6 +4,7 @@ import 'package:epsilon_api/configuration/routing/app_screens.dart';
 import 'package:epsilon_api/configuration/styling/assets/app_icons.dart';
 import 'package:epsilon_api/configuration/styling/colors/app_colors.dart';
 import 'package:epsilon_api/core/blocs/auth_bloc/auth_bloc.dart';
+import 'package:epsilon_api/core/errors/failure.dart';
 import 'package:epsilon_api/core/extensions/build_context_extension.dart';
 import 'package:epsilon_api/core/helpers/text_field_formmaters.dart';
 import 'package:epsilon_api/core/widgets/app_decoration_image.dart';
@@ -12,7 +13,6 @@ import 'package:epsilon_api/core/widgets/app_text_field.dart';
 import 'package:epsilon_api/core/widgets/error_view.dart';
 import 'package:epsilon_api/core/widgets/gradient_button.dart';
 import 'package:epsilon_api/core/widgets/loading_view.dart';
-import 'package:epsilon_api/features/login_screen/domain/failures/login_failure.dart';
 import 'package:epsilon_api/features/login_screen/domain/models/validation_status.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -214,31 +214,11 @@ class _LoginScreenContentState extends State<LoginScreenContent> {
     );
   }
 
-  _getFailureMessage(BuildContext context, HttpFailure failure) {
-    if (failure is HttpNoInternetFailure) {
-      return context.translate.no_internet_connection;
-    }
-
-    if (failure is HttpConnectionFailure) {
-      return context.translate.connection_failure;
-    }
-
-    if (failure is HttpDecodingFailure) {
-      return context.translate.decoding_failure;
-    }
-
-    if (failure is InvalidUsernameOrPasswordFailure) {
-      return context.translate.invalid_username_or_password;
-    }
-
-    context.translate.unexpected_failure;
-  }
-
-  Widget _errorView(BuildContext context, HttpFailure? failure) {
+  Widget _errorView(BuildContext context, Failure? failure) {
     return failure != null
         ? GeneralErrorView(
             onAction: () => context.read<LoginBloc>().add(LoginClearFailure()),
-            failure: _getFailureMessage(context, failure),
+            failure: failure,
           )
         : const SizedBox.shrink();
   }

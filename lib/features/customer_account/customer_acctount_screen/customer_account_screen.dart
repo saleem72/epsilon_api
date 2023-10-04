@@ -42,6 +42,7 @@ class CustomerAccountContent extends StatelessWidget {
         children: [
           _content(context),
           const CustomerAccountLoadingView(),
+          const CustomerAccountFailureView(),
         ],
       ),
     );

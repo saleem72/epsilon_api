@@ -319,7 +319,7 @@ class EntryDTO {
   String? itName2;
   String? number;
   DateTime? date;
-  dynamic colDate;
+  // dynamic colDate;
   double? invoiceTotal;
   double? invoiceTotalExtra;
   double? invoiceTotalDisc;
@@ -362,7 +362,7 @@ class EntryDTO {
     this.itName2,
     this.number,
     this.date,
-    this.colDate,
+    // this.colDate,
     this.invoiceTotal,
     this.invoiceTotalExtra,
     this.invoiceTotalDisc,
@@ -405,8 +405,8 @@ class EntryDTO {
         itName: json["ITName"],
         itName2: json["ITName2"],
         number: json["Number"],
-        date: json["Date"] == null ? null : DateTime.parse(json["Date"]),
-        colDate: json["ColDate"],
+        date: json["Date"] == null ? null : DateTime.tryParse(json["Date"]),
+        // colDate: json["ColDate"],
         invoiceTotal: json["InvoiceTotal"],
         invoiceTotalExtra: json["InvoiceTotalExtra"],
         invoiceTotalDisc: json["InvoiceTotalDisc"],
@@ -452,7 +452,7 @@ class EntryDTO {
         "ITName2": itName2,
         "Number": number,
         "Date": date?.toIso8601String(),
-        "ColDate": colDate,
+        // "ColDate": colDate,
         "InvoiceTotal": invoiceTotal,
         "InvoiceTotalExtra": invoiceTotalExtra,
         "InvoiceTotalDisc": invoiceTotalDisc,
@@ -497,7 +497,7 @@ class EntryDTO {
       itName2: itName2,
       number: number,
       date: date,
-      colDate: colDate,
+      // colDate: colDate,
       invoiceTotal: invoiceTotal,
       invoiceTotalExtra: invoiceTotalExtra,
       invoiceTotalDisc: invoiceTotalDisc,

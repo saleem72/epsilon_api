@@ -29,8 +29,6 @@ class ProductDetailsService {
       "PriceId2": prices.length > 1 ? prices[1].id.toString() : "-1",
     };
 
-    print(params);
-
     final headers = {
       "Authorization": "Bearer ${safe.getToken() ?? ''}",
       "Accept": "application/json"
@@ -42,20 +40,24 @@ class ProductDetailsService {
       endPoint: ApiEndPoints.productByBaroode,
       headers: headers,
       params: params,
+      printResult: true,
     );
 
     return _newDecodeResult(response);
   }
 
   ProductDTOWithStores _newDecodeResult(http.Response response) {
-    if (response.statusCode < 200 || response.statusCode > 299) {
-      throw const UnExpectedException();
-    }
+    // if (response.statusCode == 204) {
+    //     throw ProductNotFoundException(message: temp.message);
+    //   }
     try {
       final str = response.body;
       final temp = ProductByBarcodeResponse.fromJson(str);
-      final product = (temp.data.item?.first);
-      final stores = temp.data.sites ?? <Site>[];
+      if (temp.data == null) {
+        throw ProductNotFoundException(message: temp.message);
+      }
+      final product = (temp.data!.item?.first);
+      final stores = temp.data!.sites ?? <Site>[];
 
       final result = ProductDTOWithStores(product: product!, stores: stores);
 

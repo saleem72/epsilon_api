@@ -1,6 +1,6 @@
 //
 
-import 'package:epsilon_api/features/customer_account/customer_acctount_screen/domain/failure/account_balance_failure.dart';
+import 'package:epsilon_api/core/errors/failure.dart';
 import 'package:epsilon_api/features/customer_account/customer_acctount_screen/domain/models/account_balance.dart';
 import 'package:epsilon_api/features/customer_account/customer_acctount_screen/domain/repository/i_account_balance_repository.dart';
 import 'package:equatable/equatable.dart';

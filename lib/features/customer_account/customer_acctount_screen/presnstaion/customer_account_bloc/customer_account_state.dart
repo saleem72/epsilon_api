@@ -22,7 +22,7 @@ class CustomerAccountSuccess extends CustomerAccountState {
 }
 
 class CustomerAccountFailure extends CustomerAccountState {
-  final AccountBalanceFailure failure;
+  final Failure failure;
   const CustomerAccountFailure({
     required this.failure,
   });
