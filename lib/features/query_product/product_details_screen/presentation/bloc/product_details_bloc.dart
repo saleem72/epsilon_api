@@ -1,9 +1,9 @@
 //
 
+import 'package:epsilon_api/core/errors/failure.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../domain/failures/get_product_failure.dart';
 import '../../domain/models/barcode_or_serial.dart';
 import '../../domain/models/product_datails.dart';
 import '../../domain/repository/i_product_fetcher_repository.dart';

@@ -1,7 +1,6 @@
 //
 
 import 'dart:io';
-import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -58,17 +57,12 @@ class _ScannerViewState extends State<ScannerView> {
       alignment: Alignment.center,
       children: [
         _buildScanView(context),
-        Positioned(
-          top: 10,
-          child: _buildControlButtons(context),
-        ),
+        // Positioned(
+        //   top: 10,
+        //   child: _buildControlButtons(context),
+        // ),
       ],
     );
-  }
-
-  double _getScanAreaSize() {
-    final shortSide = math.min(widget.width, widget.height);
-    return shortSide - 112;
   }
 
   Widget _buildScanView(BuildContext context) {
@@ -82,12 +76,14 @@ class _ScannerViewState extends State<ScannerView> {
           borderRadius: widget.borderRadius,
           borderLength: widget.borderLength,
           borderWidth: widget.borderWidth,
-          cutOutSize: _getScanAreaSize(),
+          cutOutHeight: widget.height - 16,
+          cutOutWidth: widget.width - 16,
         ),
       ),
     );
   }
 
+  // ignore: unused_element
   Widget _buildControlButtons(context) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),

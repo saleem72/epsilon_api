@@ -1,3 +1,4 @@
+import 'package:epsilon_api/core/errors/failure.dart';
 import 'package:epsilon_api/core/helpers/safe.dart';
 import 'package:epsilon_api/features/login_screen/domain/models/company.dart';
 import 'package:epsilon_api/features/login_screen/domain/models/validation_status.dart';
@@ -6,7 +7,6 @@ import 'package:epsilon_api/features/login_screen/domain/usecases/validate_usern
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../domain/failures/login_failure.dart';
 import '../../domain/repository/login_repository.dart';
 
 part 'login_event.dart';

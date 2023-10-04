@@ -15,7 +15,6 @@ initProductDetails(GetIt locator) {
 
   locator.registerLazySingleton<IProductFetcherRepository>(
     () => ProductFetcherRepository(
-      networkInfo: locator(),
       service: locator(),
     ),
   );

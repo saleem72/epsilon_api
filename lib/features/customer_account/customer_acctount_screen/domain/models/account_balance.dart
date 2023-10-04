@@ -90,7 +90,7 @@ class EntryModel {
   String? itName2;
   String? number;
   DateTime? date;
-  DateTime? colDate;
+  // DateTime? colDate;
   double? invoiceTotal;
   double? invoiceTotalExtra;
   double? invoiceTotalDisc;
@@ -132,7 +132,7 @@ class EntryModel {
     required this.itName2,
     required this.number,
     required this.date,
-    required this.colDate,
+    // required this.colDate,
     required this.invoiceTotal,
     required this.invoiceTotalExtra,
     required this.invoiceTotalDisc,

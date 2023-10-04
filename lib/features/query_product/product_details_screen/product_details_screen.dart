@@ -8,7 +8,6 @@ import 'package:epsilon_api/configuration/styling/colors/app_colors.dart';
 import 'package:epsilon_api/core/extensions/build_context_extension.dart';
 import 'package:epsilon_api/core/widgets/error_view.dart';
 import 'package:epsilon_api/dependancy_injection.dart' as di;
-import 'package:epsilon_api/features/query_product/product_details_screen/domain/failures/get_product_failure.dart';
 
 import '../../../../core/widgets/app_nav_bar.dart';
 import '../../../../core/widgets/loading_view.dart';
@@ -86,7 +85,7 @@ class ProductDetailsScreenContent extends StatelessWidget {
                             onAction: () => context
                                 .read<ProductDetailsBloc>()
                                 .add(ProductDetailsEvent.clearError()),
-                            failure: _getFailureMessage(context, state.failure),
+                            failure: state.failure,
                           )
                         : const SizedBox.shrink(),
                     state is ProductDetailsWithSuccess
@@ -104,25 +103,6 @@ class ProductDetailsScreenContent extends StatelessWidget {
 
   Widget _buildProductCard(BuildContext context, ProductDetails product) {
     return ProductCard(product: product);
-  }
-
-  String _getFailureMessage(BuildContext context, GetProductFailure failure) {
-    /*
-    state.failure.map(
-                                  noInternet: (_) =>
-                                      context.translate.no_internet_connection,
-                                  connectionFailure: (_) =>
-                                      context.translate.connection_failure,
-                                  productNotFound: (_) =>
-                                      context.translate.product_not_found,
-                                  invalidResponse: (_) =>
-                                      context.translate.decoding_failure,
-                                  unexpected: (_) =>
-                                      context.translate.unexpected_failure,
-                                )
-    */
-
-    return context.translate.unexpected_failure;
   }
 }
 

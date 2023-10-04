@@ -7,7 +7,9 @@ import 'package:epsilon_api/configuration/styling/colors/app_colors.dart';
 import 'package:epsilon_api/core/extensions/build_context_extension.dart';
 import 'package:epsilon_api/features/query_product/product_details_screen/domain/models/price.dart';
 import 'package:epsilon_api/features/query_product/products_list_screen/products_list_screen.dart';
+import 'package:epsilon_api/features/query_product/query_product_screen/presentation/widgets/prices_selector/presentation/prices_selector_bloc/prices_selector_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/widgets/app_nav_bar.dart';
 import '../../../../core/widgets/app_text_field.dart';
@@ -27,6 +29,27 @@ class QueryProductScreen extends StatefulWidget {
 class _QueryProductScreenState extends State<QueryProductScreen> {
   final TextEditingController _serial = TextEditingController();
   List<Price> prices = [];
+  bool isReady = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      final bloc = context.read<PricesSelectorBloc>();
+      initCam(bloc);
+    });
+  }
+
+  initCam(PricesSelectorBloc bloc) async {
+    bloc.add(PricesSelectorFetchDataEvent());
+    await Future.delayed(const Duration(milliseconds: 500));
+    if (mounted) {
+      setState(() {
+        isReady = true;
+      });
+    }
+  }
+
   @override
   void dispose() {
     _serial.dispose();
@@ -47,14 +70,16 @@ class _QueryProductScreenState extends State<QueryProductScreen> {
                 child: Column(
                   children: [
                     _scnnerArea(context),
-                    const SizedBox(height: 16),
-                    PricesSelector(
-                      onChange: (selectedPrices) {
-                        setState(() {
-                          prices = selectedPrices.map((e) => e).toList();
-                        });
-                      },
-                    ),
+                    const SizedBox(height: 32),
+                    isReady
+                        ? PricesSelector(
+                            onChange: (selectedPrices) {
+                              setState(() {
+                                prices = selectedPrices.map((e) => e).toList();
+                              });
+                            },
+                          )
+                        : const SizedBox.shrink(),
                     const SizedBox(height: 16),
                     _orRow(context),
                     const SizedBox(height: 16),
@@ -71,24 +96,27 @@ class _QueryProductScreenState extends State<QueryProductScreen> {
   }
 
   double getScanAreaHeight(BuildContext context) {
-    const double contentHeight = 88 // appBar
-        +
-        (30 * 2) // scan area vertical padding
-        +
-        56 // prices section
-        +
-        64 +
-        16 // gap
-        +
-        24 // or
-        +
-        16 // gap
-        +
-        82 // text field
-        +
-        60; // button
-    final totalHeight = MediaQuery.of(context).size.height;
-    return totalHeight - contentHeight;
+    // const double contentHeight = 88 // appBar
+    //     +
+    //     (30 * 2) // scan area vertical padding
+    //     +
+    //     56 // prices section
+    //     +
+    //     64 +
+    //     16 // gap
+    //     +
+    //     24 // or
+    //     +
+    //     16 // gap
+    //     +
+    //     82 // text field
+    //     +
+    //     60; // button
+    // final totalHeight = MediaQuery.of(context).size.height;
+    // return totalHeight - contentHeight;
+
+    final width = context.mediaQuery.size.width - 32;
+    return width / 2;
   }
 
   Widget _scnnerArea(BuildContext context) {
@@ -100,7 +128,7 @@ class _QueryProductScreenState extends State<QueryProductScreen> {
         borderRadius: BorderRadius.circular(30),
       ),
       alignment: Alignment.center,
-      child: _scannerView(context, height),
+      child: isReady ? _scannerView(context, height) : const SizedBox.shrink(),
     );
   }
 
@@ -169,12 +197,15 @@ class _QueryProductScreenState extends State<QueryProductScreen> {
 
   Widget _serialTextFIeld(BuildContext context) {
     return LabledValidateTextFIeld(
-      controller: _serial,
-      label: context.translate.serial_number,
-      hint: context.translate.serial_number_hint,
-      icon: AppIcons.serialNumber,
-      onChange: (_) {},
-    );
+        controller: _serial,
+        label: context.translate.product_search,
+        hint: context.translate.product_search_hint,
+        icon: AppIcons.serialNumber,
+        onChange: (_) {},
+        labelStyle: context.textTheme.titleMedium?.copyWith(
+          fontWeight: FontWeight.w600,
+          color: context.colorScheme.primary,
+        ));
   }
 
   Widget _orRow(BuildContext context) {
@@ -188,7 +219,13 @@ class _QueryProductScreenState extends State<QueryProductScreen> {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 4),
-          child: Text(context.translate.or_label),
+          child: Text(
+            context.translate.or_label,
+            style: context.textTheme.titleMedium?.copyWith(
+              fontWeight: FontWeight.w600,
+              color: context.colorScheme.primary,
+            ),
+          ),
         ),
         Expanded(
           child: Container(

@@ -17,7 +17,7 @@ class ProductByBarcodeResponse {
 
   final int statusCode;
   final String message;
-  final ProductByBarcodeDto data;
+  final ProductByBarcodeDto? data;
   ProductByBarcodeResponse({
     required this.statusCode,
     required this.message,
