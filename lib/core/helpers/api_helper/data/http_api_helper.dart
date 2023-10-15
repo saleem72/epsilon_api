@@ -129,7 +129,8 @@ class HttpApiHelper implements ApiHelper {
         throw ForbiddenException(response.body.toString());
       case 403:
         throw UnauthorisedException(response.body.toString());
-
+      case 403:
+        throw ForbiddenException(response.body.toString());
       case 500:
         throw const ServerException('');
       default:

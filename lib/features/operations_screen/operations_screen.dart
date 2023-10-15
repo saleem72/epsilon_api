@@ -17,6 +17,7 @@ class OperationsScreen extends StatelessWidget {
   const OperationsScreen({super.key});
 
   _handleAction(BuildContext context, Operations operation) {
+    print(operation.name);
     switch (operation) {
       case Operations.subject:
         Navigator.of(context).pushNamed(AppScreens.querySubjectScreen);

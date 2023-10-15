@@ -40,6 +40,7 @@ class ProductDetailsService {
       endPoint: ApiEndPoints.productByBaroode,
       headers: headers,
       params: params,
+      printResult: true,
     );
 
     return _newDecodeResult(response);
