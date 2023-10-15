@@ -1,11 +1,10 @@
 //
 
 import 'package:dartz/dartz.dart';
-
-import '../failures/customer_search_failure.dart';
-import '../models/customer.dart';
+import 'package:epsilon_api/core/errors/failure.dart';
+import 'package:epsilon_api/features/customer_account/customer_search/domain/models/customer.dart';
 
 abstract class ICustomerSearchRepository {
-  Future<Either<CustomerSearchFailure, List<Customer>>> searchCustomersByName(
+  Future<Either<Failure, List<Customer>>> searchCustomersByName(
       String searchTerm);
 }

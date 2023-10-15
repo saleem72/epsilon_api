@@ -2,9 +2,16 @@
 
 import 'package:epsilon_api/configuration/styling/colors/app_colors.dart';
 import 'package:epsilon_api/configuration/styling/topology/topology.dart';
+<<<<<<< HEAD
+import 'package:epsilon_api/core/blocs/auth_bloc/auth_bloc.dart';
+=======
+>>>>>>> 2866a99cbc3a646fe8f88383b3649be85720e822
+import 'package:epsilon_api/core/errors/failure.dart';
 import 'package:epsilon_api/core/extensions/build_context_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../configuration/routing/app_screens.dart';
 import 'gradient_button.dart';
 
 class ErrorView extends StatelessWidget {
@@ -65,8 +72,9 @@ class GeneralErrorView extends StatelessWidget {
     this.failure,
     required this.onAction,
   });
-  final String? failure;
+  final Failure? failure;
   final Function onAction;
+
   @override
   Widget build(BuildContext context) {
     return failure != null
@@ -88,7 +96,7 @@ class GeneralErrorView extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Text(
-                            failure!,
+                            context.getFailureMessageFor(failure!),
                             style: Topology.largeTitle.copyWith(
                               color: AppColors.primaryDark,
                             ),
@@ -100,7 +108,19 @@ class GeneralErrorView extends StatelessWidget {
                     const SizedBox(height: 18),
                     GradientButton(
                       label: context.translate.try_again,
+<<<<<<< HEAD
+                      onPressed: () {
+                        onAction();
+                        // if (failure is UnAuthorizedFailure) {
+                        //   context.read<AuthBloc>().add(AuthEvent.logout());
+                        //   context.navigator
+                        //       .pushReplacementNamed(AppScreens.login);
+                        // }
+                      },
+=======
+                      // TODO: if failyre UNAuthorized you have to lgout
                       onPressed: () => onAction(),
+>>>>>>> 2866a99cbc3a646fe8f88383b3649be85720e822
                     ),
                   ],
                 ),

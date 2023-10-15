@@ -105,20 +105,35 @@ class HttpApiHelper implements ApiHelper {
     if (error is UnauthorisedException) {
       return error;
     }
+    if (error is ForbiddenException) {
+      return error;
+    }
     if (error is ServerException) {
       return error;
     }
     if (error is NotExsitsRouteException) {
       return error;
     }
+    if (error is ProductNotFoundException) {
+      return error;
+    }
+
     return UnExpectedException(error.toString());
   }
 
   http.Response _returnResponse(http.Response response) {
     switch (response.statusCode) {
+      case 204:
+        throw const ProductNotFoundException(message: 'Not Result Found');
       case 401:
+<<<<<<< HEAD
+=======
+        throw ForbiddenException(response.body.toString());
       case 403:
+>>>>>>> 2866a99cbc3a646fe8f88383b3649be85720e822
         throw UnauthorisedException(response.body.toString());
+      case 403:
+        throw ForbiddenException(response.body.toString());
       case 500:
         throw const ServerException('');
       default:

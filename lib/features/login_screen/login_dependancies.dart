@@ -23,7 +23,6 @@ initLoginDependancies(GetIt locator) {
   // Repository
   locator.registerLazySingleton<LoginRepository>(() => LoginRepositoryImpl(
         service: locator(),
-        networkInfo: locator(),
       ));
 
   // Service

@@ -26,9 +26,11 @@ class _EpsilonAppState extends State<EpsilonApp> {
       locale: const Locale('ar'),
       debugShowCheckedModeBanner: false,
       theme: appLightTheme,
+      // onGenerateRoute: RouteGenerator.generate,
+      // initialRoute: AppScreens.initial,
       home: WillPopScope(
         onWillPop: () async =>
-            !((await _navigatorKey.currentState?.maybePop()) ?? false),
+            !((await _navigatorKey.currentState?.maybePop()) ?? true),
         child: LayoutBuilder(
           builder: (context, constraints) {
             WidgetsBinding.instance
@@ -54,10 +56,10 @@ class _EpsilonAppState extends State<EpsilonApp> {
           // height: 56,
           top: 72,
           left: size.width - 260,
-          child: Material(
-            color: Colors.transparent,
-            child: GestureDetector(
-              onTap: () {},
+          child: IgnorePointer(
+            ignoring: true,
+            child: Material(
+              color: Colors.transparent,
               child: Transform.translate(
                 offset: const Offset(72, -40),
                 child: Transform.rotate(

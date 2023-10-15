@@ -26,19 +26,24 @@ class PricesSelectorBloc
     emit(state.copyWith(isLoading: true));
     final either = await _repository.fetchPrices('');
     either.fold(
-      (l) => emit(state.copyWith(isLoading: true, error: l.toString())),
+      (l) => emit(
+        state.copyWith(
+          isLoading: false,
+          error: l.toString(),
+        ),
+      ),
       (r) {
         emit(state.copyWith(
-            allPrices: r,
-            selectedPrices: r.take(2).toList(),
-            isLoading: false));
+          allPrices: r,
+          selectedPrices: r.take(2).toList(),
+          isLoading: false,
+        ));
       },
     );
   }
 
   _onSelectedHasChanged(PricesSelectorSelectedHasChangedEvent event,
       Emitter<PricesSelectorState> emit) {
-    print('Selected changed: ${event.selected.length}');
     emit(state.copyWith(selectedPrices: event.selected));
   }
 }

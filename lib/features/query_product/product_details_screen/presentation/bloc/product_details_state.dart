@@ -7,7 +7,7 @@ abstract class ProductDetailsState extends Equatable {
   factory ProductDetailsState.loading() => ProductDetailsLoading();
   factory ProductDetailsState.withSuccess(ProductDetails product) =>
       ProductDetailsWithSuccess(product: product);
-  factory ProductDetailsState.withFailure(GetProductFailure failure) =>
+  factory ProductDetailsState.withFailure(Failure failure) =>
       ProductDetailsWithFailure(failure: failure);
   factory ProductDetailsState.withSearchSuccess(
           List<ProductDetails> products) =>
@@ -32,7 +32,7 @@ class ProductDetailsWithSuccess extends ProductDetailsState {
 }
 
 class ProductDetailsWithFailure extends ProductDetailsState {
-  final GetProductFailure failure;
+  final Failure failure;
   const ProductDetailsWithFailure({
     required this.failure,
   });

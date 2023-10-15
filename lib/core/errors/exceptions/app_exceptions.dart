@@ -13,6 +13,8 @@ class AppException extends Equatable implements Exception {
     return "${_prefix ?? ''}${_message ?? ''}";
   }
 
+  String get message => _message ?? '';
+
   @override
   List<Object?> get props => [_message, _prefix];
 }
@@ -54,6 +56,11 @@ class BadRequestException extends AppException {
       : super(message: message, prefix: "Invalid Request: ");
 }
 
+class ForbiddenException extends AppException {
+  const ForbiddenException([message])
+      : super(message: message, prefix: "Forbidden: ");
+}
+
 ///Exception occure when api request return 401 or 403 status code
 class UnauthorisedException extends AppException {
   const UnauthorisedException([message])
@@ -77,3 +84,8 @@ class InvalidUsernameOrPasswordException extends AppException {}
 class FailToConnectDB extends AppException {}
 
 class FailToExecuteSQL extends AppException {}
+
+class ProductNotFoundException extends AppException {
+  const ProductNotFoundException({required String message})
+      : super(message: message);
+}

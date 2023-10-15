@@ -53,10 +53,15 @@
     "empty_password": "user name is mandatory field",
     "short_password": "user name should be atleaste 4 char",
 
+
+
     "no_internet_connection": "No Internet Connection",
-    "unexpected_failure": "Some thing bad happend/nplease try again later",
     "connection_failure": "Check your connection then try again later",
+    "unexpected_failure": "Some thing bad happend/nplease try again later",
     "decoding_failure": "Decoding Failure",
+    "forbidden_failure": "You are not allowed to do this",
+    "unauthorized_failure": "You need to re login again\nplease logout then login again",
+
     "invalid_username_or_password": "Invalid username or password",
     "fail_to_connect_db": "Fail To Connect your database",
     "fail_to_connect_db_host": "Fail To Connect your database host",
@@ -86,14 +91,14 @@
     "invoice_date": "Invoice date",
     "invoice_client": "Invoice client",
     "invoice_client_hint": "Search for client",
-
+    "product_search": "Search for product",
+    "product_search_hint": "Code, Serial, Name",
     "search_by_name_result": "Search by name result",
 
     "currency": "Currency",
     "bill_amount": "Amount",
     "bill_notes": "Notes",
 
-    "unauthorized_message": "You need to re login again\nplease logout then login again",
     "demo": "Demo",
     "prices": "Prices",
     "select_prices": "Select Prices",
