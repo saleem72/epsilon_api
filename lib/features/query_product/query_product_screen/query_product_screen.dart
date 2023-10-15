@@ -35,6 +35,7 @@ class _QueryProductScreenState extends State<QueryProductScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+<<<<<<< HEAD
       final bloc = context.read<PricesSelectorBloc>();
       initCam(bloc);
     });
@@ -48,6 +49,12 @@ class _QueryProductScreenState extends State<QueryProductScreen> {
         isReady = true;
       });
     }
+=======
+      setState(() {
+        isReady = true;
+      });
+    });
+>>>>>>> 2866a99cbc3a646fe8f88383b3649be85720e822
   }
 
   @override
@@ -71,6 +78,7 @@ class _QueryProductScreenState extends State<QueryProductScreen> {
                   children: [
                     _scnnerArea(context),
                     const SizedBox(height: 32),
+<<<<<<< HEAD
                     isReady
                         ? PricesSelector(
                             onChange: (selectedPrices) {
@@ -80,6 +88,15 @@ class _QueryProductScreenState extends State<QueryProductScreen> {
                             },
                           )
                         : const SizedBox.shrink(),
+=======
+                    PricesSelector(
+                      onChange: (selectedPrices) {
+                        setState(() {
+                          prices = selectedPrices.map((e) => e).toList();
+                        });
+                      },
+                    ),
+>>>>>>> 2866a99cbc3a646fe8f88383b3649be85720e822
                     const SizedBox(height: 16),
                     _orRow(context),
                     const SizedBox(height: 16),

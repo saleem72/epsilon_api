@@ -126,6 +126,11 @@ class HttpApiHelper implements ApiHelper {
       case 204:
         throw const ProductNotFoundException(message: 'Not Result Found');
       case 401:
+<<<<<<< HEAD
+=======
+        throw ForbiddenException(response.body.toString());
+      case 403:
+>>>>>>> 2866a99cbc3a646fe8f88383b3649be85720e822
         throw UnauthorisedException(response.body.toString());
       case 403:
         throw ForbiddenException(response.body.toString());

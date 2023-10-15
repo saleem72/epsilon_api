@@ -45,3 +45,12 @@ class CustomerSearchBloc
     emit(CustomerSearchInitial());
   }
 }
+
+
+// NoInternetFailure
+// ConnectionFailure
+// DecodingFailure
+// UnAuthorizedFailure
+// ForbiddenFailure
+// ServerFailure
+// UnExpectedFailure
