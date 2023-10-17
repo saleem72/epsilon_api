@@ -265,70 +265,222 @@ class BalanceListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
-        children: [
-          Container(
-            decoration: const BoxDecoration(
-              border: Border(
-                bottom: BorderSide(),
-              ),
-            ),
-            child: Row(
-              children: [
-                Expanded(
-                  flex: 2,
-                  child: Text(
-                    context.translate.currency,
-                    style: context.textTheme.bodyMedium?.copyWith(
-                      fontStyle: FontStyle.italic,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                    ),
-                    // textAlign: TextAlign.center,
-                  ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: Text(
-                    context.translate.bill_amount,
-                    style: context.textTheme.bodyMedium?.copyWith(
-                      fontStyle: FontStyle.italic,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: Text(
-                    context.translate.date,
-                    style: context.textTheme.bodyMedium?.copyWith(
-                      fontStyle: FontStyle.italic,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ],
-            ),
+    final numberFormatter = intl.NumberFormat('#,##0.##');
+    final normText = context.textTheme.bodyMedium;
+    final boldText = context.textTheme.bodyMedium?.copyWith(
+      fontWeight: FontWeight.bold,
+      color: Colors.white,
+    );
+    return Column(
+      children: [
+        Expanded(
+          child: ListView.separated(
+            padding: const EdgeInsets.symmetric(horizontal: 4),
+            separatorBuilder: (context, index) => const SizedBox(height: 8),
+            itemCount: list.length,
+            itemBuilder: (BuildContext context, int index) {
+              final balance = list[index];
+              return BalanceTile(balance: balance, currency: currency);
+            },
           ),
-          const SizedBox(height: 8),
-          Expanded(
-            child: ListView.builder(
-              itemCount: list.length,
-              itemBuilder: (BuildContext context, int index) {
-                final balance = list[index];
-                return BalanceTile(balance: balance, currency: currency);
-              },
-            ),
-          ),
-        ],
+        ),
+        const SizedBox(height: 16),
+        _tableInCard(context, boldText, normText, numberFormatter),
+        const SizedBox(height: 8),
+      ],
+    );
+  }
+
+  Widget _tableInCard(BuildContext context, TextStyle? boldText,
+      TextStyle? normText, intl.NumberFormat numberFormatter) {
+    return Material(
+      elevation: 4,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      child: Container(
+        padding: const EdgeInsets.all(4),
+        child: Card(
+            child: _buildTable(context, boldText, normText, numberFormatter)),
       ),
     );
+  }
+
+  Widget _buildTable(BuildContext context, TextStyle? boldText,
+      TextStyle? normText, intl.NumberFormat numberFormatter) {
+    return Table(
+      border: TableBorder.all(),
+      columnWidths: const <int, TableColumnWidth>{
+        0: FlexColumnWidth(),
+        1: FlexColumnWidth(),
+        2: FlexColumnWidth(),
+      },
+      defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+      children: <TableRow>[
+        TableRow(
+          decoration: const BoxDecoration(
+            color: AppColors.primaryDark,
+          ),
+          children: [
+            TableCell(
+              verticalAlignment: TableCellVerticalAlignment.middle,
+              child: SizedBox(
+                height: 32,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        context.translate.debit_total,
+                        textAlign: TextAlign.center,
+                        style: boldText,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            TableCell(
+              verticalAlignment: TableCellVerticalAlignment.middle,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    context.translate.credit_total,
+                    style: boldText,
+                  ),
+                ],
+              ),
+            ),
+            TableCell(
+              verticalAlignment: TableCellVerticalAlignment.middle,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    context.translate.balance_total,
+                    style: boldText,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        TableRow(
+          children: [
+            TableCell(
+              verticalAlignment: TableCellVerticalAlignment.middle,
+              child: SizedBox(
+                height: 32,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Flexible(
+                      child: _allDebitValue(normText, numberFormatter),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            TableCell(
+              verticalAlignment: TableCellVerticalAlignment.middle,
+              child: SizedBox(
+                height: 32,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Flexible(
+                      child: _allCreditValue(normText, numberFormatter),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            TableCell(
+              verticalAlignment: TableCellVerticalAlignment.middle,
+              child: SizedBox(
+                height: 32,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Flexible(
+                      child: _allBalanceValue(normText, numberFormatter),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _allDebitValue(
+      TextStyle? normText, intl.NumberFormat numberFormatter) {
+    final value = list.fold<double>(
+        0, (previousValue, element) => previousValue + (element.debit ?? 0));
+
+    return value == 0
+        ? const SizedBox.shrink()
+        : Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                currency?.name ?? '',
+                style: normText,
+              ),
+              const SizedBox(width: 4),
+              Text(
+                numberFormatter.format(value),
+                style: normText,
+              )
+            ],
+          );
+  }
+
+  Widget _allCreditValue(
+      TextStyle? normText, intl.NumberFormat numberFormatter) {
+    final value = list.fold<double>(
+        0, (previousValue, element) => previousValue + (element.credit ?? 0));
+
+    return value == 0
+        ? const SizedBox.shrink()
+        : Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                currency?.name ?? '',
+                style: normText,
+              ),
+              const SizedBox(width: 4),
+              Text(
+                numberFormatter.format(value),
+                style: normText,
+              )
+            ],
+          );
+  }
+
+  Widget _allBalanceValue(
+      TextStyle? normText, intl.NumberFormat numberFormatter) {
+    final value = list.fold<double>(
+        0, (previousValue, element) => previousValue + (element.credit ?? 0));
+
+    return value == 0
+        ? const SizedBox.shrink()
+        : Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                currency?.name ?? '',
+                style: normText,
+              ),
+              const SizedBox(width: 4),
+              Text(
+                numberFormatter.format(value),
+                style: normText,
+              )
+            ],
+          );
   }
 }
 
@@ -346,51 +498,428 @@ class BalanceTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final numberFormatter = intl.NumberFormat('#,##0.##');
     final dateFormatter = intl.DateFormat('yyyy/M/d');
+    final normText = context.textTheme.bodyMedium;
+    final boldText = context.textTheme.bodyMedium?.copyWith(
+      fontWeight: FontWeight.bold,
+    );
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            Expanded(
-              flex: 2,
-              child: Text(
-                currency?.name ?? '',
+        Table(
+          border: TableBorder.all(),
+          columnWidths: const <int, TableColumnWidth>{
+            0: FixedColumnWidth(80),
+            1: FlexColumnWidth(2),
+            2: FlexColumnWidth(2),
+            3: FlexColumnWidth(2),
+          },
+          defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+          children: <TableRow>[
+            TableRow(
+              decoration: BoxDecoration(
+                color: Colors.grey.shade400,
               ),
+              children: <Widget>[
+                TableCell(
+                  verticalAlignment: TableCellVerticalAlignment.middle,
+                  child: Row(
+                    children: [
+                      const SizedBox(width: 4),
+                      Expanded(
+                        child: Text(
+                          context.translate.number,
+                          style: boldText,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                TableCell(
+                  verticalAlignment: TableCellVerticalAlignment.middle,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        context.translate.debit,
+                        style: boldText,
+                      ),
+                    ],
+                  ),
+                ),
+                TableCell(
+                  verticalAlignment: TableCellVerticalAlignment.middle,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        context.translate.credit,
+                        style: boldText,
+                      ),
+                    ],
+                  ),
+                ),
+                TableCell(
+                  verticalAlignment: TableCellVerticalAlignment.middle,
+                  child: SizedBox(
+                    height: 32,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          context.translate.balance,
+                          style: boldText,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
-            Expanded(
-              flex: 1,
-              child: Text(
-                numberFormatter.format(balance.balance ?? 0),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            Expanded(
-              flex: 1,
-              child: Text(
-                balance.date == null ? '' : dateFormatter.format(balance.date!),
-                textAlign: TextAlign.center,
-              ),
+            TableRow(
+              children: <Widget>[
+                TableCell(
+                  verticalAlignment: TableCellVerticalAlignment.middle,
+                  child: SizedBox(
+                    height: 32,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Flexible(
+                          child: Text(
+                            balance.number ?? '',
+                            style: normText,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                TableCell(
+                  verticalAlignment: TableCellVerticalAlignment.middle,
+                  child: SizedBox(
+                    height: 32,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Flexible(
+                          child: _debitValue(normText, numberFormatter),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                TableCell(
+                  verticalAlignment: TableCellVerticalAlignment.middle,
+                  child: SizedBox(
+                    height: 32,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Flexible(
+                          child: _creditValue(normText, numberFormatter),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                TableCell(
+                  verticalAlignment: TableCellVerticalAlignment.middle,
+                  child: SizedBox(
+                    height: 32,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Flexible(
+                          child: _balanceValue(normText, numberFormatter),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
+        _originLine(context, boldText, dateFormatter),
+        _notesLine(context, boldText),
+      ],
+    );
+  }
+
+  Widget _debitValue(TextStyle? normText, intl.NumberFormat numberFormatter) {
+    final value = numberFormatter.format(balance.debit);
+
+    return value == '0'
+        ? const SizedBox.shrink()
+        : Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                currency?.name ?? '',
+                style: normText,
+              ),
+              const SizedBox(width: 4),
+              Text(
+                value,
+                style: normText,
+              )
+            ],
+          );
+  }
+
+  Widget _balanceValue(TextStyle? normText, intl.NumberFormat numberFormatter) {
+    final value = numberFormatter.format(balance.balance);
+
+    return value == '0'
+        ? const SizedBox.shrink()
+        : Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                currency?.name ?? '',
+                style: normText,
+              ),
+              const SizedBox(width: 4),
+              Text(
+                value,
+                style: normText,
+              )
+            ],
+          );
+  }
+
+  Widget _creditValue(TextStyle? normText, intl.NumberFormat numberFormatter) {
+    final value = numberFormatter.format(balance.credit);
+
+    return value == '0'
+        ? const SizedBox.shrink()
+        : Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                currency?.name ?? '',
+                style: normText,
+              ),
+              const SizedBox(width: 4),
+              Text(
+                value,
+                style: normText,
+              )
+            ],
+          );
+  }
+
+  Widget _financeLines(BuildContext context, TextStyle? boldText,
+      TextStyle? normText, intl.NumberFormat numberFormatter) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: Row(
+            children: [
+              Expanded(
+                flex: 2,
+                child: Row(
+                  children: [
+                    const SizedBox(width: 4),
+                    Expanded(
+                      child: Text(
+                        context.translate.number,
+                        style: boldText,
+                      ),
+                    ),
+                    const SizedBox(width: 4),
+                  ],
+                ),
+              ),
+              Expanded(
+                flex: 3,
+                child: Text(
+                  context.translate.debit,
+                  textAlign: TextAlign.center,
+                  style: boldText,
+                ),
+              ),
+              Expanded(
+                flex: 3,
+                child: Text(
+                  context.translate.credit,
+                  textAlign: TextAlign.center,
+                  style: boldText,
+                ),
+              ),
+              Expanded(
+                flex: 3,
+                child: Text(
+                  context.translate.balance,
+                  textAlign: TextAlign.center,
+                  style: boldText,
+                ),
+              ),
+            ],
+          ),
+        ),
         const SizedBox(height: 8),
-        RichText(
-          text: TextSpan(
-            text: '${context.translate.bill_notes}: ',
-            style: context.textTheme.bodyMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-              fontStyle: FontStyle.italic,
-              fontSize: 16,
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          decoration: const BoxDecoration(
+            border: Border(
+              bottom: BorderSide(),
             ),
-            children: <TextSpan>[
-              TextSpan(
-                  text: balance.notes ?? '',
-                  style: context.textTheme.bodyMedium),
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                flex: 2,
+                child: Text(
+                  balance.number ?? '',
+                  // maxLines: 1,
+                  style: normText,
+                ),
+              ),
+              Expanded(
+                flex: 3,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      numberFormatter.format(balance.debit) == '0'
+                          ? ''
+                          : currency?.name ?? '',
+                      style: normText,
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      numberFormatter.format(balance.debit) == '0'
+                          ? ''
+                          : numberFormatter.format(balance.debit),
+                      style: normText,
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                flex: 3,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      numberFormatter.format(balance.credit) == '0'
+                          ? ''
+                          : currency?.name ?? '',
+                      style: normText,
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      numberFormatter.format(balance.credit) == '0'
+                          ? ''
+                          : numberFormatter.format(balance.credit),
+                      style: normText,
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                flex: 3,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      numberFormatter.format(balance.balance) == '0'
+                          ? ''
+                          : currency?.name ?? '',
+                      style: normText,
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      numberFormatter.format(balance.balance) == '0'
+                          ? ''
+                          : numberFormatter.format(balance.balance),
+                      style: normText,
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
       ],
+    );
+  }
+
+  Widget _notesLine(BuildContext context, TextStyle? boldText) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: const BoxDecoration(
+        border: Border(
+          bottom: BorderSide(),
+          left: BorderSide(),
+          right: BorderSide(),
+        ),
+      ),
+      child: Row(
+        children: [
+          Text(
+            context.translate.bill_notes,
+            style: boldText,
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(balance.notes ?? ''),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _originLine(BuildContext context, TextStyle? boldText,
+      intl.DateFormat dateFormatter) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: const BoxDecoration(
+        border: Border(
+          bottom: BorderSide(),
+          left: BorderSide(),
+          right: BorderSide(),
+        ),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Row(
+              children: [
+                Text(
+                  context.translate.origin,
+                  style: boldText,
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    balance.itName ?? '',
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: Row(
+              children: [
+                Text(
+                  context.translate.date,
+                  style: boldText,
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(balance.date == null
+                      ? ''
+                      : dateFormatter.format(balance.date!)),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

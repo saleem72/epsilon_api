@@ -1,10 +1,15 @@
 //
 
+import 'package:epsilon_api/configuration/styling/colors/app_colors.dart';
+import 'package:epsilon_api/configuration/styling/topology/topology.dart';
 import 'package:epsilon_api/core/extensions/build_context_extension.dart';
 import 'package:epsilon_api/core/widgets/app_date_picker.dart';
 import 'package:epsilon_api/core/widgets/app_nav_bar.dart';
+import 'package:epsilon_api/core/widgets/dashed_line.dart';
 import 'package:epsilon_api/core/widgets/dotted_text_field.dart';
+import 'package:epsilon_api/core/widgets/dropdown_text_field.dart';
 import 'package:epsilon_api/core/widgets/gradient_button.dart';
+import 'package:epsilon_api/features/customer_account/customer_search/domain/models/compact_customer.dart';
 import 'package:epsilon_api/features/vouchers/models/voucher_type.dart';
 import 'package:flutter/material.dart';
 
@@ -48,10 +53,27 @@ class _FinanceVoucherScreenState extends State<FinanceVoucherScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const SizedBox(height: 16),
-                        AppTextFieldWithLabel(
+                        // AppTextFieldWithLabel(
+                        //   label: context.translate.recived_from,
+                        //   hint: context.translate.recipient,
+                        //   onChanged: (p0) {},
+                        // ),
+                        DottedDropdownTextField(
                           label: context.translate.recived_from,
                           hint: context.translate.recipient,
-                          onChanged: (p0) {},
+                          customers: const [
+                            CompactCustomer(
+                                id: 1, number: 1, customerName: 'sarah'),
+                            CompactCustomer(
+                                id: 2, number: 2, customerName: 'Khaled'),
+                            CompactCustomer(
+                                id: 3, number: 3, customerName: 'Jhon'),
+                            CompactCustomer(
+                                id: 4, number: 4, customerName: 'Jack'),
+                          ],
+                          onSelection: (customer) {
+                            print(customer);
+                          },
                         ),
                         const SizedBox(height: 32),
                         PaymentMethodSelector(
@@ -115,6 +137,50 @@ class _FinanceVoucherScreenState extends State<FinanceVoucherScreen> {
         },
         child: DatePickerBubble(selectedDate: _selectedDate),
       ),
+    );
+  }
+}
+
+class DottedDropdownTextField extends StatelessWidget {
+  const DottedDropdownTextField({
+    super.key,
+    required this.label,
+    required this.hint,
+    required this.onSelection,
+    required this.customers,
+  });
+  final String label;
+  final String hint;
+  final Function(CompactCustomer) onSelection;
+  final List<CompactCustomer> customers;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: Topology.body.copyWith(
+            fontWeight: FontWeight.bold,
+            color: AppColors.primaryDark,
+          ),
+        ),
+        const SizedBox(height: 16),
+        Container(
+          height: 24,
+          alignment: Alignment.center,
+          child: Stack(
+            children: [
+              const DashedLine(),
+              DropdownTextField(
+                hint: hint,
+                onSelection: onSelection,
+                customers: customers,
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

@@ -98,5 +98,13 @@
     "demo": "نسخة تجريبية",
     "prices": "الاسعار",
     "select_prices": "تحديد الاسعار",
-    "ok": "حسناً"
+    "ok": "حسناً",
+    "number": "الرقم",
+    "debit": "مدين",
+    "credit": "دائن",
+    "balance": "الرصيد",
+    "origin": "الاصل",
+    "debit_total": "اجمالي مدين",
+    "credit_total": "اجمالي دائن",
+    "balance_total": "اجمالي رصيد"
 }

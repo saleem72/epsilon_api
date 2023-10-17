@@ -102,5 +102,13 @@
     "demo": "Demo",
     "prices": "Prices",
     "select_prices": "Select Prices",
-    "ok": "Ok"
+    "ok": "Ok",
+    "number": "Number",
+    "debit": "Debit",
+    "credit": "Credit",
+    "balance": "Balance",
+    "origin": "Origin",
+    "debit_total": "Total Debit",
+    "credit_total": "Total Credit",
+    "balance_total": "Total Balance"
 }
