@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 //
 
 import 'dart:math' as math;
@@ -7,30 +8,34 @@ import 'package:flutter/material.dart';
 class DashedLine extends StatelessWidget {
   const DashedLine({
     super.key,
+    this.color = Colors.black,
   });
-
+  final Color color;
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
       size: Size.infinite,
-      painter: _DashedLinePainter(),
+      painter: _DashedLinePainter(color: color),
     );
   }
 }
 
 class _DashedLinePainter extends CustomPainter {
+  final Paint painter;
+  _DashedLinePainter({
+    required Color color,
+  }) : painter = Paint()
+          ..style = PaintingStyle.stroke
+          ..color = color;
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..style = PaintingStyle.stroke
-      ..color = Colors.black;
     drawDashedLine(
       canvas: canvas,
       p1: Offset(0, size.height),
       p2: Offset(size.width, size.height),
       dashWidth: 4,
       dashSpace: 2,
-      paint: paint,
+      paint: painter,
     );
   }
 

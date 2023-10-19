@@ -49,21 +49,18 @@ class ProductDetailsService {
     // if (response.statusCode == 204) {
     //     throw ProductNotFoundException(message: temp.message);
     //   }
-    try {
-      final str = response.body;
-      final temp = ProductByBarcodeResponse.fromJson(str);
-      if (temp.data == null) {
-        throw ProductNotFoundException(message: temp.message);
-      }
-      final product = (temp.data!.item?.first);
-      final stores = temp.data!.sites ?? <Site>[];
-
-      final result = ProductDTOWithStores(product: product!, stores: stores);
-
-      return result;
-    } catch (e) {
-      throw const DecodingException();
+    // throw UnauthorisedException();
+    final str = response.body;
+    final temp = ProductByBarcodeResponse.fromJson(str);
+    if (temp.data == null) {
+      throw ProductNotFoundException(message: temp.message);
     }
+    final product = (temp.data!.item?.first);
+    final stores = temp.data!.sites ?? <Site>[];
+
+    final result = ProductDTOWithStores(product: product!, stores: stores);
+
+    return result;
   }
 
   Future<List<ProductDto>> searchByName(
@@ -88,47 +85,15 @@ class ProductDetailsService {
     );
 
     return _decodeSearchResult(response);
-    // final Map<String, String> params = {
-    //   "searchKeyWord": serial,
-    // };
-
-    // final headers = {
-    //   "Authorization": "Bearer ${safe.getToken() ?? ''}",
-    //   "Accept": "application/json"
-    // };
-
-    // final url = '${safe.getHost()}/api/';
-    // final response = await apiHelper.get(
-    //   url: url, // ApiEndPoints.baseURL,
-    //   endPoint: ApiEndPoints.seachByName,
-    //   headers: headers,
-    //   params: params,
-    // );
-
-    // return _decodeSearchResult(response);
   }
 
   List<ProductDto> _decodeSearchResult(http.Response response) {
-    // if (response.statusCode < 200 || response.statusCode > 299) {
-    //   throw const UnExpectedException();
-    // }
-    // final str = response.body;
-    // if (str.replaceAll('"', '') == "Empty") {
-    //   return [];
-    // }
-    // final result = SearchByNameResponse.fromJson(str);
-    // return result.data.products ?? [];
-
-    try {
-      final str = response.body;
-      final temp = ProductByBarcodeResponse.fromJson(str);
-      if (temp.data == null) {
-        throw ProductNotFoundException(message: temp.message);
-      }
-
-      return temp.data!.item ?? [];
-    } catch (e) {
-      throw const DecodingException();
+    final str = response.body;
+    final temp = ProductByBarcodeResponse.fromJson(str);
+    if (temp.data == null) {
+      throw ProductNotFoundException(message: temp.message);
     }
+
+    return temp.data!.item ?? [];
   }
 }

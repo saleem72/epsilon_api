@@ -5,17 +5,17 @@ import 'package:equatable/equatable.dart';
 
 class CompactCustomer extends Equatable {
   final int id;
-  final double number;
   final String customerName;
+  final int accountId;
 
   const CompactCustomer({
     required this.id,
-    required this.number,
     required this.customerName,
+    required this.accountId,
   });
 
   @override
-  List<Object> get props => [id, number, customerName];
+  List<Object> get props => [id, customerName];
 
   @override
   String toString() => 'CompactCustomer(id: $id, name: $customerName)';

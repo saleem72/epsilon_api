@@ -4,6 +4,7 @@
 
 import 'dart:convert';
 
+import 'package:epsilon_api/features/customer_account/customer_search/domain/models/compact_customer.dart';
 import 'package:epsilon_api/features/customer_account/customer_search/domain/models/customer.dart';
 
 SearchCustomerResponse searchCustomerResponseFromJson(String str) =>
@@ -223,6 +224,14 @@ class CustomerDTO {
       fax: fax ?? '',
       telex: telex ?? '',
       notes: notes ?? '',
+    );
+  }
+
+  CompactCustomer toCompactUser() {
+    return CompactCustomer(
+      id: id ?? 0,
+      customerName: customerName ?? '',
+      accountId: accountId ?? 0,
     );
   }
 }

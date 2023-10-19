@@ -26,6 +26,9 @@ extension ObjectToException on Object {
     if (this is UnauthorisedException) {
       return const UnAuthorizedFailure();
     }
+    if (this is ForbiddenException) {
+      return const UnAuthorizedFailure();
+    }
     if (this is ServerException) {
       return const ServerFailure();
     }

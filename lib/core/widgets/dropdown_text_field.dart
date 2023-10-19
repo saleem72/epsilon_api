@@ -1,7 +1,6 @@
 //
 
 import 'package:epsilon_api/configuration/styling/topology/topology.dart';
-import 'package:epsilon_api/features/customer_account/customer_search/domain/models/compact_customer.dart';
 import 'package:flutter/material.dart';
 
 class DropdownTextField extends StatefulWidget {
@@ -12,17 +11,38 @@ class DropdownTextField extends StatefulWidget {
     required this.customers,
   });
   final String hint;
-  final Function(CompactCustomer) onSelection;
-  final List<CompactCustomer> customers;
+  final Function(String) onSelection;
+  final List<String> customers;
   @override
   State<DropdownTextField> createState() => _DropdownTextFieldState();
 }
 
 class _DropdownTextFieldState extends State<DropdownTextField> {
   final TextEditingController _controller = TextEditingController();
-  OverlayEntry? entry;
   final LayerLink layerLink = LayerLink();
   final FocusNode focusNode = FocusNode();
+
+  OverlayEntry? entry;
+  Size size = Size.zero;
+  bool isEditing = true;
+  String searchTerm = '';
+
+  List<String> get filtered {
+    return _controller.text.trim() == ''
+        ? widget.customers
+        : widget.customers
+            .where((element) => element
+                .toLowerCase()
+                .contains(_controller.text.trim().toLowerCase()))
+            .toList();
+  }
+
+  bool _valueExsits() {
+    final customers = widget.customers
+        .where((element) => element == _controller.text)
+        .toList();
+    return customers.isNotEmpty;
+  }
 
   @override
   void initState() {
@@ -33,8 +53,15 @@ class _DropdownTextFieldState extends State<DropdownTextField> {
   _handleFocusChange() {
     if (focusNode.hasFocus) {
       showOverlay();
+      setState(() {
+        isEditing = true;
+      });
     } else {
       hideOverlay();
+      if (!_valueExsits()) {
+        _controller.clear();
+        widget.onSelection('');
+      }
     }
   }
 
@@ -56,13 +83,16 @@ class _DropdownTextFieldState extends State<DropdownTextField> {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            ...widget.customers.map(
+            ...filtered.map(
               (e) => ListTile(
-                title: Text(e.customerName),
-                onTap: () {
-                  _controller.text = e.customerName;
-                  hideOverlay();
+                title: Text(e),
+                onTap: () async {
                   widget.onSelection(e);
+                  setState(() {
+                    isEditing = false;
+                  });
+                  _controller.text = e;
+                  hideOverlay();
                   focusNode.unfocus();
                 },
               ),
@@ -73,11 +103,7 @@ class _DropdownTextFieldState extends State<DropdownTextField> {
     );
   }
 
-  showOverlay() {
-    final overlay = Overlay.of(context);
-    final renderBox = context.findRenderObject() as RenderBox;
-    // final offset = renderBox.localToGlobal(Offset.zero);
-    final size = renderBox.size;
+  _doSomething() {
     entry = OverlayEntry(
       builder: (context) => Positioned(
         // left: offset.dx,
@@ -92,6 +118,16 @@ class _DropdownTextFieldState extends State<DropdownTextField> {
         ),
       ),
     );
+  }
+
+  showOverlay() {
+    final overlay = Overlay.of(context);
+    final renderBox = context.findRenderObject() as RenderBox;
+    // final offset = renderBox.localToGlobal(Offset.zero);
+    size = renderBox.size;
+    entry?.remove();
+    entry = null;
+    _doSomething();
     overlay.insert(entry!);
   }
 
@@ -107,6 +143,17 @@ class _DropdownTextFieldState extends State<DropdownTextField> {
       child: TextField(
         controller: _controller,
         focusNode: focusNode,
+        onChanged: (value) {
+          // if (isEditing) {
+          //   entry = _doSomething();
+          // }
+          // print(value);
+          // setState(() {
+          //   searchTerm = value;
+          // });
+          showOverlay();
+          widget.onSelection(value);
+        },
         decoration: InputDecoration(
           border: InputBorder.none,
           hintText: widget.hint,
