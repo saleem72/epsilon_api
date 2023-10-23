@@ -10,6 +10,8 @@ class FinanceVoucherState extends Equatable {
     required this.failure,
     required this.isLoading,
     required this.customerName,
+    required this.currencies,
+    required this.selectedCurrency,
   });
 
   final PaymentMethod method;
@@ -19,6 +21,8 @@ class FinanceVoucherState extends Equatable {
   final Failure? failure;
   final bool isLoading;
   final String customerName;
+  final List<Currency> currencies;
+  final Currency? selectedCurrency;
   @override
   List<Object?> get props => [
         method,
@@ -28,6 +32,8 @@ class FinanceVoucherState extends Equatable {
         failure,
         isLoading,
         customerName,
+        currencies,
+        selectedCurrency,
       ];
 
   factory FinanceVoucherState.initial() => FinanceVoucherState(
@@ -38,6 +44,8 @@ class FinanceVoucherState extends Equatable {
         failure: null,
         isLoading: false,
         customerName: '',
+        currencies: const [],
+        selectedCurrency: null,
       );
 
   FinanceVoucherState copyWith({
@@ -50,6 +58,9 @@ class FinanceVoucherState extends Equatable {
     bool? clearFailure,
     bool? isLoading,
     String? customerName,
+    List<Currency>? currencies,
+    bool? clearSelectedCurrency,
+    Currency? selectedCurrency,
   }) {
     return FinanceVoucherState(
       method: method ?? this.method,
@@ -61,6 +72,10 @@ class FinanceVoucherState extends Equatable {
       failure: clearFailure == true ? null : failure ?? this.failure,
       isLoading: isLoading ?? this.isLoading,
       customerName: customerName ?? this.customerName,
+      currencies: currencies ?? this.currencies,
+      selectedCurrency: clearSelectedCurrency == true
+          ? null
+          : selectedCurrency ?? this.selectedCurrency,
     );
   }
 }

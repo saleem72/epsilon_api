@@ -302,13 +302,10 @@ class ClientCurr {
 
   Currency toCurrency() {
     return Currency(
-      currId: currId,
-      currVal: currVal,
-      code: code,
-      name: name,
-      partName: partName,
-      latinPartName: latinPartName,
-      latinName: latinName,
+      currId: currId ?? 0,
+      currVal: currVal ?? 0,
+      code: code ?? '',
+      name: name ?? '',
     );
   }
 }

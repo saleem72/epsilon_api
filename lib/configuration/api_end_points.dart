@@ -13,4 +13,5 @@ class ApiEndPoints {
   static const productByBaroode = 'Products/GetProductByBarcode';
   static const seachByName = 'Products/GetProducts';
   static const getPrices = 'Products/GetPrices';
+  static const getCurrency = 'Products/GetCurrencies';
 }

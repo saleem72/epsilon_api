@@ -1,26 +1,22 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 //
 
 import 'package:epsilon_api/configuration/api_end_points.dart';
 import 'package:epsilon_api/core/helpers/api_helper/domain/api_helper.dart';
 import 'package:epsilon_api/core/helpers/safe.dart';
-import 'package:http/http.dart' as http;
-import '../dtos/customer_dto.dart';
 
-class CustomerSearchService {
+import 'dtos/get_currency_response.dart';
+import 'package:http/http.dart' as http;
+
+class FinanceVoucherService {
   final ApiHelper apiHelper;
   final Safe safe;
 
-  CustomerSearchService({
+  FinanceVoucherService({
     required this.apiHelper,
     required this.safe,
   });
 
-  Future<List<CustomerDTO>> searchCustomersByName(String searchTerm) async {
-    final Map<String, String> params = {
-      "cust": searchTerm,
-    };
-
+  Future<List<CurrencyDTO>> getCurrency() async {
     final headers = {
       "Authorization": "Bearer ${safe.getToken() ?? ''}",
       "Accept": "application/json"
@@ -30,23 +26,22 @@ class CustomerSearchService {
 
     final response = await apiHelper.get(
       url: url,
-      endPoint: ApiEndPoints.customersByName,
+      endPoint: ApiEndPoints.getCurrency,
       headers: headers,
-      params: params,
     );
 
     return _decodeResponse(response);
   }
 
-  List<CustomerDTO> _decodeResponse(http.Response response) {
+  List<CurrencyDTO> _decodeResponse(http.Response response) {
     // if (response.statusCode < 200 || response.statusCode > 299) {
     //   throw const UnExpectedException();
     // }
 
     final str = response.body;
 
-    final result = searchCustomerResponseFromJson(str);
+    final result = getCurrencyResponseFromJson(str);
 
-    return result.data?.customers ?? [];
+    return result.data ?? [];
   }
 }

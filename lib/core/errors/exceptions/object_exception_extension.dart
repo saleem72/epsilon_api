@@ -11,6 +11,9 @@ extension ObjectToException on Object {
     if (this is NoInternetException) {
       return const NoInternetFailure();
     }
+    if (this is ConnectionException) {
+      return const ConnectionFailure();
+    }
     if (this is SocketException) {
       return const ConnectionFailure();
     }

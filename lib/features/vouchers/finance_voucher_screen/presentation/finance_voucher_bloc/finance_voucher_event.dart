@@ -38,3 +38,14 @@ class FinanceVoucherSelectedCustomerChangedEvent extends FinanceVoucherEvent {
 class FinanceVoucherFetchDataEvent extends FinanceVoucherEvent {}
 
 class FinanceVoucherClearFailureEvent extends FinanceVoucherEvent {}
+
+class FinanceVoucherCurrencyChangedEvent extends FinanceVoucherEvent {
+  final Currency currency;
+
+  const FinanceVoucherCurrencyChangedEvent({
+    required this.currency,
+  });
+
+  @override
+  List<Object> get props => [currency];
+}

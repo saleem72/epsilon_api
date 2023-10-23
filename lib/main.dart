@@ -9,6 +9,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'dependancy_injection.dart' as di;
 
+// http://epsilondemo.dyndns.org:14545
+// مدير
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setStatusBarAndNavigationBarColor(ThemeMode.dark);

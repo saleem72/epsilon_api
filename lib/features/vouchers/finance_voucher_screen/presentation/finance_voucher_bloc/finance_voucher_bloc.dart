@@ -3,6 +3,7 @@
 import 'dart:async';
 
 import 'package:epsilon_api/core/errors/failure.dart';
+import 'package:epsilon_api/features/customer_account/customer_acctount_screen/domain/models/account_balance.dart';
 import 'package:epsilon_api/features/customer_account/customer_search/domain/models/compact_customer.dart';
 import 'package:epsilon_api/features/vouchers/finance_voucher_screen/domain/repository/i_finance_voucher_repository.dart';
 import 'package:epsilon_api/features/vouchers/models/payment_method.dart';
@@ -24,6 +25,7 @@ class FinanceVoucherBloc
     on<FinanceVoucherSelectedCustomerChangedEvent>(onSelectedCustomerChanged);
     on<FinanceVoucherFetchDataEvent>(_onFetchData);
     on<FinanceVoucherClearFailureEvent>(_onClearFailure);
+    on<FinanceVoucherCurrencyChangedEvent>(_onCurrencyChange);
   }
 
   FutureOr<void> _onPaymentChanged(FinanceVoucherPaymentChangedEvent event,
@@ -60,16 +62,42 @@ class FinanceVoucherBloc
   FutureOr<void> _onFetchData(FinanceVoucherFetchDataEvent event,
       Emitter<FinanceVoucherState> emit) async {
     emit(state.copyWith(isLoading: true));
-    final either = await _repository.getUsers();
+    // final Future<Either<Failure, List<Currency>>> currenciesReq =
+    //     _repository.getCurrency();
+    // final Future<Either<Failure, List<CompactCustomer>>> usersReq =
+    //     _repository.getUsers();
+    // final results = await Future.wait([currenciesReq, usersReq]);
+    // final currenciesEither = results[0];
+    // final usersEither = results[1];
+    // List<Currency> currencies = [];
+    // List<CompactCustomer> users = [];
+    // Failure? error;
+    // currenciesEither.fold(
+    //   (failure) => error = failure,
+    //   (data) => currencies = data as List<Currency>,
+    // );
+    // usersEither.fold(
+    //   (failure) => error = failure,
+    //   (data) => users = data as List<CompactCustomer>,
+    // );
+    final either = await _repository.fetchData();
     either.fold(
       (failure) => emit(state.copyWith(failure: failure, isLoading: false)),
-      (customers) =>
-          emit(state.copyWith(customers: customers, isLoading: false)),
+      (data) => emit(state.copyWith(
+        customers: data.customers,
+        currencies: data.currencies,
+        isLoading: false,
+      )),
     );
   }
 
   FutureOr<void> _onClearFailure(FinanceVoucherClearFailureEvent event,
       Emitter<FinanceVoucherState> emit) {
     emit(state.copyWith(clearFailure: true));
+  }
+
+  FutureOr<void> _onCurrencyChange(FinanceVoucherCurrencyChangedEvent event,
+      Emitter<FinanceVoucherState> emit) {
+    emit(state.copyWith(selectedCurrency: event.currency));
   }
 }

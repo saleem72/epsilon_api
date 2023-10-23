@@ -172,20 +172,14 @@ class EntryModel {
 }
 
 class Currency {
-  int? currId;
-  double? currVal;
-  String? code;
-  String? name;
-  String? partName;
-  String? latinPartName;
-  String? latinName;
+  int currId;
+  double currVal;
+  String code;
+  String name;
   Currency({
     required this.currId,
     required this.currVal,
     required this.code,
     required this.name,
-    required this.partName,
-    required this.latinPartName,
-    required this.latinName,
   });
 }
