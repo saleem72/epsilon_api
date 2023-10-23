@@ -3,19 +3,19 @@
 import 'package:epsilon_api/configuration/styling/assets/app_icons.dart';
 import 'package:epsilon_api/configuration/styling/colors/app_colors.dart';
 import 'package:epsilon_api/configuration/styling/topology/topology.dart';
+import 'package:epsilon_api/core/domian/models/barcode_or_serial.dart';
+import 'package:epsilon_api/core/domian/models/price.dart';
+import 'package:epsilon_api/core/domian/models/product_datails.dart';
 import 'package:epsilon_api/core/extensions/build_context_extension.dart';
 import 'package:epsilon_api/core/widgets/app_nav_bar.dart';
 import 'package:epsilon_api/core/widgets/error_view.dart';
 import 'package:epsilon_api/core/widgets/loading_view.dart';
-import 'package:epsilon_api/features/query_product/product_details_screen/domain/models/price.dart';
-import 'package:epsilon_api/features/query_product/product_details_screen/domain/models/product_datails.dart';
 import 'package:epsilon_api/features/query_product/product_details_screen/presentation/bloc/product_details_bloc.dart';
 import 'package:epsilon_api/features/query_product/product_details_screen/product_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../dependancy_injection.dart' as di;
-import '../product_details_screen/domain/models/barcode_or_serial.dart';
 
 class ProductsListScreen extends StatelessWidget {
   const ProductsListScreen({

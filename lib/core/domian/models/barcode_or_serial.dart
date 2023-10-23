@@ -1,7 +1,8 @@
 //
 
-import 'package:epsilon_api/features/query_product/product_details_screen/domain/models/price.dart';
 import 'package:equatable/equatable.dart';
+
+import 'price.dart';
 
 abstract class HasPrices {
   List<Price> get prices;

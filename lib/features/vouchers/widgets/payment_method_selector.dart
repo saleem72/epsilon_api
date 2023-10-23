@@ -2,10 +2,9 @@
 
 import 'package:epsilon_api/configuration/styling/colors/app_colors.dart';
 import 'package:epsilon_api/configuration/styling/topology/topology.dart';
+import 'package:epsilon_api/core/domian/models/payment_method.dart';
 import 'package:epsilon_api/core/extensions/build_context_extension.dart';
 import 'package:flutter/material.dart';
-
-import '../models/payment_method.dart';
 
 class PaymentMethodSelector extends StatefulWidget {
   const PaymentMethodSelector({

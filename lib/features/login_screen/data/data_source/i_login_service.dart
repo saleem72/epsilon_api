@@ -1,6 +1,6 @@
 //
 
-import 'dtos/login_data_dto.dart';
+import '../../../../core/data/dtos/login_data_dto.dart';
 
 abstract class ILoginService {
   Future<LoginDataDTO> login(

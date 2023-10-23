@@ -8,6 +8,7 @@ import 'package:epsilon_api/core/errors/failure.dart';
 
 extension ObjectToException on Object {
   Failure toFailure() {
+    print('🔥 $this');
     if (this is NoInternetException) {
       return const NoInternetFailure();
     }

@@ -1,11 +1,11 @@
 //
 
 import 'package:dartz/dartz.dart';
+import 'package:epsilon_api/core/domian/models/price.dart';
+import 'package:epsilon_api/core/domian/models/product_datails.dart';
 import 'package:epsilon_api/core/errors/exceptions/object_exception_extension.dart';
 import 'package:epsilon_api/core/errors/failure.dart';
 import 'package:epsilon_api/features/query_product/product_details_screen/data/data_source/product_details_service.dart';
-import 'package:epsilon_api/features/query_product/product_details_screen/domain/models/price.dart';
-import 'package:epsilon_api/features/query_product/product_details_screen/domain/models/product_datails.dart';
 
 import '../../domain/repository/i_product_fetcher_repository.dart';
 

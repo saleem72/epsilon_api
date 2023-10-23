@@ -4,6 +4,7 @@ import 'package:epsilon_api/configuration/routing/app_screens.dart';
 import 'package:epsilon_api/configuration/styling/assets/app_icons.dart';
 import 'package:epsilon_api/configuration/styling/colors/app_colors.dart';
 import 'package:epsilon_api/core/blocs/auth_bloc/auth_bloc.dart';
+import 'package:epsilon_api/core/domian/models/login_validation_status.dart';
 import 'package:epsilon_api/core/errors/failure.dart';
 import 'package:epsilon_api/core/extensions/build_context_extension.dart';
 import 'package:epsilon_api/core/helpers/text_field_formmaters.dart';
@@ -13,7 +14,6 @@ import 'package:epsilon_api/core/widgets/app_text_field.dart';
 import 'package:epsilon_api/core/widgets/error_view.dart';
 import 'package:epsilon_api/core/widgets/gradient_button.dart';
 import 'package:epsilon_api/core/widgets/loading_view.dart';
-import 'package:epsilon_api/features/login_screen/domain/models/validation_status.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -178,7 +178,8 @@ class _LoginScreenContentState extends State<LoginScreenContent> {
     );
   }
 
-  Widget _passwordTextField(BuildContext context, ValidationStatus? valid) {
+  Widget _passwordTextField(
+      BuildContext context, LoginValidationStatus? valid) {
     final bloc = context.read<LoginBloc>();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -196,7 +197,8 @@ class _LoginScreenContentState extends State<LoginScreenContent> {
     );
   }
 
-  Widget _usernameTextField(BuildContext context, ValidationStatus? valid) {
+  Widget _usernameTextField(
+      BuildContext context, LoginValidationStatus? valid) {
     final bloc = context.read<LoginBloc>();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),

@@ -7,7 +7,7 @@ import 'package:epsilon_api/core/blocs/auth_bloc/auth_bloc.dart';
 import 'package:epsilon_api/core/extensions/build_context_extension.dart';
 import 'package:epsilon_api/core/widgets/app_decoration_image.dart';
 import 'package:epsilon_api/core/widgets/app_nav_bar.dart';
-import 'package:epsilon_api/features/operations_screen/models/operations.dart';
+import 'package:epsilon_api/core/domian/models/operations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

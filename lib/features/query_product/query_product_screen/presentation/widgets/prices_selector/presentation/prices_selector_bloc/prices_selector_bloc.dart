@@ -2,7 +2,7 @@
 
 import 'dart:async';
 
-import 'package:epsilon_api/features/query_product/product_details_screen/domain/models/price.dart';
+import 'package:epsilon_api/core/domian/models/price.dart';
 import 'package:epsilon_api/features/query_product/query_product_screen/presentation/widgets/prices_selector/domain/i_prices_selector_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

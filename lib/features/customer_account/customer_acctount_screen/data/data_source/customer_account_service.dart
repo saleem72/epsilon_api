@@ -2,9 +2,9 @@
 //
 
 import 'package:epsilon_api/configuration/api_end_points.dart';
+import 'package:epsilon_api/core/data/dtos/customer_transactions_response.dart';
 import 'package:epsilon_api/core/helpers/api_helper/domain/api_helper.dart';
 import 'package:epsilon_api/core/helpers/safe.dart';
-import 'package:epsilon_api/features/customer_account/customer_acctount_screen/data/dtos/customer_transactions_response.dart';
 
 class CustomerAccountService {
   final ApiHelper apiHelper;

@@ -1,6 +1,6 @@
 //
 
-import 'package:epsilon_api/features/query_product/product_details_screen/domain/models/price.dart';
+import 'package:epsilon_api/core/domian/models/price.dart';
 import 'package:epsilon_api/features/query_product/query_product_screen/presentation/widgets/prices_selector/presentation/prices_selector_bloc/prices_selector_bloc.dart';
 import 'package:flutter/material.dart';
 

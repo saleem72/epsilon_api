@@ -6,7 +6,7 @@ import 'package:epsilon_api/core/errors/exceptions/app_exceptions.dart';
 import 'package:epsilon_api/core/helpers/api_helper/domain/api_helper.dart';
 import 'package:epsilon_api/core/helpers/safe.dart';
 
-import 'dtos/login_data_dto.dart';
+import '../../../../core/data/dtos/login_data_dto.dart';
 import 'i_login_service.dart';
 
 class LoginService implements ILoginService {
@@ -42,22 +42,5 @@ class LoginService implements ILoginService {
     final result = LoginDataDTO.fromJson(response.body);
 
     return result;
-  }
-}
-
-class LoginParams {
-  final String email;
-  final String password;
-
-  LoginParams({
-    required this.email,
-    required this.password,
-  });
-
-  Map<String, String> toMap() {
-    return <String, String>{
-      'email': email,
-      'password': password,
-    };
   }
 }

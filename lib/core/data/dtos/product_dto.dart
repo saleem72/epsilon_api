@@ -4,7 +4,7 @@
 
 import 'dart:convert';
 
-import 'package:epsilon_api/features/query_product/product_details_screen/domain/models/product_datails.dart';
+import 'package:epsilon_api/core/domian/models/product_datails.dart';
 
 ProductDto productDtoFromJson(String str) =>
     ProductDto.fromJson(json.decode(str));

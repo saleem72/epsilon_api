@@ -3,11 +3,11 @@
 import 'package:epsilon_api/configuration/styling/assets/app_icons.dart';
 import 'package:epsilon_api/configuration/styling/colors/app_colors.dart';
 import 'package:epsilon_api/configuration/styling/topology/topology.dart';
+import 'package:epsilon_api/core/domian/models/customer.dart';
 import 'package:epsilon_api/core/extensions/build_context_extension.dart';
 import 'package:epsilon_api/dependancy_injection.dart' as di;
-import 'package:epsilon_api/features/customer_account/customer_acctount_screen/domain/models/account_balance.dart';
+import 'package:epsilon_api/core/domian/models/account_balance.dart';
 import 'package:epsilon_api/features/customer_account/customer_acctount_screen/presnstaion/customer_account_bloc/customer_account_bloc.dart';
-import 'package:epsilon_api/features/customer_account/customer_search/domain/models/customer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart' as intl;

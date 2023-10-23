@@ -2,12 +2,12 @@
 
 import 'package:epsilon_api/configuration/styling/colors/app_colors.dart';
 import 'package:epsilon_api/configuration/styling/topology/topology.dart';
+import 'package:epsilon_api/core/domian/models/customer.dart';
 import 'package:epsilon_api/core/extensions/build_context_extension.dart';
 import 'package:epsilon_api/features/customer_account/customer_search/presentation/customer_search_bloc/customer_search_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../domain/models/customer.dart';
 import 'old_search_tile.dart';
 import 'search_result_tile.dart';
 

@@ -4,7 +4,7 @@
 
 import 'dart:convert';
 
-import 'package:epsilon_api/features/customer_account/customer_acctount_screen/domain/models/account_balance.dart';
+import 'package:epsilon_api/core/domian/models/account_balance.dart';
 
 CustomerTransactionsResponse customerTransactionsResponseFromJson(String str) =>
     CustomerTransactionsResponse.fromJson(json.decode(str));

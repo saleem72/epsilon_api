@@ -3,8 +3,8 @@ part of 'login_bloc.dart';
 
 class LoginState extends Equatable {
   final bool isLoading;
-  final ValidationStatus? usernameStatus;
-  final ValidationStatus? passwordStatus;
+  final LoginValidationStatus? usernameStatus;
+  final LoginValidationStatus? passwordStatus;
   final bool isValid;
   final Failure? failure;
   final bool loginSuccessfully;
@@ -45,8 +45,8 @@ class LoginState extends Equatable {
 
   LoginState copyWith({
     bool? isLoading,
-    ValidationStatus? usernameStatus,
-    ValidationStatus? passwordStatus,
+    LoginValidationStatus? usernameStatus,
+    LoginValidationStatus? passwordStatus,
     bool? isValid,
     Failure? failure,
     bool? loginSuccessfully,

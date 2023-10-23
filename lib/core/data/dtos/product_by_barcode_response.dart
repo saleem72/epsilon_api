@@ -5,8 +5,11 @@
 
 import 'dart:convert';
 
-import 'package:epsilon_api/features/query_product/product_details_screen/data/dtos/product_dto.dart';
-import 'package:epsilon_api/features/query_product/product_details_screen/domain/models/product_datails.dart';
+//
+
+import 'package:epsilon_api/core/domian/models/product_datails.dart';
+
+import 'product_dto.dart';
 
 class ProductByBarcodeResponse {
   /*
@@ -45,7 +48,7 @@ String productByBarcodeDtoToJson(ProductByBarcodeDto data) =>
 
 class ProductByBarcodeDto {
   List<ProductDto>? item;
-  List<Site>? sites;
+  List<SiteDTO>? sites;
 
   ProductByBarcodeDto({
     this.item,
@@ -60,7 +63,8 @@ class ProductByBarcodeDto {
                 json["Item"]!.map((x) => ProductDto.fromJson(x))),
         sites: json["Sites"] == null
             ? []
-            : List<Site>.from(json["Sites"]!.map((x) => Site.fromJson(x))),
+            : List<SiteDTO>.from(
+                json["Sites"]!.map((x) => SiteDTO.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -73,14 +77,14 @@ class ProductByBarcodeDto {
       };
 }
 
-class Site {
+class SiteDTO {
   String? code;
   int? id;
   double? qty;
   String? stCde;
   String? stName;
 
-  Site({
+  SiteDTO({
     this.code,
     this.id,
     this.qty,
@@ -88,7 +92,7 @@ class Site {
     this.stName,
   });
 
-  factory Site.fromJson(Map<String, dynamic> json) => Site(
+  factory SiteDTO.fromJson(Map<String, dynamic> json) => SiteDTO(
         code: json["Code"],
         id: json["Id"],
         qty: json["Qty"],

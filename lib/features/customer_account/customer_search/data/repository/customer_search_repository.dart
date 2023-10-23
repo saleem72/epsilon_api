@@ -2,11 +2,11 @@
 //
 
 import 'package:dartz/dartz.dart';
+import 'package:epsilon_api/core/domian/models/customer.dart';
 import 'package:epsilon_api/core/errors/exceptions/object_exception_extension.dart';
 import 'package:epsilon_api/core/errors/failure.dart';
 
 import 'package:epsilon_api/features/customer_account/customer_search/data/data_source/customer_search_service.dart';
-import 'package:epsilon_api/features/customer_account/customer_search/domain/models/customer.dart';
 
 import '../../domain/repository/i_customer_search_repository.dart';
 

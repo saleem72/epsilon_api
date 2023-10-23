@@ -1,17 +1,16 @@
 //
 
 import 'package:epsilon_api/configuration/app_constants.dart';
-
-import '../models/validation_status.dart';
+import 'package:epsilon_api/core/domian/models/login_validation_status.dart';
 
 class ValidatePassword {
-  ValidationStatus call(String password) {
+  LoginValidationStatus call(String password) {
     if (password.isEmpty) {
-      return ValidationStatus.emptyPassword;
+      return LoginValidationStatus.emptyPassword;
     }
     if (password.length < AppConstants.passwordMinLength) {
-      return ValidationStatus.shortPassword;
+      return LoginValidationStatus.shortPassword;
     }
-    return ValidationStatus.valid;
+    return LoginValidationStatus.valid;
   }
 }

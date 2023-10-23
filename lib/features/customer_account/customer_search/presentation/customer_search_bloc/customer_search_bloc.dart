@@ -2,8 +2,8 @@
 
 import 'dart:async';
 
+import 'package:epsilon_api/core/domian/models/customer.dart';
 import 'package:epsilon_api/core/errors/failure.dart';
-import 'package:epsilon_api/features/customer_account/customer_search/domain/models/customer.dart';
 import 'package:epsilon_api/features/customer_account/customer_search/domain/repository/i_customer_search_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -1,7 +1,7 @@
+import 'package:epsilon_api/core/domian/models/company.dart';
+import 'package:epsilon_api/core/domian/models/login_validation_status.dart';
 import 'package:epsilon_api/core/errors/failure.dart';
 import 'package:epsilon_api/core/helpers/safe.dart';
-import 'package:epsilon_api/features/login_screen/domain/models/company.dart';
-import 'package:epsilon_api/features/login_screen/domain/models/validation_status.dart';
 import 'package:epsilon_api/features/login_screen/domain/usecases/validate_password.dart';
 import 'package:epsilon_api/features/login_screen/domain/usecases/validate_username.dart';
 import 'package:equatable/equatable.dart';

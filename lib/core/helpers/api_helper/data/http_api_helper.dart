@@ -124,7 +124,6 @@ class HttpApiHelper implements ApiHelper {
   http.Response _returnResponse(http.Response response) {
     switch (response.statusCode) {
       case 204:
-        print('🔥 ${jsonDecode(response.body)}');
         throw const ProductNotFoundException(message: 'Not Result Found');
       case 401:
         throw UnauthorisedException(response.body.toString());

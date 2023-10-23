@@ -4,7 +4,7 @@
 
 import 'dart:convert';
 
-import 'package:epsilon_api/features/query_product/product_details_screen/domain/models/price.dart';
+import 'package:epsilon_api/core/domian/models/price.dart';
 
 PricesResponse pricesResponseFromJson(String str) =>
     PricesResponse.fromJson(json.decode(str));

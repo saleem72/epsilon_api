@@ -1,5 +1,6 @@
 //
 
+import 'package:epsilon_api/configuration/styling/colors/app_colors.dart';
 import 'package:epsilon_api/configuration/styling/topology/topology.dart';
 import 'package:flutter/material.dart';
 
@@ -143,6 +144,10 @@ class _DropdownTextFieldState extends State<DropdownTextField> {
       child: TextField(
         controller: _controller,
         focusNode: focusNode,
+        style: Topology.body.copyWith(
+          fontWeight: FontWeight.bold,
+          color: AppColors.primaryDark,
+        ),
         onChanged: (value) {
           // if (isEditing) {
           //   entry = _doSomething();

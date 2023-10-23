@@ -4,7 +4,7 @@ import 'package:epsilon_api/configuration/api_end_points.dart';
 import 'package:epsilon_api/core/helpers/api_helper/domain/api_helper.dart';
 import 'package:epsilon_api/core/helpers/safe.dart';
 
-import 'dtos/get_currency_response.dart';
+import '../../../../../core/data/dtos/get_currency_response.dart';
 import 'package:http/http.dart' as http;
 
 class FinanceVoucherService {
@@ -28,6 +28,7 @@ class FinanceVoucherService {
       url: url,
       endPoint: ApiEndPoints.getCurrency,
       headers: headers,
+      printResult: false,
     );
 
     return _decodeResponse(response);

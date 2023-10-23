@@ -4,8 +4,8 @@
 
 import 'dart:convert';
 
-import 'package:epsilon_api/features/customer_account/customer_search/domain/models/compact_customer.dart';
-import 'package:epsilon_api/features/customer_account/customer_search/domain/models/customer.dart';
+import 'package:epsilon_api/core/domian/models/compact_customer.dart';
+import 'package:epsilon_api/core/domian/models/customer.dart';
 
 SearchCustomerResponse searchCustomerResponseFromJson(String str) =>
     SearchCustomerResponse.fromJson(json.decode(str));

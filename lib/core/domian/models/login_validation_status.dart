@@ -3,7 +3,7 @@
 import 'package:epsilon_api/core/extensions/build_context_extension.dart';
 import 'package:flutter/material.dart';
 
-enum ValidationStatus {
+enum LoginValidationStatus {
   valid,
   emptyUsername,
   shortUsername,
@@ -12,15 +12,15 @@ enum ValidationStatus {
 
   String message(BuildContext context) {
     switch (this) {
-      case ValidationStatus.valid:
+      case LoginValidationStatus.valid:
         return '';
-      case ValidationStatus.emptyUsername:
+      case LoginValidationStatus.emptyUsername:
         return context.translate.empty_username;
-      case ValidationStatus.shortUsername:
+      case LoginValidationStatus.shortUsername:
         return context.translate.short_username;
-      case ValidationStatus.emptyPassword:
+      case LoginValidationStatus.emptyPassword:
         return context.translate.empty_password;
-      case ValidationStatus.shortPassword:
+      case LoginValidationStatus.shortPassword:
         return context.translate.short_password;
     }
   }

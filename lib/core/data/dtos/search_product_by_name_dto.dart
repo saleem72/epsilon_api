@@ -7,27 +7,28 @@ import 'dart:convert';
 
 import 'product_dto.dart';
 
-class SearchByNameResponse {
+class SearchProductByNameResponse {
   final int statusCode;
   final String message;
   final SearchByNameDto data;
 
-  SearchByNameResponse({
+  SearchProductByNameResponse({
     required this.statusCode,
     required this.message,
     required this.data,
   });
 
-  factory SearchByNameResponse.fromMap(Map<String, dynamic> map) {
-    return SearchByNameResponse(
+  factory SearchProductByNameResponse.fromMap(Map<String, dynamic> map) {
+    return SearchProductByNameResponse(
       statusCode: map['StatusCode'] as int,
       message: map['Message'] as String,
       data: SearchByNameDto.fromJson(map['Data'] as Map<String, dynamic>),
     );
   }
 
-  factory SearchByNameResponse.fromJson(String source) =>
-      SearchByNameResponse.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory SearchProductByNameResponse.fromJson(String source) =>
+      SearchProductByNameResponse.fromMap(
+          json.decode(source) as Map<String, dynamic>);
 }
 
 SearchByNameDto searchByNameDtoFromJson(String str) =>

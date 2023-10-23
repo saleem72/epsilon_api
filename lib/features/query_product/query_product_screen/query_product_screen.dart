@@ -4,8 +4,9 @@ import 'dart:math';
 
 import 'package:epsilon_api/configuration/styling/assets/app_icons.dart';
 import 'package:epsilon_api/configuration/styling/colors/app_colors.dart';
+import 'package:epsilon_api/core/domian/models/barcode_or_serial.dart';
+import 'package:epsilon_api/core/domian/models/price.dart';
 import 'package:epsilon_api/core/extensions/build_context_extension.dart';
-import 'package:epsilon_api/features/query_product/product_details_screen/domain/models/price.dart';
 import 'package:epsilon_api/features/query_product/products_list_screen/products_list_screen.dart';
 import 'package:epsilon_api/features/query_product/query_product_screen/presentation/widgets/prices_selector/presentation/prices_selector_bloc/prices_selector_bloc.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/widgets/app_nav_bar.dart';
 import '../../../../core/widgets/app_text_field.dart';
 import '../../../../core/widgets/gradient_button.dart';
-import '../product_details_screen/domain/models/barcode_or_serial.dart';
 import '../product_details_screen/product_details_screen.dart';
 import 'presentation/widgets/prices_selector/prices_selector.dart';
 import 'presentation/widgets/scanner_view.dart';

@@ -1,13 +1,14 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 //
 
-import 'package:epsilon_api/features/query_product/product_details_screen/data/dtos/new_product_dto.dart';
-import 'package:epsilon_api/features/query_product/product_details_screen/data/dtos/product_dto.dart';
-import 'package:epsilon_api/features/query_product/product_details_screen/domain/models/product_datails.dart';
+import 'package:epsilon_api/core/domian/models/product_datails.dart';
+
+import 'product_by_barcode_response.dart';
+import 'product_dto.dart';
 
 class ProductDTOWithStores {
   final ProductDto product;
-  final List<Site> stores;
+  final List<SiteDTO> stores;
 
   ProductDTOWithStores({
     required this.product,

@@ -1,11 +1,11 @@
 //
 
+import 'package:epsilon_api/core/domian/models/barcode_or_serial.dart';
+import 'package:epsilon_api/core/domian/models/product_datails.dart';
 import 'package:epsilon_api/core/errors/failure.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../domain/models/barcode_or_serial.dart';
-import '../../domain/models/product_datails.dart';
 import '../../domain/repository/i_product_fetcher_repository.dart';
 
 part 'product_details_event.dart';

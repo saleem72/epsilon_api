@@ -3,12 +3,12 @@
 import 'package:epsilon_api/configuration/styling/assets/app_icons.dart';
 import 'package:epsilon_api/configuration/styling/colors/app_colors.dart';
 import 'package:epsilon_api/configuration/styling/topology/topology.dart';
+import 'package:epsilon_api/core/domian/models/product_datails.dart';
 import 'package:epsilon_api/core/extensions/build_context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../../../core/widgets/labeled_text.dart';
-import '../../domain/models/product_datails.dart';
 import 'table_cell_content.dart';
 
 class ProductCard extends StatelessWidget {

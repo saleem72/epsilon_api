@@ -2,11 +2,11 @@
 
 import 'dart:async';
 
+import 'package:epsilon_api/core/domian/models/compact_customer.dart';
+import 'package:epsilon_api/core/domian/models/payment_method.dart';
 import 'package:epsilon_api/core/errors/failure.dart';
-import 'package:epsilon_api/features/customer_account/customer_acctount_screen/domain/models/account_balance.dart';
-import 'package:epsilon_api/features/customer_account/customer_search/domain/models/compact_customer.dart';
+import 'package:epsilon_api/core/domian/models/account_balance.dart';
 import 'package:epsilon_api/features/vouchers/finance_voucher_screen/domain/repository/i_finance_voucher_repository.dart';
-import 'package:epsilon_api/features/vouchers/models/payment_method.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

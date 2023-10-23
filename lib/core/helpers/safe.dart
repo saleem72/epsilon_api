@@ -1,6 +1,6 @@
 //
 
-import 'package:epsilon_api/features/login_screen/domain/models/company.dart';
+import 'package:epsilon_api/core/domian/models/company.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

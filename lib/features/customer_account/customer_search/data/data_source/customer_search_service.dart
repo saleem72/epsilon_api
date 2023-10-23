@@ -5,7 +5,7 @@ import 'package:epsilon_api/configuration/api_end_points.dart';
 import 'package:epsilon_api/core/helpers/api_helper/domain/api_helper.dart';
 import 'package:epsilon_api/core/helpers/safe.dart';
 import 'package:http/http.dart' as http;
-import '../dtos/customer_dto.dart';
+import '../../../../../core/data/dtos/customer_dto.dart';
 
 class CustomerSearchService {
   final ApiHelper apiHelper;
@@ -33,6 +33,7 @@ class CustomerSearchService {
       endPoint: ApiEndPoints.customersByName,
       headers: headers,
       params: params,
+      printResult: false,
     );
 
     return _decodeResponse(response);

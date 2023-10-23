@@ -2,6 +2,8 @@
 
 import 'package:epsilon_api/configuration/styling/colors/app_colors.dart';
 import 'package:epsilon_api/configuration/styling/topology/topology.dart';
+import 'package:epsilon_api/core/domian/models/payment_method.dart';
+import 'package:epsilon_api/core/domian/models/voucher_type.dart';
 import 'package:epsilon_api/core/extensions/build_context_extension.dart';
 import 'package:epsilon_api/core/widgets/app_date_picker.dart';
 import 'package:epsilon_api/core/widgets/app_nav_bar.dart';
@@ -10,14 +12,12 @@ import 'package:epsilon_api/core/widgets/dotted_dropdown_text_field.dart';
 import 'package:epsilon_api/core/widgets/dotted_text_field.dart';
 import 'package:epsilon_api/core/widgets/gradient_button.dart';
 import 'package:epsilon_api/dependancy_injection.dart' as di;
-import 'package:epsilon_api/features/customer_account/customer_acctount_screen/domain/models/account_balance.dart';
+import 'package:epsilon_api/core/domian/models/account_balance.dart';
 import 'package:epsilon_api/features/vouchers/finance_voucher_screen/presentation/finance_voucher_bloc/finance_voucher_bloc.dart';
 import 'package:epsilon_api/features/vouchers/finance_voucher_screen/presentation/widgets/finance_voucher_loading_view.dart';
-import 'package:epsilon_api/features/vouchers/models/voucher_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../models/payment_method.dart';
 import '../widgets/payment_method_selector.dart';
 import 'presentation/widgets/finance_voucher_failure_view.dart';
 

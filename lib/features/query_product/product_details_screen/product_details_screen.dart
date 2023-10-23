@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 //
 
+import 'package:epsilon_api/core/domian/models/barcode_or_serial.dart';
+import 'package:epsilon_api/core/domian/models/product_datails.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -11,8 +13,6 @@ import 'package:epsilon_api/dependancy_injection.dart' as di;
 
 import '../../../../core/widgets/app_nav_bar.dart';
 import '../../../../core/widgets/loading_view.dart';
-import 'domain/models/barcode_or_serial.dart';
-import 'domain/models/product_datails.dart';
 import 'presentation/bloc/product_details_bloc.dart';
 import 'presentation/widgets/product_card.dart';
 

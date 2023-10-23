@@ -2,7 +2,7 @@
 import 'package:epsilon_api/configuration/api_end_points.dart';
 import 'package:epsilon_api/core/helpers/api_helper/domain/api_helper.dart';
 import 'package:epsilon_api/core/helpers/safe.dart';
-import 'package:epsilon_api/features/query_product/query_product_screen/presentation/widgets/prices_selector/data/dtos/prices_response.dart';
+import 'package:epsilon_api/core/data/dtos/prices_response.dart';
 
 final class PricesSelectorService {
   final Safe _safe;
