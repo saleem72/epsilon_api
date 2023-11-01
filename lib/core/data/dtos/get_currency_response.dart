@@ -4,7 +4,7 @@
 
 import 'dart:convert';
 
-import 'package:epsilon_api/core/domian/models/account_balance.dart';
+import 'package:epsilon_api/core/domian/models/currency.dart';
 
 GetCurrencyResponse getCurrencyResponseFromJson(String str) =>
     GetCurrencyResponse.fromJson(json.decode(str));

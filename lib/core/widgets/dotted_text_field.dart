@@ -3,6 +3,7 @@
 import 'package:epsilon_api/configuration/styling/colors/app_colors.dart';
 import 'package:epsilon_api/configuration/styling/topology/topology.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'dashed_line.dart';
 
@@ -12,10 +13,18 @@ class AppTextFieldWithLabel extends StatelessWidget {
     this.onChanged,
     required this.hint,
     required this.label,
+    this.isValid = true,
+    this.inputFormatters,
+    this.keyboardType,
+    this.controller,
   });
   final Function(String)? onChanged;
   final String hint;
   final String label;
+  final bool isValid;
+  final List<TextInputFormatter>? inputFormatters;
+  final TextInputType? keyboardType;
+  final TextEditingController? controller;
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +42,10 @@ class AppTextFieldWithLabel extends StatelessWidget {
         DottedTextField(
           hint: hint,
           onChanged: onChanged,
+          isValid: isValid,
+          inputFormatters: inputFormatters,
+          keyboardType: keyboardType,
+          controller: controller,
         ),
       ],
     );
@@ -44,9 +57,17 @@ class DottedTextField extends StatelessWidget {
     super.key,
     this.onChanged,
     required this.hint,
+    required this.isValid,
+    required this.inputFormatters,
+    required this.keyboardType,
+    this.controller,
   });
   final Function(String)? onChanged;
   final String hint;
+  final bool isValid;
+  final List<TextInputFormatter>? inputFormatters;
+  final TextInputType? keyboardType;
+  final TextEditingController? controller;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -55,18 +76,23 @@ class DottedTextField extends StatelessWidget {
       child: Stack(
         fit: StackFit.expand,
         children: [
-          const DashedLine(),
+          DashedLine(
+            color: isValid ? Colors.black : Colors.red,
+          ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               //
               Expanded(
                 child: TextField(
+                  controller: controller,
                   style: Topology.body.copyWith(
                     fontWeight: FontWeight.bold,
                     color: AppColors.primaryDark,
                   ),
                   onChanged: onChanged,
+                  inputFormatters: inputFormatters,
+                  keyboardType: keyboardType,
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     hintText: hint,

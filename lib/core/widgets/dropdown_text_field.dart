@@ -10,16 +10,18 @@ class DropdownTextField extends StatefulWidget {
     required this.hint,
     required this.onSelection,
     required this.customers,
+    required this.controller,
   });
   final String hint;
   final Function(String) onSelection;
   final List<String> customers;
+  final TextEditingController controller;
   @override
   State<DropdownTextField> createState() => _DropdownTextFieldState();
 }
 
 class _DropdownTextFieldState extends State<DropdownTextField> {
-  final TextEditingController _controller = TextEditingController();
+  // final TextEditingController _controller = TextEditingController();
   final LayerLink layerLink = LayerLink();
   final FocusNode focusNode = FocusNode();
 
@@ -29,18 +31,18 @@ class _DropdownTextFieldState extends State<DropdownTextField> {
   String searchTerm = '';
 
   List<String> get filtered {
-    return _controller.text.trim() == ''
+    return widget.controller.text.trim() == ''
         ? widget.customers
         : widget.customers
             .where((element) => element
                 .toLowerCase()
-                .contains(_controller.text.trim().toLowerCase()))
+                .contains(widget.controller.text.trim().toLowerCase()))
             .toList();
   }
 
   bool _valueExsits() {
     final customers = widget.customers
-        .where((element) => element == _controller.text)
+        .where((element) => element == widget.controller.text)
         .toList();
     return customers.isNotEmpty;
   }
@@ -60,7 +62,7 @@ class _DropdownTextFieldState extends State<DropdownTextField> {
     } else {
       hideOverlay();
       if (!_valueExsits()) {
-        _controller.clear();
+        widget.controller.clear();
         widget.onSelection('');
       }
     }
@@ -69,7 +71,6 @@ class _DropdownTextFieldState extends State<DropdownTextField> {
   @override
   void dispose() {
     hideOverlay();
-    _controller.dispose();
     focusNode.removeListener(_handleFocusChange);
     focusNode.dispose();
     super.dispose();
@@ -92,7 +93,7 @@ class _DropdownTextFieldState extends State<DropdownTextField> {
                   setState(() {
                     isEditing = false;
                   });
-                  _controller.text = e;
+                  widget.controller.text = e;
                   hideOverlay();
                   focusNode.unfocus();
                 },
@@ -142,20 +143,13 @@ class _DropdownTextFieldState extends State<DropdownTextField> {
     return CompositedTransformTarget(
       link: layerLink,
       child: TextField(
-        controller: _controller,
+        controller: widget.controller,
         focusNode: focusNode,
         style: Topology.body.copyWith(
           fontWeight: FontWeight.bold,
           color: AppColors.primaryDark,
         ),
         onChanged: (value) {
-          // if (isEditing) {
-          //   entry = _doSomething();
-          // }
-          // print(value);
-          // setState(() {
-          //   searchTerm = value;
-          // });
           showOverlay();
           widget.onSelection(value);
         },

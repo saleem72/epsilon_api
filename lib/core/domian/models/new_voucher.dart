@@ -32,10 +32,10 @@ class NewVoucher {
     required this.currencyCode,
     required this.number,
   });
-
+//
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'EntryItems': entryItems.map((x) => x.toMap()).toList(),
+      'EntryItems': List<dynamic>.from(entryItems.map((x) => x.toMap())),
       'Date': date,
       'TypeId': typeId,
       'CurrCode': currencyCode,
@@ -96,3 +96,20 @@ class NewVoucherItem {
     );
   }
 }
+
+// {
+//   "EntryItems": [
+//     {
+//       "Custid":1,
+//       "Accid":71,
+//       "Debit":222.0,
+//       "Credit":0.0,
+//       "CurrCode":"$",
+//       "Date":"2023-10-24T02:21:32.194Z"
+//     }
+//   ],
+//   "Date": 2023-10-24T02:21:32.194Z,
+//   "TypeId": 1,
+//   "CurrCode": $,
+//   "Number": ''
+//   }

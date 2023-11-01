@@ -2,13 +2,14 @@
 
 import 'dart:async';
 import 'dart:io';
+import 'dart:developer' as developer;
 
 import 'package:epsilon_api/core/errors/exceptions/app_exceptions.dart';
 import 'package:epsilon_api/core/errors/failure.dart';
 
 extension ObjectToException on Object {
   Failure toFailure() {
-    print('🔥 $this');
+    developer.log('🔥', name: 'error', error: this);
     if (this is NoInternetException) {
       return const NoInternetFailure();
     }

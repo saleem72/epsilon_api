@@ -35,7 +35,14 @@ class FinanceVoucherSelectedCustomerChangedEvent extends FinanceVoucherEvent {
   List<Object> get props => [customer];
 }
 
-class FinanceVoucherFetchDataEvent extends FinanceVoucherEvent {}
+class FinanceVoucherFetchDataEvent extends FinanceVoucherEvent {
+  final VoucherType voucherType;
+  const FinanceVoucherFetchDataEvent({
+    required this.voucherType,
+  });
+  @override
+  List<Object> get props => [voucherType];
+}
 
 class FinanceVoucherClearFailureEvent extends FinanceVoucherEvent {}
 
@@ -49,3 +56,16 @@ class FinanceVoucherCurrencyChangedEvent extends FinanceVoucherEvent {
   @override
   List<Object> get props => [currency];
 }
+
+class FinanceVoucherCreateVoucherEvent extends FinanceVoucherEvent {}
+
+class FinanceVoucherAmountChangedEvent extends FinanceVoucherEvent {
+  final String amount;
+  const FinanceVoucherAmountChangedEvent({
+    required this.amount,
+  });
+  @override
+  List<Object> get props => [amount];
+}
+
+class FinanceVoucherClearSuccessEvent extends FinanceVoucherEvent {}

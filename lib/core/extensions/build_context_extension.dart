@@ -19,7 +19,7 @@ extension Translation on BuildContext {
       DecodingFailure() => translate.decoding_failure,
       UnAuthorizedFailure() => translate.unauthorized_failure,
       ForbiddenFailure() => translate.forbidden_failure,
-      ServerFailure() => translate.unauthorized_failure,
+      ServerFailure() => translate.server_error,
       UnExpectedFailure() => translate.unexpected_failure,
       ProductNotFoundFailure() => failure.message ?? '',
     };

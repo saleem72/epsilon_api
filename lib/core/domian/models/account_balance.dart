@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 //
 
+import 'currency.dart';
+
 class AccountBalance {
   List<EntryModel>? items;
   double? debit;
@@ -168,18 +170,5 @@ class EntryModel {
     required this.balance,
     required this.businessUnitId,
     required this.businessUnitName,
-  });
-}
-
-class Currency {
-  int currId;
-  double currVal;
-  String code;
-  String name;
-  Currency({
-    required this.currId,
-    required this.currVal,
-    required this.code,
-    required this.name,
   });
 }

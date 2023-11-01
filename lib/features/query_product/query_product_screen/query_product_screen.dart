@@ -238,6 +238,9 @@ class _QueryProductScreenState extends State<QueryProductScreen> {
   }
 
   void _handleBarcode(BuildContext context, String barcode) {
+    setState(() {
+      isReady = false;
+    });
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) => ProductDetailsScreen(

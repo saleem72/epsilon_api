@@ -31,6 +31,7 @@ class _ScannerViewState extends State<ScannerView> {
   final qrKey = GlobalKey(debugLabel: 'QR');
   QRViewController? controller;
   Barcode? barcode;
+  bool gotValidQR = false;
 
   @override
   void dispose() {
@@ -168,6 +169,10 @@ class _ScannerViewState extends State<ScannerView> {
     controller.resumeCamera();
 
     controller.scannedDataStream.listen((barcode) {
+      if (gotValidQR) {
+        return;
+      }
+      gotValidQR = true;
       if (barcode.code != null) {
         widget.onGettingBarcode(barcode.code!);
       }

@@ -2,13 +2,12 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:developer' as developer;
 
+import 'package:epsilon_api/core/errors/exceptions/app_exceptions.dart';
+import 'package:epsilon_api/core/helpers/api_helper/domain/api_helper.dart';
 import 'package:epsilon_api/core/helpers/network_info/network_info.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-
-import '../../../errors/exceptions/app_exceptions.dart';
-import '../domain/api_helper.dart';
 
 class HttpApiHelper implements ApiHelper {
   final http.Client client;
@@ -54,7 +53,7 @@ class HttpApiHelper implements ApiHelper {
   Future<http.Response> post({
     required String url,
     required String endPoint,
-    Map<String, String>? body,
+    Object? body,
     Map<String, String>? headers,
     Map<String, String>? params,
     bool printResult = false,
@@ -66,7 +65,6 @@ class HttpApiHelper implements ApiHelper {
         throw const NoInternetException();
       }
       final uri = Uri.parse(url + endPoint).replace(queryParameters: params);
-
       if (headers != null) {
         request = client.post(uri, headers: headers, body: body);
       } else {
@@ -132,35 +130,12 @@ class HttpApiHelper implements ApiHelper {
       case 500:
         throw const ServerException('');
       default:
-        // var responseJson = json.decode(response.body);
-        // return responseJson;
         return response;
     }
   }
 
   _printResponse(http.Response response) {
     var temp = utf8.decode(response.bodyBytes);
-    debugPrint(temp.toString());
+    developer.log("🎲 ${temp.toString()}", name: 'api.call');
   }
 }
-
-/*
-
-      case 200:
-      case 201:
-        var responseJson = json.decode(response.body);
-        return responseJson;
-
-      case 400:
-        var responseJson = json.decode(response.body);
-        return responseJson;
-      // throw BadRequestException(response.body.toString());
-
-      case 404:
-        var responseJson = json.decode(response.body);
-        return responseJson;
-      // throw NotExsitsRouteException(response.body.toString());
-      default:
-        throw UnExpectedException(
-            'Error occured while Communication with Server with StatusCode : ${response.statusCode}');
-*/

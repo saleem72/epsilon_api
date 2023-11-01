@@ -2,5 +2,7 @@
 
 enum VoucherType {
   recipient,
-  payment,
+  payment;
+
+  int get typeId => this == VoucherType.recipient ? 2 : 3;
 }

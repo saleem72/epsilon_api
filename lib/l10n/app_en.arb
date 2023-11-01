@@ -61,6 +61,7 @@
     "decoding_failure": "Decoding Failure",
     "forbidden_failure": "You are not allowed to do this",
     "unauthorized_failure": "You need to re login again\nplease logout then login again",
+    "server_error": "Server error",
 
     "invalid_username_or_password": "Invalid username or password",
     "fail_to_connect_db": "Fail To Connect your database",
@@ -110,5 +111,6 @@
     "origin": "Origin",
     "debit_total": "Total Debit",
     "credit_total": "Total Credit",
-    "balance_total": "Total Balance"
+    "balance_total": "Total Balance",
+    "add_voucher_success": "The voucher was added successfully"
 }

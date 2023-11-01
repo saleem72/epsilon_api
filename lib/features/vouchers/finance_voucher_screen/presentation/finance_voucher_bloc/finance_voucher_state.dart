@@ -12,6 +12,10 @@ class FinanceVoucherState extends Equatable {
     required this.customerName,
     required this.currencies,
     required this.selectedCurrency,
+    required this.voucherType,
+    required this.isValid,
+    required this.amount,
+    required this.addedSuccessfully,
   });
 
   final PaymentMethod method;
@@ -23,6 +27,10 @@ class FinanceVoucherState extends Equatable {
   final String customerName;
   final List<Currency> currencies;
   final Currency? selectedCurrency;
+  final VoucherType? voucherType;
+  final bool isValid;
+  final double amount;
+  final int? addedSuccessfully;
   @override
   List<Object?> get props => [
         method,
@@ -34,6 +42,9 @@ class FinanceVoucherState extends Equatable {
         customerName,
         currencies,
         selectedCurrency,
+        isValid,
+        amount,
+        addedSuccessfully,
       ];
 
   factory FinanceVoucherState.initial() => FinanceVoucherState(
@@ -46,6 +57,10 @@ class FinanceVoucherState extends Equatable {
         customerName: '',
         currencies: const [],
         selectedCurrency: null,
+        voucherType: null,
+        isValid: false,
+        amount: 0,
+        addedSuccessfully: null,
       );
 
   FinanceVoucherState copyWith({
@@ -61,6 +76,11 @@ class FinanceVoucherState extends Equatable {
     List<Currency>? currencies,
     bool? clearSelectedCurrency,
     Currency? selectedCurrency,
+    VoucherType? voucherType,
+    double? amount,
+    int? addedSuccessfully,
+    bool? clearSuccess,
+    // required bool isValid,
   }) {
     return FinanceVoucherState(
       method: method ?? this.method,
@@ -76,6 +96,66 @@ class FinanceVoucherState extends Equatable {
       selectedCurrency: clearSelectedCurrency == true
           ? null
           : selectedCurrency ?? this.selectedCurrency,
+      voucherType: voucherType ?? this.voucherType,
+      amount: amount ?? this.amount,
+      addedSuccessfully: clearSuccess == true
+          ? null
+          : addedSuccessfully ?? this.addedSuccessfully,
+      isValid: _checkStatus(
+        customer: selectedCustomer ?? this.selectedCustomer,
+        currency: selectedCurrency ?? this.selectedCurrency,
+        amount: amount ?? this.amount,
+      ),
     );
   }
+
+  bool _checkStatus(
+      {CompactCustomer? customer, Currency? currency, required double amount}) {
+    final hasCustomer = customer != null;
+    final hasCurrency = currency != null;
+    final validAmount = amount > 0;
+    return hasCurrency && hasCustomer && validAmount;
+  }
+
+  NewVoucher toVoucher() {
+    final date =
+        '${intl.DateFormat('yyyy-MM-ddThh:mm:ss.SSS').format(selectedDate)}Z';
+    return NewVoucher(
+      entryItems: [
+        NewVoucherItem(
+          customerid: selectedCustomer?.id ?? 0,
+          accountId: selectedCustomer?.accountId ?? 0,
+          debit: voucherType == VoucherType.recipient ? 0 : amount,
+          credit: voucherType == VoucherType.recipient ? amount : 0,
+          currencyCode: selectedCurrency?.code ?? '',
+          date: date,
+        ),
+      ],
+      date: date,
+      typeId: voucherType?.typeId ?? 1,
+      currencyCode: selectedCurrency?.code ?? '',
+      number: '',
+    );
+  }
+
+  // Map<String, String> toMap() {
+  //   final date =
+  //       '${intl.DateFormat('yyyy-MM-ddThh:mm:ss.SSS').format(selectedDate)}Z';
+  //   return {
+  //     "EntryItems": '''[
+  //   {
+  //     "Custid": ${selectedCustomer?.id ?? 0},
+  //     "Accid": ${selectedCustomer?.accountId ?? 0},
+  //     "Debit": ${voucherType == VoucherType.recipient ? 0 : amount},
+  //     "Credit": ${voucherType == VoucherType.recipient ? amount : 0},
+  //     "CurrCode": '"${selectedCurrency?.code ?? ''}"',
+  //     "Date": $date
+  //   }
+  // ]''',
+  //     "Date": date,
+  //     "TypeId": (voucherType?.typeId ?? 1).toString(),
+  //     "CurrCode": '"${selectedCurrency?.code ?? ''}"',
+  //     "Number": ""
+  //   };
+  // }
 }

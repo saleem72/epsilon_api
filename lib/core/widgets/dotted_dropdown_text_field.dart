@@ -15,12 +15,15 @@ class DottedDropdownTextField extends StatelessWidget {
     required this.onSelection,
     required this.customers,
     required this.fullFilled,
+    required this.controller,
   });
   final String label;
   final String hint;
   final Function(String) onSelection;
   final List<String> customers;
   final bool fullFilled;
+
+  final TextEditingController controller;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -46,6 +49,7 @@ class DottedDropdownTextField extends StatelessWidget {
                 hint: hint,
                 onSelection: onSelection,
                 customers: customers,
+                controller: controller,
               ),
             ],
           ),

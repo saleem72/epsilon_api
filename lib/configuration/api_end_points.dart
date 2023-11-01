@@ -14,4 +14,6 @@ class ApiEndPoints {
   static const seachByName = 'Products/GetProducts';
   static const getPrices = 'Products/GetPrices';
   static const getCurrency = 'Products/GetCurrencies';
+
+  static const addEntry = 'Entries/AddEntry';
 }

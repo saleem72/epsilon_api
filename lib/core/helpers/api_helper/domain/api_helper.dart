@@ -12,7 +12,7 @@ abstract class ApiHelper {
   Future<http.Response> post({
     required String url,
     required String endPoint,
-    Map<String, String>? body,
+    Map<String, dynamic>? body,
     Map<String, String> headers,
     Map<String, String> params,
     required bool printResult,
