@@ -16,6 +16,7 @@ class FinanceVoucherState extends Equatable {
     required this.isValid,
     required this.amount,
     required this.addedSuccessfully,
+    required this.notes,
   });
 
   final PaymentMethod method;
@@ -31,6 +32,7 @@ class FinanceVoucherState extends Equatable {
   final bool isValid;
   final double amount;
   final int? addedSuccessfully;
+  final String notes;
   @override
   List<Object?> get props => [
         method,
@@ -45,6 +47,7 @@ class FinanceVoucherState extends Equatable {
         isValid,
         amount,
         addedSuccessfully,
+        notes,
       ];
 
   factory FinanceVoucherState.initial() => FinanceVoucherState(
@@ -61,6 +64,7 @@ class FinanceVoucherState extends Equatable {
         isValid: false,
         amount: 0,
         addedSuccessfully: null,
+        notes: '',
       );
 
   FinanceVoucherState copyWith({
@@ -80,6 +84,7 @@ class FinanceVoucherState extends Equatable {
     double? amount,
     int? addedSuccessfully,
     bool? clearSuccess,
+    String? notes,
     // required bool isValid,
   }) {
     return FinanceVoucherState(
@@ -106,6 +111,7 @@ class FinanceVoucherState extends Equatable {
         currency: selectedCurrency ?? this.selectedCurrency,
         amount: amount ?? this.amount,
       ),
+      notes: notes ?? this.notes,
     );
   }
 
@@ -129,12 +135,15 @@ class FinanceVoucherState extends Equatable {
           credit: voucherType == VoucherType.recipient ? amount : 0,
           currencyCode: selectedCurrency?.code ?? '',
           date: date,
+          note: notes,
+          note2: notes,
         ),
       ],
       date: date,
       typeId: voucherType?.typeId ?? 1,
       currencyCode: selectedCurrency?.code ?? '',
       number: '',
+      note: notes,
     );
   }
 

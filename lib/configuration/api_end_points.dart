@@ -11,9 +11,14 @@ class ApiEndPoints {
   static const customerBalance = 'Clients/CPS';
 
   static const productByBaroode = 'Products/GetProductByBarcode';
-  static const seachByName = 'Products/GetProducts';
+  static const getProducts = 'Products/GetProducts';
   static const getPrices = 'Products/GetPrices';
   static const getCurrency = 'Products/GetCurrencies';
 
   static const addEntry = 'Entries/AddEntry';
+
+  static const invoiceTypes = 'Invoices/GetInvoiceTypes';
+  static const productUnits = 'Products/GetUnits';
+  static const getPriceByUnit = 'Products/GetPriceByUnit';
+  static const addInvoice = 'Invoices/AddInvoice';
 }

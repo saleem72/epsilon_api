@@ -137,7 +137,7 @@ class _FinanceVoucherScreenContentState
                         label: context.translate.recived_from,
                         hint: context.translate.recipient,
                         controller: _customer,
-                        customers:
+                        options:
                             state.customers.map((e) => e.customerName).toList(),
                         onSelection: (customer) {
                           context.read<FinanceVoucherBloc>().add(
@@ -203,7 +203,12 @@ class _FinanceVoucherScreenContentState
                         label: context.translate.in_return,
                         hint: context.translate.notes,
                         controller: _notes,
-                        onChanged: (p0) {},
+                        onChanged: (p0) =>
+                            context.read<FinanceVoucherBloc>().add(
+                                  FinanceVoucherNotesChangedEvent(
+                                    value: p0,
+                                  ),
+                                ),
                       ),
                       const SizedBox(height: 32),
                       Row(

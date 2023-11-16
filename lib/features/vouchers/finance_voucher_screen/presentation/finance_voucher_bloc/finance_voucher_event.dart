@@ -57,6 +57,17 @@ class FinanceVoucherCurrencyChangedEvent extends FinanceVoucherEvent {
   List<Object> get props => [currency];
 }
 
+class FinanceVoucherNotesChangedEvent extends FinanceVoucherEvent {
+  final String value;
+
+  const FinanceVoucherNotesChangedEvent({
+    required this.value,
+  });
+
+  @override
+  List<Object> get props => [value];
+}
+
 class FinanceVoucherCreateVoucherEvent extends FinanceVoucherEvent {}
 
 class FinanceVoucherAmountChangedEvent extends FinanceVoucherEvent {

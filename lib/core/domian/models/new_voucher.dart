@@ -9,13 +9,16 @@
       "Debit": 0,
       "Credit": 0,
       "CurrCode": "string",
-      "Date": "2023-10-19T07:23:58.431Z"
+      "Date": "2023-11-05T08:56:02.593Z",
+      "Note": "string",
+      "Note2": "string"
     }
   ],
-  "Date": "2023-10-19T07:23:58.431Z",
+  "Date": "2023-11-05T08:56:02.593Z",
   "TypeId": 0,
   "CurrCode": "string",
-  "Number": "string"
+  "Number": "string",
+  "Note": "string"
 }
 */
 
@@ -25,12 +28,14 @@ class NewVoucher {
   final int typeId;
   final String currencyCode;
   final String number;
+  final String note;
   NewVoucher({
     required this.entryItems,
     required this.date,
     required this.typeId,
     required this.currencyCode,
     required this.number,
+    required this.note,
   });
 //
   Map<String, dynamic> toMap() {
@@ -40,6 +45,7 @@ class NewVoucher {
       'TypeId': typeId,
       'CurrCode': currencyCode,
       'Number': number,
+      "Note": note,
     };
   }
 
@@ -54,6 +60,7 @@ class NewVoucher {
       typeId: map['TypeId'] as int,
       currencyCode: map['CurrCode'] as String,
       number: map['Number'] as String,
+      note: map['Note'] as String,
     );
   }
 }
@@ -65,14 +72,17 @@ class NewVoucherItem {
   final double credit;
   final String currencyCode;
   final String date;
-  NewVoucherItem({
-    required this.customerid,
-    required this.accountId,
-    required this.debit,
-    required this.credit,
-    required this.currencyCode,
-    required this.date,
-  });
+  final String note;
+  final String note2;
+  NewVoucherItem(
+      {required this.customerid,
+      required this.accountId,
+      required this.debit,
+      required this.credit,
+      required this.currencyCode,
+      required this.date,
+      required this.note,
+      required this.note2});
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -82,6 +92,8 @@ class NewVoucherItem {
       'Credit': credit,
       'CurrCode': currencyCode,
       'Date': date,
+      'Note': note,
+      'Note2': note2,
     };
   }
 
@@ -93,6 +105,8 @@ class NewVoucherItem {
       credit: map['Credit'] == null ? 0 : (map['Credit'] as num).toDouble(),
       currencyCode: map['CurrCode'] as String,
       date: map['Date'] as String,
+      note: map['Note'] as String,
+      note2: map['Note2'] as String,
     );
   }
 }

@@ -70,7 +70,7 @@ class RouteGenerator {
         );
       case AppScreens.invoicesSearch:
         return MaterialPageRoute(
-          builder: (context) => const InvoicesSearchScreen(),
+          builder: (context) => const AddInvoiceScreen(),
         );
       default:
         return MaterialPageRoute(

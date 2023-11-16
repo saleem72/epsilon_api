@@ -32,6 +32,7 @@ class FinanceVoucherBloc
     on<FinanceVoucherCreateVoucherEvent>(_onCreateVoucher);
     on<FinanceVoucherAmountChangedEvent>(_onAmountChanged);
     on<FinanceVoucherClearSuccessEvent>(_onClearSuccess);
+    on<FinanceVoucherNotesChangedEvent>(_onNotesChange);
   }
 
   FutureOr<void> _onPaymentChanged(FinanceVoucherPaymentChangedEvent event,
@@ -151,6 +152,11 @@ class FinanceVoucherBloc
       // customers: state.customers,
       // currencies: state.currencies,
     ));
+  }
+
+  FutureOr<void> _onNotesChange(FinanceVoucherNotesChangedEvent event,
+      Emitter<FinanceVoucherState> emit) {
+    emit(state.copyWith(notes: event.value));
   }
 }
 

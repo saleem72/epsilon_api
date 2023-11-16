@@ -88,6 +88,7 @@
     "notes": "Notes",
 
     "invoice": "Invoice",
+    "invoice_type": "Invoice type",
     "invoice_num": "Invoice number",
     "invoice_date": "Invoice date",
     "invoice_client": "Invoice client",
@@ -95,6 +96,11 @@
     "product_search": "Search for product",
     "product_search_hint": "Code, Serial, Name",
     "search_by_name_result": "Search by name result",
+    "agent": "Agent",
+    "products": "Products",
+    "units": "Units",
+    "add_to_invoice": "Add product to invoice",
+    "create_invoice": "Add invoice",
 
     "currency": "Currency",
     "bill_amount": "Amount",
@@ -112,5 +118,10 @@
     "debit_total": "Total Debit",
     "credit_total": "Total Credit",
     "balance_total": "Total Balance",
-    "add_voucher_success": "The voucher was added successfully"
+    "add_voucher_success": "The voucher was added successfully",
+    "add_invoice_success": "The invoice was added successfully",
+    "add": "Add",
+    "invoice_product": "Product",
+    "invoice_unit": "unit",
+    "invoice_price": "Price"
 }

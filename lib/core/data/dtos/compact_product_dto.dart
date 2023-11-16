@@ -7,6 +7,8 @@
 
 import 'dart:convert';
 
+import 'package:epsilon_api/core/domian/models/compact_product.dart';
+
 FetchCompactProductResponse fetchCompactProductResponse(String str) =>
     FetchCompactProductResponse.fromJson(json.decode(str));
 
@@ -75,10 +77,14 @@ class CompactProductDTO {
     };
   }
 
-  factory CompactProductDTO.fromJson(Map<String, dynamic> map) {
-    return CompactProductDTO(
-      id: map['id'] != null ? map['Id'] as int : null,
-      name: map['name'] != null ? map['Name'] as String : null,
-    );
-  }
+  factory CompactProductDTO.fromJson(Map<String, dynamic> map) =>
+      CompactProductDTO(
+        id: map['Id'] != null ? map['Id'] as int : null,
+        name: map['Name'] != null ? map['Name'] as String : null,
+      );
+
+  CompactProduct toCompactProduct() => CompactProduct(
+        id: id ?? 0,
+        name: name ?? '',
+      );
 }

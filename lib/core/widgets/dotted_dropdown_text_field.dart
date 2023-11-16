@@ -13,14 +13,14 @@ class DottedDropdownTextField extends StatelessWidget {
     required this.label,
     required this.hint,
     required this.onSelection,
-    required this.customers,
+    required this.options,
     required this.fullFilled,
     required this.controller,
   });
   final String label;
   final String hint;
   final Function(String) onSelection;
-  final List<String> customers;
+  final List<String> options;
   final bool fullFilled;
 
   final TextEditingController controller;
@@ -48,7 +48,7 @@ class DottedDropdownTextField extends StatelessWidget {
               DropdownTextField(
                 hint: hint,
                 onSelection: onSelection,
-                customers: customers,
+                customers: options,
                 controller: controller,
               ),
             ],

@@ -44,6 +44,7 @@ class NewVoucherDTO {
   int? typeId;
   String? currCode;
   String? number;
+  String? notes;
 
   NewVoucherDTO({
     this.entryItems,
@@ -51,6 +52,7 @@ class NewVoucherDTO {
     this.typeId,
     this.currCode,
     this.number,
+    this.notes,
   });
 
   factory NewVoucherDTO.fromJson(Map<String, dynamic> json) => NewVoucherDTO(
@@ -62,6 +64,7 @@ class NewVoucherDTO {
         typeId: json["TypeId"],
         currCode: json["CurrCode"],
         number: json["Number"],
+        notes: json['Note'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -81,6 +84,7 @@ class NewVoucherDTO {
         typeId: typeId ?? 0,
         currencyCode: currCode ?? '',
         number: number ?? '',
+        note: notes ?? '',
       );
 }
 
@@ -91,6 +95,8 @@ class NewVoucherItemDto {
   double? credit;
   String? currCode;
   String? date;
+  String? note;
+  String? note2;
 
   NewVoucherItemDto({
     this.custid,
@@ -99,6 +105,8 @@ class NewVoucherItemDto {
     this.credit,
     this.currCode,
     this.date,
+    this.note,
+    this.note2,
   });
 
   factory NewVoucherItemDto.fromJson(Map<String, dynamic> json) =>
@@ -109,6 +117,8 @@ class NewVoucherItemDto {
         credit: json["Credit"] is num ? (json["Credit"] as num).toDouble() : 0,
         currCode: json["CurrCode"],
         date: json["Date"],
+        note: json['Note'],
+        note2: json['Note2'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -127,5 +137,7 @@ class NewVoucherItemDto {
         credit: credit ?? 0,
         currencyCode: currCode ?? '',
         date: date ?? '',
+        note: note ?? '',
+        note2: note2 ?? '',
       );
 }

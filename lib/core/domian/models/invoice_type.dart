@@ -1,15 +1,16 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 //
 
-class CompactProduct {
+import 'package:equatable/equatable.dart';
+
+class InvoiceType extends Equatable {
   final int id;
   final String name;
-
-  CompactProduct({
+  const InvoiceType({
     required this.id,
     required this.name,
   });
 
   @override
-  String toString() => 'CompactProduct(id: $id, name: $name)';
+  List<Object?> get props => [id, name];
 }

@@ -1,9 +1,11 @@
 //
 
+import 'package:epsilon_api/core/domian/models/invoice_ui_item.dart';
+
 class NewInvoice {
   int id;
   List<BillItem> billItems;
-  DateTime date;
+  String date;
   int billPayType;
   int typeId;
   int custId;
@@ -30,13 +32,31 @@ class NewInvoice {
     required this.totalTax,
     required this.includedTotalTax,
   });
+  // "2023-11-15T10:14:08.333Z"
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      "Id": 0,
+      "billItems": List<dynamic>.from(billItems.map((x) => x.toMap())),
+      "Date": date,
+      "BillPayType": 0,
+      "TypeId": typeId,
+      "CustId": custId,
+      "FirstPay": 0,
+      "CurrCode": "",
+      "DiscountRate": 0,
+      "Number": "",
+      "Final": 0,
+      "TotalTax": 0,
+      "IncludedTotalTax": 0
+    };
+  }
 }
 
 class BillItem {
   int index;
   int itemId;
   int unitId;
-  int unitFact;
+  double unitFact;
   int quanitity;
   double price;
   double bonus;
@@ -50,4 +70,26 @@ class BillItem {
     required this.price,
     required this.bonus,
   });
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      "Index": index,
+      "ItemId": itemId,
+      "UnitId": unitId,
+      "UnitFact": unitFact,
+      "Quanitity": quanitity,
+      "Price": price,
+      "Bonus": 0
+    };
+  }
+
+  factory BillItem.fromUi(InvoiceUiItem item) => BillItem(
+        index: 0,
+        itemId: item.product.id,
+        unitId: item.unit.id,
+        unitFact: item.unit.fact,
+        quanitity: item.quantity,
+        price: item.price,
+        bonus: 0,
+      );
 }
