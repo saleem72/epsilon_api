@@ -8,7 +8,8 @@ enum Operations {
   subject,
   customer,
   voucher,
-  bill;
+  bill,
+  invoicesTotals;
 
   String title(BuildContext context) {
     switch (this) {
@@ -20,6 +21,8 @@ enum Operations {
         return context.translate.operation_voucher;
       case Operations.bill:
         return context.translate.operation_bill;
+      case Operations.invoicesTotals:
+        return context.translate.operation_invoices_totals;
     }
   }
 
@@ -32,6 +35,8 @@ enum Operations {
       case Operations.voucher:
         return AppIcons.queryVoucher;
       case Operations.bill:
+        return AppIcons.queryBill;
+      case Operations.invoicesTotals:
         return AppIcons.queryBill;
     }
   }

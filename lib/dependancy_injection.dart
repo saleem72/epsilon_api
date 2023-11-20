@@ -3,7 +3,7 @@
 import 'package:epsilon_api/core/helpers/helpers_dependancies.dart';
 import 'package:epsilon_api/features/customer_account/customer_acctount_screen/customer_account_dependancies.dart';
 import 'package:epsilon_api/features/customer_account/customer_search/customers_dependancies.dart';
-import 'package:epsilon_api/features/invoices/invoices_search/invoice_dependancies.dart';
+import 'package:epsilon_api/features/invoices/new_invoice/invoice_dependancies.dart';
 import 'package:epsilon_api/features/login_screen/login_dependancies.dart';
 import 'package:epsilon_api/features/query_product/product_details_dependancies.dart';
 import 'package:epsilon_api/features/query_product/query_product_screen/presentation/widgets/prices_selector/prices_selector_dependancies.dart';

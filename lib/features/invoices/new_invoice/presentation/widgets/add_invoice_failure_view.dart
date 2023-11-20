@@ -1,9 +1,10 @@
 //
 
 import 'package:epsilon_api/core/widgets/error_view.dart';
-import 'package:epsilon_api/features/invoices/invoices_search/presentation/invoice_bloc/invoice_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../invoice_bloc/invoice_bloc.dart';
 
 class AddInvoiceFailureView extends StatelessWidget {
   const AddInvoiceFailureView({super.key});

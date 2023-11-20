@@ -26,6 +26,7 @@
     "operation_customer": "Query Customer",
     "operation_voucher": "Query Voucher",
     "operation_bill": "Query Bill",
+    "operation_invoices_totals": "Invoices movement",
 
     "query_subject_screen": "Product Code",
     "or_label": "Or",

@@ -1,9 +1,10 @@
 //
 
-import 'package:epsilon_api/features/invoices/invoices_search/data/repository/invoice_repository.dart';
-import 'package:epsilon_api/features/invoices/invoices_search/data/service/invoice_service.dart';
-import 'package:epsilon_api/features/invoices/invoices_search/domain/repository/i_invoice_repository.dart';
+import 'package:epsilon_api/features/invoices/new_invoice/data/service/invoice_service.dart';
+import 'package:epsilon_api/features/invoices/new_invoice/domain/repository/i_invoice_repository.dart';
 import 'package:get_it/get_it.dart';
+
+import 'data/repository/invoice_repository.dart';
 
 initInvoiceDependancies() {
   final locator = GetIt.instance;

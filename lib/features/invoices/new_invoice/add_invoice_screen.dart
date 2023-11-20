@@ -172,22 +172,6 @@ class _AddInvoicesContentScreenState extends State<AddInvoicesContentScreen> {
     );
   }
 
-  Widget _addToInvoiceButton(BuildContext context, bool isItemReady) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        GradientButton(
-          width: 75,
-          label: context.translate.add_to_invoice,
-          isEnabled: isItemReady,
-          onPressed: () {
-            context.read<InvoiceBloc>().add(InvoiceAddItemEvent());
-          },
-        ),
-      ],
-    );
-  }
-
   Widget _createInvoiceButton(
       BuildContext context, bool isInvoiceReady, double total) {
     final formatter = intl.NumberFormat('#,##0.##');

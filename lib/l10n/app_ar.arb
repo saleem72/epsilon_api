@@ -26,6 +26,7 @@
     "operation_customer": "كشف حساب زبون",
     "operation_voucher": "إدخال سندات قبض ودفع",
     "operation_bill": "إدخال فاتورة",
+    "operation_invoices_totals": "حركة اجمالي الفواتير",
 
     "query_subject_screen": "رمز الاستجابة السريعة",
     "or_label": "أو",

@@ -28,7 +28,10 @@ class OperationsScreen extends StatelessWidget {
         Navigator.of(context).pushNamed(AppScreens.vouchersSelection);
         break;
       case Operations.bill:
-        Navigator.of(context).pushNamed(AppScreens.invoicesSearch);
+        Navigator.of(context).pushNamed(AppScreens.newInvoice);
+        break;
+      case Operations.invoicesTotals:
+        Navigator.of(context).pushNamed(AppScreens.newInvoice);
         break;
     }
   }

@@ -1,6 +1,7 @@
 //
 import 'dart:developer' as developer;
 import 'dart:async';
+import 'package:epsilon_api/features/invoices/new_invoice/domain/repository/i_invoice_repository.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'package:epsilon_api/core/domian/models/compact_customer.dart';
@@ -10,7 +11,6 @@ import 'package:epsilon_api/core/domian/models/invoice_ui_item.dart';
 import 'package:epsilon_api/core/domian/models/new_invoice.dart';
 import 'package:epsilon_api/core/domian/models/product_unit.dart';
 import 'package:epsilon_api/core/errors/failure.dart';
-import 'package:epsilon_api/features/invoices/invoices_search/domain/repository/i_invoice_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -63,10 +63,10 @@ class InvoiceBloc extends Bloc<InvoiceEvent, InvoiceState> {
     final either = await _repository.getCustomers();
     either.fold(
       (failure) {
-        print(failure);
+        developer.log(failure.toString(), name: 'new.invoice');
       },
       (data) {
-        print(data);
+        developer.log(data.toString(), name: 'new.invoice');
       },
     );
   }
@@ -76,10 +76,10 @@ class InvoiceBloc extends Bloc<InvoiceEvent, InvoiceState> {
     final either = await _repository.getProducts();
     either.fold(
       (failure) {
-        print(failure);
+        developer.log(failure.toString(), name: 'new.invoice');
       },
       (data) {
-        print(data);
+        developer.log(data.toString(), name: 'new.invoice');
       },
     );
   }

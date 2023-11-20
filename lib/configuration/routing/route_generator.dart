@@ -6,7 +6,6 @@ import 'package:epsilon_api/core/domian/models/customer.dart';
 import 'package:epsilon_api/core/domian/models/voucher_type.dart';
 import 'package:epsilon_api/features/customer_account/customer_acctount_screen/customer_account_screen.dart';
 import 'package:epsilon_api/features/customer_account/customer_search/customer_search.dart';
-import 'package:epsilon_api/features/invoices/invoices_search/invoices_search_screen.dart';
 import 'package:epsilon_api/features/login_screen/login_screen.dart';
 import 'package:epsilon_api/features/operations_screen/operations_screen.dart';
 import 'package:epsilon_api/features/pre_launch/landing_screen.dart';
@@ -14,6 +13,8 @@ import 'package:epsilon_api/features/query_product/query_product_screen/query_pr
 import 'package:epsilon_api/features/vouchers/finance_voucher_screen/finance_voucher_screen.dart';
 import 'package:epsilon_api/features/vouchers/vouchers_selection_screen/vouchers_selection_screen.dart';
 import 'package:flutter/material.dart';
+
+import '../../features/invoices/new_invoice/add_invoice_screen.dart';
 
 class RouteGenerator {
   RouteGenerator._();
@@ -68,7 +69,7 @@ class RouteGenerator {
           builder: (context) =>
               const FinanceVoucherScreen(voucherType: VoucherType.payment),
         );
-      case AppScreens.invoicesSearch:
+      case AppScreens.newInvoice:
         return MaterialPageRoute(
           builder: (context) => const AddInvoiceScreen(),
         );
