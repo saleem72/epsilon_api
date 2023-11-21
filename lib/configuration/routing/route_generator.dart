@@ -6,6 +6,7 @@ import 'package:epsilon_api/core/domian/models/customer.dart';
 import 'package:epsilon_api/core/domian/models/voucher_type.dart';
 import 'package:epsilon_api/features/customer_account/customer_acctount_screen/customer_account_screen.dart';
 import 'package:epsilon_api/features/customer_account/customer_search/customer_search.dart';
+import 'package:epsilon_api/features/invoices/Invoices_movement/Invoices_movement_screen.dart';
 import 'package:epsilon_api/features/login_screen/login_screen.dart';
 import 'package:epsilon_api/features/operations_screen/operations_screen.dart';
 import 'package:epsilon_api/features/pre_launch/landing_screen.dart';
@@ -72,6 +73,10 @@ class RouteGenerator {
       case AppScreens.newInvoice:
         return MaterialPageRoute(
           builder: (context) => const AddInvoiceScreen(),
+        );
+      case AppScreens.invoicesMovement:
+        return MaterialPageRoute(
+          builder: (context) => const InvoicesMovementScreen(),
         );
       default:
         return MaterialPageRoute(

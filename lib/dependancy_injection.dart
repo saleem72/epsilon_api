@@ -3,6 +3,7 @@
 import 'package:epsilon_api/core/helpers/helpers_dependancies.dart';
 import 'package:epsilon_api/features/customer_account/customer_acctount_screen/customer_account_dependancies.dart';
 import 'package:epsilon_api/features/customer_account/customer_search/customers_dependancies.dart';
+import 'package:epsilon_api/features/invoices/invoices_movement/invoices_movement_dependancies.dart';
 import 'package:epsilon_api/features/invoices/new_invoice/invoice_dependancies.dart';
 import 'package:epsilon_api/features/login_screen/login_dependancies.dart';
 import 'package:epsilon_api/features/query_product/product_details_dependancies.dart';
@@ -34,7 +35,7 @@ Future<void> initDependancies() async {
   initFinanceVoucherDependancies(locator);
 
   initInvoiceDependancies();
-
+  initInvoicesMovementDependancies();
   // // App common Helpers
   initHelpers(locator);
 

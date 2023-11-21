@@ -5,7 +5,7 @@ double? converttoDouble(dynamic value) {
 }
 
 extension DynamicToDouble on dynamic {
-  double? converttoDouble() {
-    return this is int ? (this).toDouble() : (this as double?);
+  double? toDouble() {
+    return (this is num) ? (this as num).toDouble() : null;
   }
 }

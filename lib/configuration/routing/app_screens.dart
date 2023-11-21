@@ -14,4 +14,5 @@ class AppScreens {
   static const recipientVoucher = '/recipient_voucher_screen';
   static const paymentVoucher = '/payment_voucher_screen';
   static const newInvoice = '/new_invoices_screen';
+  static const invoicesMovement = '/invoices_movement_screen';
 }

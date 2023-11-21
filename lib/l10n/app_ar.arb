@@ -90,6 +90,11 @@
     "invoice_date": "تاريخ الفاتورة",
     "invoice_client": "العميل",
     "invoice_client_hint": "ابحث عن العميل",
+    "sub_total": "المبلغ الاولي",
+    "invoice_note": "ملاحظة",
+    "discount": "الخصم",
+    "taxs": "الضرائب",
+    "final_totoal": "المجموع النهائي",
     "product_search": "البحث عن مادة",
     "product_search_hint": "رمز.رقم تسلسلي.اسم",
     "search_by_name_result": "نتائج البحث عن اسم",
@@ -120,5 +125,7 @@
     "add": "اضافة",
     "invoice_product": "المادة",
     "invoice_unit": "الوحدة",
-    "invoice_price": "السعر"
+    "invoice_price": "السعر",
+    "start_date": "تاريخ الفاتورة (من)",
+    "end_date": "تاريخ الفاتورة (الى)"
 }

@@ -94,6 +94,11 @@
     "invoice_date": "Invoice date",
     "invoice_client": "Invoice client",
     "invoice_client_hint": "Search for client",
+    "sub_total": "Sub total",
+    "invoice_note": "Note",
+    "discount": "Discount",
+    "taxs": "Taxs",
+    "final_totoal": "Total",
     "product_search": "Search for product",
     "product_search_hint": "Code, Serial, Name",
     "search_by_name_result": "Search by name result",
@@ -124,5 +129,7 @@
     "add": "Add",
     "invoice_product": "Product",
     "invoice_unit": "unit",
-    "invoice_price": "Price"
+    "invoice_price": "Price",
+    "start_date": "Invoice date(from)",
+    "end_date": "Invoice date(to)"
 }

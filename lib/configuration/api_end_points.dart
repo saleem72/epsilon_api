@@ -14,11 +14,12 @@ class ApiEndPoints {
   static const getProducts = 'Products/GetProducts';
   static const getPrices = 'Products/GetPrices';
   static const getCurrency = 'Products/GetCurrencies';
+  static const productUnits = 'Products/GetUnits';
+  static const getPriceByUnit = 'Products/GetPriceByUnit';
 
   static const addEntry = 'Entries/AddEntry';
 
   static const invoiceTypes = 'Invoices/GetInvoiceTypes';
-  static const productUnits = 'Products/GetUnits';
-  static const getPriceByUnit = 'Products/GetPriceByUnit';
+  static const invoiceMovement = 'Invoices/GetInvoiceMovement';
   static const addInvoice = 'Invoices/AddInvoice';
 }
