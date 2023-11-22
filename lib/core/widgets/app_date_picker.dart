@@ -111,7 +111,7 @@ class DatePickerBubble extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
+      padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
@@ -138,7 +138,7 @@ class DatePickerBubble extends StatelessWidget {
               color: AppColors.primaryDark,
             ),
           ),
-          const SizedBox(width: 8),
+          const SizedBox(width: 4),
           const Icon(
             Icons.arrow_drop_down,
             size: 32,

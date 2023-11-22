@@ -62,13 +62,13 @@ class RouteGenerator {
         );
       case AppScreens.recipientVoucher:
         return MaterialPageRoute(
-          builder: (context) =>
-              const FinanceVoucherScreen(voucherType: VoucherType.recipient),
+          builder: (context) => const FinanceVoucherScreen(
+              voucherType: VoucherCategory.recipient),
         );
       case AppScreens.paymentVoucher:
         return MaterialPageRoute(
           builder: (context) =>
-              const FinanceVoucherScreen(voucherType: VoucherType.payment),
+              const FinanceVoucherScreen(voucherType: VoucherCategory.payment),
         );
       case AppScreens.newInvoice:
         return MaterialPageRoute(

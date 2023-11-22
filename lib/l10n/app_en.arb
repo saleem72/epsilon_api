@@ -126,6 +126,7 @@
     "balance_total": "Total Balance",
     "add_voucher_success": "The voucher was added successfully",
     "add_invoice_success": "The invoice was added successfully",
+    "voucher_type": "Voucher type",
     "add": "Add",
     "invoice_product": "Product",
     "invoice_unit": "unit",

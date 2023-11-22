@@ -5,6 +5,7 @@ import 'package:dartz/dartz.dart';
 import 'package:epsilon_api/core/domian/models/compact_customer.dart';
 import 'package:epsilon_api/core/domian/models/currency.dart';
 import 'package:epsilon_api/core/domian/models/voucher_primary_data.dart';
+import 'package:epsilon_api/core/domian/models/voucher_type.dart';
 
 import 'package:epsilon_api/core/errors/exceptions/object_exception_extension.dart';
 import 'package:epsilon_api/core/errors/failure.dart';
@@ -55,19 +56,32 @@ class FinanceVoucherRepository implements IFinanceVoucherRepository {
     return result;
   }
 
+  Future<List<VoucherType>> _innerVoucherTypes() async {
+    final list = await _miscService.getVoucherTypes();
+    final result = list.map((e) => e.toModel()).toList();
+    return result;
+  }
+
   @override
   Future<Either<Failure, VoucherPrimaryData>> fetchData() async {
     try {
       final currenciesReq = _innerCurrency();
       final usersReq = _innerCustomers();
-      final results = await Future.wait([currenciesReq, usersReq]);
+      final voucherTypesReq = _innerVoucherTypes();
+      final results =
+          await Future.wait([currenciesReq, usersReq, voucherTypesReq]);
       final currenciesResult = results[0];
       final customersResult = results[1];
+      final voucherTypesResult = results[2];
       List<Currency> currencies = currenciesResult as List<Currency>;
       List<CompactCustomer> customers =
           customersResult as List<CompactCustomer>;
-      final data =
-          VoucherPrimaryData(currencies: currencies, customers: customers);
+      List<VoucherType> voucherTypes = voucherTypesResult as List<VoucherType>;
+      final data = VoucherPrimaryData(
+        currencies: currencies,
+        customers: customers,
+        voucherTypes: voucherTypes,
+      );
       return right(data);
     } catch (e) {
       return left(e.toFailure());

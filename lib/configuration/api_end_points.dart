@@ -18,6 +18,7 @@ class ApiEndPoints {
   static const getPriceByUnit = 'Products/GetPriceByUnit';
 
   static const addEntry = 'Entries/AddEntry';
+  static const entryTypes = 'Entries/GetEntryTypes';
 
   static const invoiceTypes = 'Invoices/GetInvoiceTypes';
   static const invoiceMovement = 'Invoices/GetInvoiceMovement';

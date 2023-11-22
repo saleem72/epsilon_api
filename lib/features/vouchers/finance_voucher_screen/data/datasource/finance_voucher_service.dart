@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:epsilon_api/configuration/api_end_points.dart';
 import 'package:epsilon_api/core/data/dtos/add_new_voucher_response.dart';
+import 'package:epsilon_api/core/data/dtos/get_voucher_types_response.dart';
 import 'package:epsilon_api/core/errors/exceptions/app_exceptions.dart';
 import 'package:epsilon_api/core/helpers/api_helper/domain/api_helper.dart';
 import 'package:epsilon_api/core/helpers/safe.dart';
@@ -37,6 +38,30 @@ class FinanceVoucherService {
     );
 
     return _decodeResponse(response);
+  }
+
+  Future<List<VoucherTypeDTO>> getVoucherTypes() async {
+    final headers = {
+      "Authorization": "Bearer ${safe.getToken() ?? ''}",
+      "Accept": "application/json"
+    };
+
+    final url = '${safe.getHost()}/api/';
+
+    final response = await apiHelper.get(
+      url: url,
+      endPoint: ApiEndPoints.entryTypes,
+      headers: headers,
+      printResult: false,
+    );
+
+    return _decodeVoucherTypeResponse(response);
+  }
+
+  List<VoucherTypeDTO> _decodeVoucherTypeResponse(http.Response response) {
+    final str = response.body;
+    final data = getVoucherTypesResponseFromJson(str);
+    return data.data?.salesAndReturnTypes ?? [];
   }
 
   List<CurrencyDTO> _decodeResponse(http.Response response) {

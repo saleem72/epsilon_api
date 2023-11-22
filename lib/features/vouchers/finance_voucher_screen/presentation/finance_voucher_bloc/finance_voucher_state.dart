@@ -12,15 +12,19 @@ class FinanceVoucherState extends Equatable {
     required this.customerName,
     required this.currencies,
     required this.selectedCurrency,
-    required this.voucherType,
+    required this.voucherCategory,
     required this.isValid,
     required this.amount,
     required this.addedSuccessfully,
     required this.notes,
+    required this.voucherTypes,
+    required this.selectedType,
   });
 
   final PaymentMethod method;
   final DateTime selectedDate;
+  final List<VoucherType> voucherTypes;
+  final VoucherType? selectedType;
   final List<CompactCustomer> customers;
   final CompactCustomer? selectedCustomer;
   final Failure? failure;
@@ -28,11 +32,17 @@ class FinanceVoucherState extends Equatable {
   final String customerName;
   final List<Currency> currencies;
   final Currency? selectedCurrency;
-  final VoucherType? voucherType;
+  final VoucherCategory? voucherCategory;
   final bool isValid;
   final double amount;
   final int? addedSuccessfully;
   final String notes;
+
+  List<VoucherType> get availableTypes =>
+      voucherCategory == VoucherCategory.recipient
+          ? voucherTypes.where((element) => element.fldCredit == true).toList()
+          : voucherTypes.where((element) => element.fldDebit == true).toList();
+
   @override
   List<Object?> get props => [
         method,
@@ -48,6 +58,9 @@ class FinanceVoucherState extends Equatable {
         amount,
         addedSuccessfully,
         notes,
+        voucherCategory,
+        voucherTypes,
+        selectedType,
       ];
 
   factory FinanceVoucherState.initial() => FinanceVoucherState(
@@ -60,11 +73,13 @@ class FinanceVoucherState extends Equatable {
         customerName: '',
         currencies: const [],
         selectedCurrency: null,
-        voucherType: null,
+        voucherCategory: null,
         isValid: false,
         amount: 0,
         addedSuccessfully: null,
         notes: '',
+        voucherTypes: const [],
+        selectedType: null,
       );
 
   FinanceVoucherState copyWith({
@@ -80,12 +95,14 @@ class FinanceVoucherState extends Equatable {
     List<Currency>? currencies,
     bool? clearSelectedCurrency,
     Currency? selectedCurrency,
-    VoucherType? voucherType,
+    VoucherCategory? voucherCategory,
     double? amount,
     int? addedSuccessfully,
     bool? clearSuccess,
     String? notes,
-    // required bool isValid,
+    List<VoucherType>? voucherTypes,
+    VoucherType? selectedType,
+    bool clearSelectedType = false,
   }) {
     return FinanceVoucherState(
       method: method ?? this.method,
@@ -101,26 +118,39 @@ class FinanceVoucherState extends Equatable {
       selectedCurrency: clearSelectedCurrency == true
           ? null
           : selectedCurrency ?? this.selectedCurrency,
-      voucherType: voucherType ?? this.voucherType,
+      voucherCategory: voucherCategory ?? this.voucherCategory,
       amount: amount ?? this.amount,
       addedSuccessfully: clearSuccess == true
           ? null
           : addedSuccessfully ?? this.addedSuccessfully,
       isValid: _checkStatus(
-        customer: selectedCustomer ?? this.selectedCustomer,
-        currency: selectedCurrency ?? this.selectedCurrency,
+        customer: clearSelectedCutomer == true
+            ? null
+            : selectedCustomer ?? this.selectedCustomer,
+        currency: clearSelectedCurrency == true
+            ? null
+            : selectedCurrency ?? this.selectedCurrency,
+        tVoucherType:
+            clearSelectedType ? null : selectedType ?? this.selectedType,
         amount: amount ?? this.amount,
       ),
       notes: notes ?? this.notes,
+      voucherTypes: voucherTypes ?? this.voucherTypes,
+      selectedType:
+          clearSelectedType ? null : selectedType ?? this.selectedType,
     );
   }
 
   bool _checkStatus(
-      {CompactCustomer? customer, Currency? currency, required double amount}) {
+      {CompactCustomer? customer,
+      Currency? currency,
+      required double amount,
+      VoucherType? tVoucherType}) {
     final hasCustomer = customer != null;
     final hasCurrency = currency != null;
+    final hasType = tVoucherType != null;
     final validAmount = amount > 0;
-    return hasCurrency && hasCustomer && validAmount;
+    return hasCurrency && hasCustomer && validAmount && hasType;
   }
 
   NewVoucher toVoucher() {
@@ -131,8 +161,8 @@ class FinanceVoucherState extends Equatable {
         NewVoucherItem(
           customerid: selectedCustomer?.id ?? 0,
           accountId: selectedCustomer?.accountId ?? 0,
-          debit: voucherType == VoucherType.recipient ? 0 : amount,
-          credit: voucherType == VoucherType.recipient ? amount : 0,
+          debit: voucherCategory == VoucherCategory.recipient ? 0 : amount,
+          credit: voucherCategory == VoucherCategory.recipient ? amount : 0,
           currencyCode: selectedCurrency?.code ?? '',
           date: date,
           note: notes,
@@ -140,7 +170,7 @@ class FinanceVoucherState extends Equatable {
         ),
       ],
       date: date,
-      typeId: voucherType?.typeId ?? 1,
+      typeId: selectedType?.id ?? 1, // voucherCategory?.typeId ?? 1,
       currencyCode: selectedCurrency?.code ?? '',
       number: '',
       note: notes,

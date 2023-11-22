@@ -122,6 +122,7 @@
     "balance_total": "اجمالي رصيد",
     "add_voucher_success": "تم اضافة القيد بنجاح",
     "add_invoice_success": "تم اضافة الفاتورة بنجاح",
+    "voucher_type": "نوع السند",
     "add": "اضافة",
     "invoice_product": "المادة",
     "invoice_unit": "الوحدة",

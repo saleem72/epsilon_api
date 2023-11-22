@@ -7,12 +7,13 @@ import 'package:epsilon_api/core/domian/models/payment_method.dart';
 import 'package:epsilon_api/core/domian/models/voucher_type.dart';
 import 'package:epsilon_api/core/extensions/build_context_extension.dart';
 import 'package:epsilon_api/core/widgets/app_date_picker.dart';
+import 'package:epsilon_api/core/widgets/app_dropdown_button.dart';
 import 'package:epsilon_api/core/widgets/app_nav_bar.dart';
-import 'package:epsilon_api/core/widgets/dashed_line.dart';
 import 'package:epsilon_api/core/widgets/dotted_dropdown_text_field.dart';
 import 'package:epsilon_api/core/widgets/dotted_text_field.dart';
 import 'package:epsilon_api/core/widgets/gradient_button.dart';
 import 'package:epsilon_api/dependancy_injection.dart' as di;
+import 'package:epsilon_api/features/invoices/new_invoice/invoice_widgets.dart';
 import 'package:epsilon_api/features/vouchers/finance_voucher_screen/presentation/finance_voucher_bloc/finance_voucher_bloc.dart';
 import 'package:epsilon_api/features/vouchers/finance_voucher_screen/presentation/widgets/finance_voucher_loading_view.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,7 @@ class FinanceVoucherScreen extends StatelessWidget {
     super.key,
     required this.voucherType,
   });
-  final VoucherType voucherType;
+  final VoucherCategory voucherType;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +45,7 @@ class FinanceVoucherScreenContent extends StatefulWidget {
     super.key,
     required this.voucherType,
   });
-  final VoucherType voucherType;
+  final VoucherCategory voucherType;
 
   @override
   State<FinanceVoucherScreenContent> createState() =>
@@ -85,13 +86,6 @@ class _FinanceVoucherScreenContentState
   Scaffold _content() {
     return Scaffold(
       body: BlocBuilder<FinanceVoucherBloc, FinanceVoucherState>(
-        // listenWhen: (previous, current) =>
-        //     current.addedSuccessfully != previous.addedSuccessfully,
-        // listener: (context, state) {
-        //   if (state.addedSuccessfully) {
-        //     _showSuccessMessage();
-        //   }
-        // },
         builder: (context, state) {
           return Stack(
             children: [
@@ -116,7 +110,7 @@ class _FinanceVoucherScreenContentState
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AppNavBar(
-          title: widget.voucherType == VoucherType.recipient
+          title: widget.voucherType == VoucherCategory.recipient
               ? context.translate.recipient_voucher
               : context.translate.payment_voucher,
         ),
@@ -126,7 +120,22 @@ class _FinanceVoucherScreenContentState
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 16),
-                _datePicker(context, state.selectedDate),
+                Row(
+                  children: [
+                    Expanded(
+                      child: _datePicker(
+                        context,
+                        state.selectedDate,
+                      ),
+                    ),
+                    Expanded(
+                        child: _voucherTypesButton(
+                      context,
+                      state.availableTypes,
+                      state.selectedType,
+                    ))
+                  ],
+                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Column(
@@ -146,16 +155,6 @@ class _FinanceVoucherScreenContentState
                         },
                         fullFilled: state.selectedCustomer != null,
                       ),
-                      // const SizedBox(height: 32),
-                      // PaymentMethodSelector(
-                      //   onChange: (value) {
-                      //     context.read<FinanceVoucherBloc>().add(
-                      //         FinanceVoucherPaymentChangedEvent(method: value));
-                      //     // setState(() {
-                      //     //   method = value;
-                      //     // });
-                      //   },
-                      // ),
                       const SizedBox(height: 32),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.end,
@@ -243,9 +242,6 @@ class _FinanceVoucherScreenContentState
           context
               .read<FinanceVoucherBloc>()
               .add(FinanceVoucherDateChangedEvent(date: date));
-          // setState(() {
-          //   _selectedDate = date;
-          // });
         },
         child: DatePickerBubble(selectedDate: selectedDate),
       ),
@@ -254,81 +250,77 @@ class _FinanceVoucherScreenContentState
 
   Widget _dropdownButton(
       BuildContext context, List<Currency> list, Currency? selectedCurrency) {
-    // const List<String> list = <String>['One', 'Two', 'Three', 'Four'];
-    // Currency? dropdownValue = list.first;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            const SizedBox(width: 10),
-            Text(
-              context.translate.currency,
-              style: Topology.body.copyWith(
-                fontWeight: FontWeight.bold,
-                color: AppColors.primaryDark,
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 8),
-        SizedBox(
-          height: 32,
-          child: Stack(
-            alignment: Alignment.bottomCenter,
-            children: [
-              DashedLine(
-                color: selectedCurrency == null ? Colors.red : Colors.black,
-              ),
-              Row(
-                children: [
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton<Currency>(
-                        value: selectedCurrency,
-                        isExpanded: true,
-                        icon: const Icon(
-                          Icons.arrow_drop_down,
-                          color: AppColors.primaryDark,
-                          size: 32,
-                        ),
-                        elevation: 16,
-                        style: Topology.body.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.primaryDark,
-                        ),
-                        // underline: Container(
-                        //   height: 2,
-                        //   color: Colors.deepPurpleAccent,
-                        // ),
-                        onChanged: (Currency? value) {
-                          // This is called when the user selects an item.
-                          // setState(() {
-                          //   dropdownValue = value!;
-                          // });
-                          if (value != null) {
-                            context.read<FinanceVoucherBloc>().add(
-                                FinanceVoucherCurrencyChangedEvent(
-                                    currency: value));
-                          }
-                        },
-                        items: list.map<DropdownMenuItem<Currency>>((value) {
-                          return DropdownMenuItem<Currency>(
-                            value: value,
-                            child: Text(value.name),
-                          );
-                        }).toList(),
-                        // onChanged: (value) {},
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ],
+    return AppDropdownButton(
+      fullFilled: selectedCurrency != null,
+      dropdownButton: _currencyDrop(selectedCurrency, context, list),
+      label: context.translate.currency,
+    );
+  }
+
+  DropdownButton<Currency> _currencyDrop(
+      Currency? selectedCurrency, BuildContext context, List<Currency> list) {
+    return DropdownButton<Currency>(
+      value: selectedCurrency,
+      isExpanded: true,
+      icon: const Icon(
+        Icons.arrow_drop_down,
+        color: AppColors.primaryDark,
+        size: 32,
+      ),
+      elevation: 16,
+      style: Topology.body.copyWith(
+        fontWeight: FontWeight.bold,
+        color: AppColors.primaryDark,
+      ),
+      onChanged: (Currency? value) {
+        if (value != null) {
+          context
+              .read<FinanceVoucherBloc>()
+              .add(FinanceVoucherCurrencyChangedEvent(currency: value));
+        }
+      },
+      items: list.map<DropdownMenuItem<Currency>>((value) {
+        return DropdownMenuItem<Currency>(
+          value: value,
+          child: Text(value.name),
+        );
+      }).toList(),
+    );
+  }
+
+  Widget _voucherTypesButton(
+      BuildContext context, List<VoucherType> list, VoucherType? selectedType) {
+    return AppDropdownButton(
+      fullFilled: selectedType != null,
+      dropdownButton: _voucherTypesDrop(selectedType, context, list),
+      label: context.translate.voucher_type,
+    );
+  }
+
+  DropdownButton<VoucherType> _voucherTypesDrop(
+      VoucherType? selectedType, BuildContext context, List<VoucherType> list) {
+    return DropdownButton<VoucherType>(
+      value: selectedType,
+      isExpanded: true,
+      icon: const TriangleIcon(),
+      elevation: 16,
+      style: Topology.body.copyWith(
+        fontWeight: FontWeight.bold,
+        color: AppColors.primaryDark,
+      ),
+      onChanged: (VoucherType? value) {
+        if (value != null) {
+          context
+              .read<FinanceVoucherBloc>()
+              .add(FinanceVoucherTypeChangedEvent(voucherType: value));
+        }
+      },
+      items: list.map<DropdownMenuItem<VoucherType>>((value) {
+        return DropdownMenuItem<VoucherType>(
+          value: value,
+          child: Text(value.name),
+        );
+      }).toList(),
     );
   }
 }

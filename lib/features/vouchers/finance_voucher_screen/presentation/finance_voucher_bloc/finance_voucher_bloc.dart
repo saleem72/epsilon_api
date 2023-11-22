@@ -33,6 +33,7 @@ class FinanceVoucherBloc
     on<FinanceVoucherAmountChangedEvent>(_onAmountChanged);
     on<FinanceVoucherClearSuccessEvent>(_onClearSuccess);
     on<FinanceVoucherNotesChangedEvent>(_onNotesChange);
+    on<FinanceVoucherTypeChangedEvent>(_onTypeChane);
   }
 
   FutureOr<void> _onPaymentChanged(FinanceVoucherPaymentChangedEvent event,
@@ -70,7 +71,7 @@ class FinanceVoucherBloc
       Emitter<FinanceVoucherState> emit) async {
     emit(state.copyWith(
       isLoading: true,
-      voucherType: event.voucherType,
+      voucherCategory: event.voucherType,
     ));
     // final Future<Either<Failure, List<Currency>>> currenciesReq =
     //     _repository.getCurrency();
@@ -96,6 +97,7 @@ class FinanceVoucherBloc
       (data) => emit(state.copyWith(
         customers: data.customers,
         currencies: data.currencies,
+        voucherTypes: data.voucherTypes,
         isLoading: false,
       )),
     );
@@ -146,6 +148,7 @@ class FinanceVoucherBloc
       clearSuccess: true,
       clearSelectedCurrency: true,
       clearSelectedCutomer: true,
+      clearSelectedType: true,
       amount: 0,
       clearFailure: true,
       // voucherType: state.voucherType,
@@ -157,6 +160,11 @@ class FinanceVoucherBloc
   FutureOr<void> _onNotesChange(FinanceVoucherNotesChangedEvent event,
       Emitter<FinanceVoucherState> emit) {
     emit(state.copyWith(notes: event.value));
+  }
+
+  FutureOr<void> _onTypeChane(
+      FinanceVoucherTypeChangedEvent event, Emitter<FinanceVoucherState> emit) {
+    emit(state.copyWith(selectedType: event.voucherType));
   }
 }
 
