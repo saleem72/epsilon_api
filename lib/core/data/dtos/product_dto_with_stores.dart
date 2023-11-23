@@ -25,6 +25,7 @@ class ProductDTOWithStores {
       enduser2: product.price2 ?? 0,
       barcode: '',
       matunit: '',
+      imageBase64: product.document,
       stores: stores.map((e) => e.toStoreQuntity()).toList(),
     );
   }

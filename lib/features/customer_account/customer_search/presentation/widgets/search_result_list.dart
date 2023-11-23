@@ -8,14 +8,18 @@ import 'package:epsilon_api/features/customer_account/customer_search/presentati
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../old_serach_bloc/old_serach_bloc.dart';
 import 'old_search_tile.dart';
 import 'search_result_tile.dart';
 
 class SearchResultList extends StatelessWidget {
   const SearchResultList({
     super.key,
+    required this.onSubmit,
+    required this.onRemoveItem,
   }); //
-
+  final Function(String) onSubmit;
+  final Function(String) onRemoveItem;
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CustomerSearchBloc, CustomerSearchState>(
@@ -28,34 +32,45 @@ class SearchResultList extends StatelessWidget {
   }
 
   Widget _oldSearch(BuildContext context) {
-    // , List<Customer> customers
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return BlocBuilder<OldSearchBloc, OldSearchState>(
+      builder: (context, state) {
+        return Column(
           children: [
-            Text(
-              context.translate.old_research,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  context.translate.old_research,
+                ),
+                TextButton(
+                  onPressed: () => context
+                      .read<OldSearchBloc>()
+                      .add(OldSearchEvent.clearOldSearch()),
+                  child: Text(context.translate.clear_all),
+                ),
+              ],
             ),
-            TextButton(
-              onPressed: () {},
-              child: Text(context.translate.clear_all),
-            ),
+            state.oldSearch.isEmpty
+                ? const SizedBox.shrink()
+                : Expanded(
+                    child: ListView.builder(
+                      padding: EdgeInsets.zero,
+                      itemCount: state.oldSearch.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        final str = state.oldSearch[index];
+                        return GestureDetector(
+                          onTap: () => onSubmit(str),
+                          child: OldSearchTile(
+                            onClear: () => onRemoveItem(str),
+                            name: str,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
           ],
-        ),
-        Expanded(
-          child: ListView.builder(
-            padding: EdgeInsets.zero,
-            itemCount: 3,
-            itemBuilder: (BuildContext context, int index) {
-              return OldSearchTile(
-                onClear: () {},
-                name: 'خالد أحمد',
-              );
-            },
-          ),
-        ),
-      ],
+        );
+      },
     );
   }
 

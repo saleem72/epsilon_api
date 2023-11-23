@@ -1,5 +1,9 @@
 //
 
+import 'dart:convert';
+
+import 'package:flutter/foundation.dart';
+
 class ProductDetails {
   final int id;
   final String code;
@@ -9,6 +13,7 @@ class ProductDetails {
   final String unity;
   final String barcode;
   final String matunit;
+  final String? imageBase64;
   final List<StoreQuntity> stores;
 
   ProductDetails({
@@ -21,7 +26,11 @@ class ProductDetails {
     required this.barcode,
     required this.matunit,
     required this.stores,
+    required this.imageBase64,
   });
+
+  Uint8List? get memoryImage =>
+      imageBase64 == null ? null : const Base64Decoder().convert(imageBase64!);
 }
 
 class StoreQuntity {

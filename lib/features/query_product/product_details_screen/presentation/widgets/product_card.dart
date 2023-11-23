@@ -21,6 +21,24 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        product?.memoryImage == null
+            ? Container(
+                height: 100,
+                width: 100,
+                decoration: BoxDecoration(
+                  color: AppColors.primaryLight,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                alignment: Alignment.center,
+                child: const Icon(
+                  Icons.image,
+                  size: 80,
+                  color: Colors.white,
+                ))
+            : SizedBox(
+                height: 100,
+                width: 100,
+                child: Image.memory(product!.memoryImage!)),
         const SizedBox(height: 16),
         LabeledText(
           text: product?.code ?? '',

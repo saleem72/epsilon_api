@@ -25,6 +25,7 @@ class CustomerSearchBloc
   _onSearchByName(
       _SearchByName event, Emitter<CustomerSearchState> emit) async {
     final searchTerm = event.searchTerm;
+
     if (searchTerm.trim().isEmpty) {
       return;
     }

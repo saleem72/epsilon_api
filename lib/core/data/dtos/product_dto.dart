@@ -40,7 +40,7 @@ class ProductDto {
   double? unitFact;
   int? uRank;
   int? untId;
-  dynamic document;
+  String? document;
   int? serial;
   double? price;
   double? price2;
@@ -160,6 +160,7 @@ class ProductDto {
       enduser2: price2 ?? 0,
       barcode: '',
       matunit: '',
+      imageBase64: document,
       stores: [],
     );
   }

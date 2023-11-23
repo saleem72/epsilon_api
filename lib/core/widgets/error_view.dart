@@ -1,10 +1,13 @@
 //
 
+import 'package:epsilon_api/configuration/routing/app_screens.dart';
 import 'package:epsilon_api/configuration/styling/colors/app_colors.dart';
 import 'package:epsilon_api/configuration/styling/topology/topology.dart';
+import 'package:epsilon_api/core/blocs/auth_bloc/auth_bloc.dart';
 import 'package:epsilon_api/core/errors/failure.dart';
 import 'package:epsilon_api/core/extensions/build_context_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'gradient_button.dart';
 
@@ -103,12 +106,13 @@ class GeneralErrorView extends StatelessWidget {
                     GradientButton(
                       label: context.translate.try_again,
                       onPressed: () {
-                        onAction();
-                        // if (failure is UnAuthorizedFailure) {
-                        //   context.read<AuthBloc>().add(AuthEvent.logout());
-                        //   context.navigator
-                        //       .pushReplacementNamed(AppScreens.login);
-                        // }
+                        if (failure is UnAuthorizedFailure) {
+                          context.read<AuthBloc>().add(AuthEvent.logout());
+                          context.navigator
+                              .pushReplacementNamed(AppScreens.login);
+                        } else {
+                          onAction();
+                        }
                       },
                     ),
                   ],

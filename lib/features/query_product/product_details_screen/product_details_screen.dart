@@ -110,8 +110,10 @@ class ProductDetailsBaseWidget extends StatelessWidget {
   const ProductDetailsBaseWidget({
     super.key,
     required this.child,
+    // required this.product,
   });
   final Widget child;
+  // final ProductDetails? product;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -119,20 +121,6 @@ class ProductDetailsBaseWidget extends StatelessWidget {
         children: [
           AppNavBar(title: context.translate.query_subject_screen),
           const SizedBox(height: 16),
-          Container(
-            height: 100,
-            width: 100,
-            decoration: BoxDecoration(
-              color: AppColors.primaryLight,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            alignment: Alignment.center,
-            child: const Icon(
-              Icons.image,
-              size: 80,
-              color: Colors.white,
-            ),
-          ),
           child,
         ],
       ),

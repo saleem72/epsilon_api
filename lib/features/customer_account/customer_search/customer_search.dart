@@ -5,6 +5,7 @@ import 'package:epsilon_api/core/extensions/num_extension.dart';
 import 'package:epsilon_api/core/widgets/app_nav_bar.dart';
 import 'package:epsilon_api/dependancy_injection.dart' as di;
 import 'package:epsilon_api/features/customer_account/customer_search/presentation/customer_search_bloc/customer_search_bloc.dart';
+import 'package:epsilon_api/features/customer_account/customer_search/presentation/old_serach_bloc/old_serach_bloc.dart';
 import 'package:epsilon_api/features/customer_account/customer_search/presentation/widgets/customer_error_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,8 +20,15 @@ class CustomerSearch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<CustomerSearchBloc>(
-      create: (_) => di.locator(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<CustomerSearchBloc>(
+          create: (_) => di.locator(),
+        ),
+        BlocProvider<OldSearchBloc>(
+          create: (context) => di.locator(),
+        ),
+      ],
       child: const CustomerSearchContent(),
     );
   }
@@ -68,11 +76,20 @@ class CustomerSearchContent extends StatelessWidget {
   }
 
   Widget _content(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         children: [
-          SearchResultList(),
+          SearchResultList(
+            onSubmit: (value) {
+              context
+                  .read<OldSearchBloc>()
+                  .add(OldSearchEvent.searchTermHasChanged(searchTerm: value));
+            },
+            onRemoveItem: (value) => context
+                .read<OldSearchBloc>()
+                .add(OldSearchEvent.removeFromOldSearch(searchTerm: value)),
+          ),
         ],
       ),
     );

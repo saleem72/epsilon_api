@@ -1,5 +1,7 @@
 //
 
+import 'dart:convert';
+
 import 'package:epsilon_api/core/domian/models/company.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,6 +23,7 @@ class SafeKeys {
 
   static const String host = 'epsilon_host';
   static const String company = 'epsilon_company';
+  static const String oldSearch = 'epsilpon_old_search';
 }
 
 enum AuthOption { none, home, login }
@@ -131,5 +134,22 @@ class Safe {
   Company getCompany() {
     final companyId = _storage.getInt(SafeKeys.company) ?? 1;
     return Company.fromValue(companyId);
+  }
+
+  Future setOldSearch(List<String> oldSeach) async {
+    final str = jsonEncode(oldSeach);
+    await _storage.setString(SafeKeys.oldSearch, str);
+  }
+
+  List<String> getOldSearch() {
+    final str = _storage.getString(SafeKeys.oldSearch);
+    final result =
+        str == null ? List<String>.empty() : List<String>.from(jsonDecode(str));
+
+    return result.map((e) => e).toList();
+  }
+
+  Future clearOldSearch() async {
+    await _storage.remove(SafeKeys.oldSearch);
   }
 }

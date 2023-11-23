@@ -70,7 +70,7 @@ class _FinanceVoucherScreenContentState
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        _content(),
+        _mainScaffold(),
         const FinanceVoucherFailureView(),
         const FinanceVoucherLoadingView(),
       ],
@@ -83,7 +83,7 @@ class _FinanceVoucherScreenContentState
     _notes.clear();
   }
 
-  Scaffold _content() {
+  Scaffold _mainScaffold() {
     return Scaffold(
       body: BlocBuilder<FinanceVoucherBloc, FinanceVoucherState>(
         builder: (context, state) {
