@@ -82,25 +82,44 @@ class _DropdownTextFieldState extends State<DropdownTextField> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
       ),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            ...filtered.map(
-              (e) => ListTile(
-                title: Text(e),
-                onTap: () async {
-                  widget.onSelection(e);
-                  setState(() {
-                    isEditing = false;
-                  });
-                  widget.controller.text = e;
-                  hideOverlay();
-                  focusNode.unfocus();
-                },
-              ),
-            )
-          ],
-        ),
+      // child: SingleChildScrollView(
+      //   child: Column(
+      //     children: [
+      //       ...filtered.map(
+      //         (e) => ListTile(
+      //           title: Text(e),
+      // onTap: () async {
+      //   widget.onSelection(e);
+      //   setState(() {
+      //     isEditing = false;
+      //   });
+      //   widget.controller.text = e;
+      //   hideOverlay();
+      //   focusNode.unfocus();
+      // },
+      //         ),
+      //       )
+      //     ],
+      //   ),
+      // ),
+      child: ListView.builder(
+        padding: EdgeInsets.zero,
+        itemCount: filtered.length,
+        itemBuilder: (BuildContext context, int index) {
+          final str = filtered[index];
+          return ListTile(
+            title: Text(str),
+            onTap: () async {
+              widget.onSelection(str);
+              setState(() {
+                isEditing = false;
+              });
+              widget.controller.text = str;
+              hideOverlay();
+              focusNode.unfocus();
+            },
+          );
+        },
       ),
     );
   }
