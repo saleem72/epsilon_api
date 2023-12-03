@@ -46,7 +46,10 @@ class LabledValidateTextFIeld extends StatelessWidget {
       children: [
         Text(
           label,
-          style: labelStyle ?? Topology.subTitle,
+          style: labelStyle ??
+              Topology.subTitle.copyWith(
+                color: AppColors.primaryDark,
+              ),
         ),
         const SizedBox(height: 10),
         AppTextField(
@@ -162,12 +165,16 @@ class _AppTextFieldState extends State<AppTextField> {
                       enableSuggestions: false,
                       autocorrect: false,
                       onChanged: (value) => widget.onChange(value),
-                      style: Topology.subTitle,
+                      style: Topology.subTitle.copyWith(
+                        color: AppColors.primaryDark,
+                        // fontWeight: FontWeight.w600,
+                        height: 1.2,
+                      ),
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: widget.hint,
-                        hintStyle: Topology.subTitle
-                            .copyWith(color: AppColors.secondary),
+                        hintStyle: Topology.subTitle.copyWith(
+                            color: AppColors.primaryDark.withOpacity(0.6)),
                       ),
                     ),
                   ),

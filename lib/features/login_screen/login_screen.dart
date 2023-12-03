@@ -12,8 +12,8 @@ import 'package:epsilon_api/core/widgets/app_decoration_image.dart';
 import 'package:epsilon_api/core/widgets/app_nav_bar.dart';
 import 'package:epsilon_api/core/widgets/app_text_field.dart';
 import 'package:epsilon_api/core/widgets/error_view.dart';
+import 'package:epsilon_api/core/widgets/general_loading_view.dart';
 import 'package:epsilon_api/core/widgets/gradient_button.dart';
-import 'package:epsilon_api/core/widgets/loading_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -79,7 +79,7 @@ class _LoginScreenContentState extends State<LoginScreenContent> {
             children: [
               _decorationImage(),
               _content(context, state),
-              LoadingView(isLoading: state.isLoading),
+              if (state.isLoading) const GeneralLoadingView(),
               _errorView(context, state.failure),
             ],
           ),

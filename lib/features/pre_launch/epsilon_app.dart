@@ -28,9 +28,16 @@ class _EpsilonAppState extends State<EpsilonApp> {
       theme: appLightTheme,
       // onGenerateRoute: RouteGenerator.generate,
       // initialRoute: AppScreens.initial,
-      home: WillPopScope(
-        onWillPop: () async =>
-            !((await _navigatorKey.currentState?.maybePop()) ?? true),
+      home: PopScope(
+        canPop: false,
+        onPopInvoked: (bool didPop) {
+          if (didPop) {
+            return;
+          }
+          // _showBackDialog();
+        },
+        // onWillPop: () async =>
+        //     !((await _navigatorKey.currentState?.maybePop()) ?? true),
         child: LayoutBuilder(
           builder: (context, constraints) {
             WidgetsBinding.instance

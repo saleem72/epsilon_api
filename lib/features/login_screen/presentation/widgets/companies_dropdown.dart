@@ -35,7 +35,9 @@ class _CompaniesDropDownState extends State<CompaniesDropDown> {
       children: [
         Text(
           context.translate.company,
-          style: Topology.subTitle,
+          style: Topology.subTitle.copyWith(
+            color: AppColors.primaryDark,
+          ),
         ),
         const SizedBox(height: 10),
         _moreMenu(context),
@@ -75,12 +77,12 @@ class _CompaniesDropDownState extends State<CompaniesDropDown> {
                         Text(
                           context.translate.company_hint,
                           style: Topology.subTitle.copyWith(
-                            color: AppColors.secondary,
+                            color: AppColors.primaryDark,
                           ),
                         ),
                         const Icon(
                           Icons.arrow_drop_down,
-                          color: AppColors.secondary,
+                          color: AppColors.primaryDark,
                         ),
                       ],
                     ),
@@ -90,13 +92,13 @@ class _CompaniesDropDownState extends State<CompaniesDropDown> {
                       Text(
                         _value!.title(context),
                         style: Topology.subTitle.copyWith(
-                          color: AppColors.textDark,
+                          color: AppColors.primaryDark,
                         ),
                       ),
                       // const SizedBox(width: 8),
                       const Icon(
                         Icons.arrow_drop_down,
-                        color: AppColors.textDark,
+                        color: AppColors.primaryDark,
                       ),
                     ],
                   ),

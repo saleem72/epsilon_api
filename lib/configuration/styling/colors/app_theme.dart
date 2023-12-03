@@ -21,6 +21,12 @@ void setStatusBarAndNavigationBarColor(ThemeMode themeMode) {
 
 final ColorScheme appLightColorScheme = ColorScheme(
   brightness: Brightness.light,
+
+  // cardTheme: CardTheme(
+  //     color: Colors.pink,
+  //     surfaceTintColor: Colors.green,
+  //     shadowColor: Colors.blue,
+  //   ),
   primary: AppColors.primaryDark.toMaterialColor().shade400,
   onPrimary: Colors.white,
   primaryContainer: AppColors.primaryDark.toMaterialColor().shade900,
@@ -53,7 +59,15 @@ final ColorScheme appLightColorScheme = ColorScheme(
 );
 
 ThemeData appLightTheme = ThemeData(
-  colorScheme: appLightColorScheme,
+  useMaterial3: false,
+  // primarySwatch: Colors.grey,
+  // cardTheme: CardTheme(
+  //   color: Colors.pink,
+  //   surfaceTintColor: Colors.green,
+  //   shadowColor: Colors.blue,
+  // ),
+  colorScheme: ColorScheme.fromSeed(
+      seedColor: AppColors.primaryDark), // appLightColorScheme,
   scaffoldBackgroundColor: const Color(0xFFF1F1F1), // AppColors.neutral90,
   fontFamily: 'Tajawal',
 );

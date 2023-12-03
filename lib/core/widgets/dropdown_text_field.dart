@@ -108,7 +108,13 @@ class _DropdownTextFieldState extends State<DropdownTextField> {
         itemBuilder: (BuildContext context, int index) {
           final str = filtered[index];
           return ListTile(
-            title: Text(str),
+            title: Text(
+              str,
+              style: Topology.body.copyWith(
+                fontWeight: FontWeight.bold,
+                color: AppColors.primaryDark,
+              ),
+            ),
             onTap: () async {
               widget.onSelection(str);
               setState(() {
