@@ -23,6 +23,8 @@ class InvoiceState extends Equatable {
   final bool isItemReady;
   final bool isInvoiceReady;
 
+  final bool showMain;
+
   final bool hasAddedItem;
   final int? addedSuccessfully;
 
@@ -49,6 +51,7 @@ class InvoiceState extends Equatable {
     required this.hasAddedItem,
     required this.isInvoiceReady,
     required this.addedSuccessfully,
+    required this.showMain,
   });
 
   factory InvoiceState.initial() => InvoiceState(
@@ -69,6 +72,7 @@ class InvoiceState extends Equatable {
         hasAddedItem: false,
         isInvoiceReady: false,
         addedSuccessfully: null,
+        showMain: true,
       );
 
   @override
@@ -90,6 +94,7 @@ class InvoiceState extends Equatable {
         hasAddedItem,
         isInvoiceReady,
         addedSuccessfully,
+        showMain,
       ];
 
   InvoiceState copyWith({
@@ -115,6 +120,7 @@ class InvoiceState extends Equatable {
     bool? hasAddedItem,
     int? addedSuccessfully,
     bool clearSuccess = false,
+    bool? showMain,
   }) {
     return InvoiceState(
       isLoading: isLoading ?? this.isLoading,
@@ -150,6 +156,7 @@ class InvoiceState extends Equatable {
       addedSuccessfully: clearSuccess == true
           ? null
           : addedSuccessfully ?? this.addedSuccessfully,
+      showMain: showMain ?? this.showMain,
     );
   }
 

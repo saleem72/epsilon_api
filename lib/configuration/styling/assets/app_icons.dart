@@ -26,4 +26,6 @@ class AppIcons {
   static const invoiceNum = '${_imagesPath}invoice_num.png';
   static const calender = '${_imagesPath}calender.png';
   static const client = '${_imagesPath}client.png';
+  static const plus = '${_imagesPath}plus.png';
+  static const createPDF = '${_imagesPath}download_pdf.png';
 }

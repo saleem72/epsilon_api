@@ -107,6 +107,7 @@
     "units": "Units",
     "add_to_invoice": "Add product to invoice",
     "create_invoice": "Add invoice",
+    "create_pdf": "Add & save PDF",
 
     "currency": "Currency",
     "bill_amount": "Amount",
@@ -134,4 +135,5 @@
     "start_date": "Invoice date(from)",
     "end_date": "Invoice date(to)",
     "sum": "Sum"
+   
 }

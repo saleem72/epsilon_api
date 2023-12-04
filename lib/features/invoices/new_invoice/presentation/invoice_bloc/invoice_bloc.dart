@@ -37,7 +37,9 @@ class InvoiceBloc extends Bloc<InvoiceEvent, InvoiceState> {
     on<InvoiceClearItemRelatedEvent>(_onClearItemRelated);
     on<InvoiceRemoveItemEvent>(_onRemoveItem);
     on<InvoiceCreateInvoiceEvent>(_onCreateInvoice);
+    on<InvoiceCreateInvoiceWithPDFEvent>(_onCreateInvoiceWithPDF);
     on<InvoiceClearSuccessEvent>(_onClearSuccess);
+    on<InvoiceFlipViewsEvent>(_onFlipViews);
   }
 
   FutureOr<void> _onFetchData(
@@ -261,6 +263,20 @@ class InvoiceBloc extends Bloc<InvoiceEvent, InvoiceState> {
     );
   }
 
+  FutureOr<void> _onCreateInvoiceWithPDF(InvoiceCreateInvoiceWithPDFEvent event,
+      Emitter<InvoiceState> emit) async {
+    final invoice = state.toInvoice();
+    emit(state.copyWith(isLoading: true));
+    final either = await _repository.createInvoice(invoice);
+    either.fold(
+      (failure) => emit(state.copyWith(failure: failure, isLoading: false)),
+      (id) => emit(state.copyWith(
+        addedSuccessfully: id,
+        isLoading: false,
+      )),
+    );
+  }
+
   FutureOr<void> _onClearSuccess(
       InvoiceClearSuccessEvent event, Emitter<InvoiceState> emit) {
     emit(state.copyWith(
@@ -274,5 +290,10 @@ class InvoiceBloc extends Bloc<InvoiceEvent, InvoiceState> {
       quantity: 0,
       clearFailure: true,
     ));
+  }
+
+  FutureOr<void> _onFlipViews(
+      InvoiceFlipViewsEvent event, Emitter<InvoiceState> emit) {
+    emit(state.copyWith(showMain: event.value));
   }
 }

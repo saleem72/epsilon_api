@@ -1,7 +1,10 @@
 //
 
+import 'package:epsilon_api/configuration/styling/assets/app_icons.dart';
 import 'package:epsilon_api/core/widgets/app_dropdown_button.dart';
 import 'package:epsilon_api/core/widgets/app_small_button.dart';
+import 'package:epsilon_api/core/widgets/circle_button.dart';
+import 'package:epsilon_api/core/widgets/flipping_button.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:epsilon_api/dependancy_injection.dart' as di;
 import 'package:epsilon_api/core/domian/models/product_unit.dart';
@@ -91,28 +94,115 @@ class _AddInvoicesContentScreenState extends State<AddInvoicesContentScreen> {
       body: Column(
         children: [
           AppNavBar(title: context.translate.invoice),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: BlocConsumer<InvoiceBloc, InvoiceState>(
-                  // listenWhen: (previous, current) =>
-                  //     previous.hasAddedItem != current.hasAddedItem,
-                  listener: (context, state) {
-                    if (state.hasAddedItem) {
-                      _itemHasAdded();
-                      context
-                          .read<InvoiceBloc>()
-                          .add(InvoiceClearItemRelatedEvent());
-                    }
-                  },
-                  builder: (context, state) {
-                    return _mainContent(context, state);
+          BlocConsumer<InvoiceBloc, InvoiceState>(
+            // listenWhen: (previous, current) =>
+            //     previous.hasAddedItem != current.hasAddedItem,
+            listener: (context, state) {
+              if (state.hasAddedItem) {
+                _itemHasAdded();
+                context.read<InvoiceBloc>().add(InvoiceClearItemRelatedEvent());
+              }
+            },
+            builder: (context, state) {
+              return _viewLayers(state);
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _viewLayers(InvoiceState state) {
+    return Expanded(
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          AnimatedCrossFade(
+            duration: const Duration(milliseconds: 500),
+            firstChild: Container(
+              key: const ValueKey('main_view'),
+              child: _mainView(state),
+            ),
+            secondChild: _extraButtons(),
+            crossFadeState: state.showMain
+                ? CrossFadeState.showFirst
+                : CrossFadeState.showSecond,
+          ),
+          Positioned(
+            bottom: 32,
+            right: 16,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                AddInvoiceFlipButton(
+                  isEnabled: state.isInvoiceReady,
+                  initialValue: state.showMain,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _mainView(InvoiceState state) {
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: _mainContent(context, state),
+      ),
+    );
+  }
+
+  Widget _extraButtons() {
+    return Container(
+      key: const ValueKey('extra_buttons'),
+      // color: Colors.green,
+      height: double.maxFinite,
+      alignment: Alignment.center,
+      child: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                CircleButton(
+                  image: AppIcons.createPDF,
+                  label: context.translate.create_pdf,
+                  onPress: () {
+                    context
+                        .read<InvoiceBloc>()
+                        .add(const InvoiceFlipViewsEvent(value: true));
+                    context
+                        .read<InvoiceBloc>()
+                        .add(InvoiceCreateInvoiceWithPDFEvent());
                   },
                 ),
-              ),
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    CircleButton(
+                      image: AppIcons.plus,
+                      label: context.translate.create_invoice,
+                      onPress: () {
+                        context
+                            .read<InvoiceBloc>()
+                            .add(const InvoiceFlipViewsEvent(value: true));
+                        context
+                            .read<InvoiceBloc>()
+                            .add(InvoiceCreateInvoiceEvent());
+                      },
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 120),
+              ],
             ),
-          )
+          ),
+          const Expanded(child: SizedBox.shrink()),
         ],
       ),
     );
@@ -167,8 +257,8 @@ class _AddInvoicesContentScreenState extends State<AddInvoicesContentScreen> {
         const SizedBox(height: 16),
         InvoiceItemListUi(invoiceItems: state.invoiceItems),
         const SizedBox(height: 16),
-        _createInvoiceButton(context, state.isInvoiceReady, state.invoiceTotal),
-        const SizedBox(height: 32),
+        // _createInvoiceButton(context, state.isInvoiceReady, state.invoiceTotal),
+        // const SizedBox(height: 32),
       ],
     );
   }
@@ -354,6 +444,28 @@ class _AddInvoicesContentScreenState extends State<AddInvoicesContentScreen> {
           child: Text(value.name),
         );
       }).toList(),
+    );
+  }
+}
+
+class AddInvoiceFlipButton extends StatelessWidget {
+  const AddInvoiceFlipButton({
+    super.key,
+    required this.isEnabled,
+    required this.initialValue,
+  });
+
+  final bool isEnabled;
+  final bool initialValue;
+
+  @override
+  Widget build(BuildContext context) {
+    return FlippingButton(
+      initialValue: initialValue,
+      isEnabled: isEnabled,
+      onPress: (forward) {
+        context.read<InvoiceBloc>().add(InvoiceFlipViewsEvent(value: forward));
+      },
     );
   }
 }

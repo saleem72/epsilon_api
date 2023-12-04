@@ -102,4 +102,15 @@ class InvoiceRemoveItemEvent extends InvoiceEvent {
 
 class InvoiceCreateInvoiceEvent extends InvoiceEvent {}
 
+class InvoiceCreateInvoiceWithPDFEvent extends InvoiceEvent {}
+
 class InvoiceClearSuccessEvent extends InvoiceEvent {}
+
+class InvoiceFlipViewsEvent extends InvoiceEvent {
+  final bool value;
+  const InvoiceFlipViewsEvent({
+    required this.value,
+  });
+  @override
+  List<Object> get props => [value];
+}
