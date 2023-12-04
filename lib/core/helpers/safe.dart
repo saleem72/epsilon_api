@@ -24,6 +24,7 @@ class SafeKeys {
   static const String host = 'epsilon_host';
   static const String company = 'epsilon_company';
   static const String oldSearch = 'epsilpon_old_search';
+  static const String savedPrices = 'epsilon_saved_prices';
 }
 
 enum AuthOption { none, home, login }
@@ -151,5 +152,18 @@ class Safe {
 
   Future clearOldSearch() async {
     await _storage.remove(SafeKeys.oldSearch);
+  }
+
+  Future savePrices({required List<int> pricesIds}) async {
+    final str = jsonEncode(pricesIds);
+    await _storage.setString(SafeKeys.savedPrices, str);
+  }
+
+  List<int> getSavedPrices() {
+    final str = _storage.getString(SafeKeys.savedPrices);
+    final result =
+        str == null ? List<int>.empty() : List<int>.from(jsonDecode(str));
+
+    return result.map((e) => e).toList();
   }
 }

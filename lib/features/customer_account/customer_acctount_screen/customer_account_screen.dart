@@ -324,15 +324,15 @@ class BalanceListView extends StatelessWidget {
             TableCell(
               verticalAlignment: TableCellVerticalAlignment.middle,
               child: SizedBox(
-                height: 32,
+                height: 40,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Expanded(
                       child: Text(
-                        context.translate.debit_total,
+                        '${context.translate.debit_total} (${currency?.name})',
                         textAlign: TextAlign.center,
-                        style: boldText,
+                        style: boldText?.copyWith(fontSize: 14),
                       ),
                     ),
                   ],
@@ -344,9 +344,12 @@ class BalanceListView extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    context.translate.credit_total,
-                    style: boldText,
+                  Expanded(
+                    child: Text(
+                      '${context.translate.credit_total} (${currency?.name})',
+                      textAlign: TextAlign.center,
+                      style: boldText?.copyWith(fontSize: 14),
+                    ),
                   ),
                 ],
               ),
@@ -357,8 +360,9 @@ class BalanceListView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    context.translate.balance_total,
-                    style: boldText,
+                    '${context.translate.balance_total}(${currency?.name})',
+                    textAlign: TextAlign.center,
+                    style: boldText?.copyWith(fontSize: 14),
                   ),
                 ],
               ),
@@ -422,19 +426,9 @@ class BalanceListView extends StatelessWidget {
 
     return value == 0
         ? const SizedBox.shrink()
-        : Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                currency?.name ?? '',
-                style: normText,
-              ),
-              const SizedBox(width: 4),
-              Text(
-                numberFormatter.format(value),
-                style: normText,
-              )
-            ],
+        : Text(
+            numberFormatter.format(value),
+            style: normText,
           );
   }
 
@@ -445,19 +439,9 @@ class BalanceListView extends StatelessWidget {
 
     return value == 0
         ? const SizedBox.shrink()
-        : Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                currency?.name ?? '',
-                style: normText,
-              ),
-              const SizedBox(width: 4),
-              Text(
-                numberFormatter.format(value),
-                style: normText,
-              )
-            ],
+        : Text(
+            numberFormatter.format(value),
+            style: normText,
           );
   }
 
@@ -468,19 +452,9 @@ class BalanceListView extends StatelessWidget {
 
     return value == 0
         ? const SizedBox.shrink()
-        : Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                currency?.name ?? '',
-                style: normText,
-              ),
-              const SizedBox(width: 4),
-              Text(
-                numberFormatter.format(value),
-                style: normText,
-              )
-            ],
+        : Text(
+            numberFormatter.format(value),
+            style: normText,
           );
   }
 }
@@ -507,13 +481,13 @@ class BalanceTile extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        _numberCurrency(context, boldText, currency),
         Table(
           border: TableBorder.all(),
           columnWidths: const <int, TableColumnWidth>{
-            0: FixedColumnWidth(80),
-            1: FlexColumnWidth(2),
-            2: FlexColumnWidth(2),
-            3: FlexColumnWidth(2),
+            1: FlexColumnWidth(),
+            2: FlexColumnWidth(),
+            3: FlexColumnWidth(),
           },
           defaultVerticalAlignment: TableCellVerticalAlignment.middle,
           children: <TableRow>[
@@ -525,25 +499,15 @@ class BalanceTile extends StatelessWidget {
                 TableCell(
                   verticalAlignment: TableCellVerticalAlignment.middle,
                   child: Row(
-                    children: [
-                      const SizedBox(width: 4),
-                      Expanded(
-                        child: Text(
-                          context.translate.number,
-                          style: boldText,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                TableCell(
-                  verticalAlignment: TableCellVerticalAlignment.middle,
-                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        context.translate.debit,
-                        style: boldText,
+                      Container(
+                        alignment: Alignment.center,
+                        height: 32,
+                        child: Text(
+                          context.translate.debit,
+                          style: boldText,
+                        ),
                       ),
                     ],
                   ),
@@ -562,40 +526,20 @@ class BalanceTile extends StatelessWidget {
                 ),
                 TableCell(
                   verticalAlignment: TableCellVerticalAlignment.middle,
-                  child: SizedBox(
-                    height: 32,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          context.translate.balance,
-                          style: boldText,
-                        ),
-                      ],
-                    ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        context.translate.balance,
+                        style: boldText,
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
             TableRow(
               children: <Widget>[
-                TableCell(
-                  verticalAlignment: TableCellVerticalAlignment.middle,
-                  child: SizedBox(
-                    height: 32,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Flexible(
-                          child: Text(
-                            balance.number ?? '',
-                            style: normText,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
                 TableCell(
                   verticalAlignment: TableCellVerticalAlignment.middle,
                   child: SizedBox(
@@ -642,6 +586,7 @@ class BalanceTile extends StatelessWidget {
             ),
           ],
         ),
+        // _blanceLine(context, boldText, numberFormatter),
         _originLine(context, boldText, dateFormatter),
         _notesLine(context, boldText),
       ],
@@ -653,40 +598,9 @@ class BalanceTile extends StatelessWidget {
 
     return value == '0'
         ? const SizedBox.shrink()
-        : Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                currency?.name ?? '',
-                style: normText,
-              ),
-              const SizedBox(width: 4),
-              Text(
-                value,
-                style: normText,
-              )
-            ],
-          );
-  }
-
-  Widget _balanceValue(TextStyle? normText, intl.NumberFormat numberFormatter) {
-    final value = numberFormatter.format(balance.balance);
-
-    return value == '0'
-        ? const SizedBox.shrink()
-        : Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                currency?.name ?? '',
-                style: normText,
-              ),
-              const SizedBox(width: 4),
-              Text(
-                value,
-                style: normText,
-              )
-            ],
+        : Text(
+            value,
+            style: normText,
           );
   }
 
@@ -695,19 +609,20 @@ class BalanceTile extends StatelessWidget {
 
     return value == '0'
         ? const SizedBox.shrink()
-        : Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                currency?.name ?? '',
-                style: normText,
-              ),
-              const SizedBox(width: 4),
-              Text(
-                value,
-                style: normText,
-              )
-            ],
+        : Text(
+            value,
+            style: normText,
+          );
+  }
+
+  Widget _balanceValue(TextStyle? normText, intl.NumberFormat numberFormatter) {
+    final value = numberFormatter.format(balance.balance);
+
+    return value == '0'
+        ? const SizedBox.shrink()
+        : Text(
+            value,
+            style: normText,
           );
   }
 
@@ -777,6 +692,84 @@ class BalanceTile extends StatelessWidget {
                   child: Text(balance.date == null
                       ? ''
                       : dateFormatter.format(balance.date!)),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _blanceLine(BuildContext context, TextStyle? boldText,
+      intl.NumberFormat dateFormatter) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: const BoxDecoration(
+        border: Border(
+          bottom: BorderSide(),
+          left: BorderSide(),
+          right: BorderSide(),
+        ),
+      ),
+      child: Row(
+        children: [
+          Text(
+            context.translate.balance,
+            style: boldText,
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              dateFormatter.format(balance.balance),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _numberCurrency(
+      BuildContext context, TextStyle? boldText, Currency? currency) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: const BoxDecoration(
+        border: Border(
+          top: BorderSide(),
+          left: BorderSide(),
+          right: BorderSide(),
+        ),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Row(
+              children: [
+                Text(
+                  context.translate.number,
+                  style: boldText,
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    balance.number ?? '',
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: Row(
+              children: [
+                Text(
+                  context.translate.currency,
+                  style: boldText,
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    currency == null ? '' : currency.name,
+                  ),
                 ),
               ],
             ),

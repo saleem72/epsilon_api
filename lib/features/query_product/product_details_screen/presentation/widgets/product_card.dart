@@ -59,7 +59,7 @@ class ProductCard extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         LabeledText(
-          text: product?.name ?? '',
+          text: product?.spec ?? '',
           label: context.translate.subject_properties,
           icon: AppIcons.properties,
         ),
@@ -144,36 +144,76 @@ class ProductCard extends StatelessWidget {
   }
 
   Widget _quantitiesTable(BuildContext context, List<StoreQuntity> stores) {
-    return Table(
-      border: TableBorder.all(
-        color: AppColors.primaryLight,
-      ),
-      columnWidths: const <int, TableColumnWidth>{
-        0: FlexColumnWidth(), //IntrinsicColumnWidth(),
-        1: FlexColumnWidth(),
-      },
-      defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-      children: <TableRow>[
-        TableRow(
-          children: <Widget>[
-            TableCell(
-              verticalAlignment: TableCellVerticalAlignment.middle,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: TableCellContent(text: context.translate.subject_store),
-              ),
+    final quantity = stores.fold<double>(
+        0, (previousValue, element) => previousValue + element.quantity);
+    final formatter = NumberFormat('#,##0.##');
+    return Column(
+      children: [
+        Table(
+          border: TableBorder.all(
+            color: AppColors.primaryLight,
+          ),
+          columnWidths: const <int, TableColumnWidth>{
+            0: FlexColumnWidth(), //IntrinsicColumnWidth(),
+            1: FlexColumnWidth(),
+          },
+          defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+          children: <TableRow>[
+            TableRow(
+              children: <Widget>[
+                TableCell(
+                  verticalAlignment: TableCellVerticalAlignment.middle,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child:
+                        TableCellContent(text: context.translate.subject_store),
+                  ),
+                ),
+                TableCell(
+                  child:
+                      TableCellContent(text: context.translate.subject_quntity),
+                ),
+              ],
             ),
-            TableCell(
-              child: TableCellContent(text: context.translate.subject_quntity),
-            ),
+            ...stores
+                .map((e) => _tableRowForStore(e.quantity, e.store, formatter)),
           ],
         ),
-        ...stores.map((e) => _tableRowForStore(e.quantity, e.store)),
+        Container(
+          height: 32,
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          decoration: const BoxDecoration(
+              border: Border(
+            left: BorderSide(
+              color: AppColors.primaryLight,
+            ),
+            right: BorderSide(
+              color: AppColors.primaryLight,
+            ),
+            bottom: BorderSide(
+              color: AppColors.primaryLight,
+            ),
+          )),
+          child: Row(
+            children: [
+              Expanded(
+                  child: Text(
+                context.translate.sum,
+                style: Topology.smallTitle,
+              )),
+              Expanded(
+                  child: Text(
+                formatter.format(quantity),
+                textAlign: TextAlign.center,
+              ))
+            ],
+          ),
+        ),
       ],
     );
   }
 
-  TableRow _tableRowForStore(String qny, String store) {
+  TableRow _tableRowForStore(double qny, String store, NumberFormat formatter) {
     return TableRow(
       // decoration: const BoxDecoration(
       //   color: Colors.grey,
@@ -193,7 +233,7 @@ class ProductCard extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              qny,
+              formatter.format(qny),
               style: Topology.subTitle,
               textAlign: TextAlign.center,
             ),

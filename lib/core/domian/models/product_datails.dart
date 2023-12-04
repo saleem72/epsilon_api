@@ -13,6 +13,7 @@ class ProductDetails {
   final String unity;
   final String barcode;
   final String matunit;
+  final String spec;
   final String? imageBase64;
   final List<StoreQuntity> stores;
 
@@ -25,6 +26,7 @@ class ProductDetails {
     required this.enduser2,
     required this.barcode,
     required this.matunit,
+    required this.spec,
     required this.stores,
     required this.imageBase64,
   });
@@ -35,7 +37,7 @@ class ProductDetails {
 
 class StoreQuntity {
   final String store;
-  final String quantity;
+  final double quantity;
 
   StoreQuntity({
     required this.store,

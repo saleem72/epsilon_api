@@ -18,5 +18,6 @@ initPricesSelectorDependancies() {
       service: locator(),
     ),
   );
-  locator.registerFactory(() => PricesSelectorBloc(repository: locator()));
+  locator.registerFactory(
+      () => PricesSelectorBloc(repository: locator(), safe: locator()));
 }

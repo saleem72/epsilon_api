@@ -111,7 +111,7 @@ class SiteDTO {
   StoreQuntity toStoreQuntity() {
     return StoreQuntity(
       store: stName ?? '',
-      quantity: (qty ?? 0).toString(),
+      quantity: qty ?? 0,
     );
   }
 }

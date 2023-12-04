@@ -132,5 +132,6 @@
     "invoice_unit": "unit",
     "invoice_price": "Price",
     "start_date": "Invoice date(from)",
-    "end_date": "Invoice date(to)"
+    "end_date": "Invoice date(to)",
+    "sum": "Sum"
 }

@@ -160,6 +160,7 @@ class ProductDto {
       enduser2: price2 ?? 0,
       barcode: '',
       matunit: '',
+      spec: spec ?? '',
       imageBase64: document,
       stores: [],
     );
