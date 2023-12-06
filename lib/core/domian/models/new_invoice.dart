@@ -11,7 +11,7 @@ class NewInvoice {
   int custId;
   double firstPay;
   String currCode;
-  int discountRate;
+  double discountRate;
   String number;
   double billFinal;
   double totalTax;
@@ -50,6 +50,9 @@ class NewInvoice {
       "IncludedTotalTax": 0
     };
   }
+
+  double get subTotal => billItems.fold(
+      0, (previousValue, element) => previousValue + element.total);
 }
 
 class BillItem {
@@ -60,6 +63,8 @@ class BillItem {
   int quanitity;
   double price;
   double bonus;
+
+  double get total => quanitity * price;
 
   BillItem({
     required this.index,

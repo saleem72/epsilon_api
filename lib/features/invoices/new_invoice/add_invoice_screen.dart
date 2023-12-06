@@ -34,6 +34,7 @@ class AddInvoiceScreen extends StatelessWidget {
       lazy: false,
       create: (context) => InvoiceBloc(
         repository: di.locator(),
+        service: di.locator(),
       )..add(InvoiceFetchDataEvent()),
       child: const AddInvoicesContentScreen(),
     );

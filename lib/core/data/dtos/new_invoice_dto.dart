@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:epsilon_api/core/domian/models/new_invoice.dart';
+
 AddInvoiceResponse addInvoiceResponseFromJson(String str) =>
     AddInvoiceResponse.fromJson(json.decode(str));
 
@@ -114,6 +116,22 @@ class AddInvoiceResponseData {
         "TotalTax": totalTax,
         "IncludedTotalTax": includedTotalTax,
       };
+
+  NewInvoice toInvoice() => NewInvoice(
+        id: id ?? 0,
+        billItems: (billItems ?? []).map((e) => e.toModel()).toList(),
+        date: date == null ? '' : date!.toString(),
+        billPayType: billPayType ?? 0,
+        typeId: typeId ?? 0,
+        custId: custId ?? 0,
+        firstPay: firstPay ?? 0,
+        currCode: currCode ?? '',
+        discountRate: discountRate ?? 0,
+        number: number ?? '',
+        billFinal: dataFinal ?? 0,
+        totalTax: totalTax ?? 0,
+        includedTotalTax: includedTotalTax?.toInt() ?? 0,
+      );
 }
 
 class BillItemDTO {
@@ -154,6 +172,16 @@ class BillItemDTO {
         "Price": price,
         "Bonus": bonus,
       };
+
+  BillItem toModel() => BillItem(
+        index: index ?? 0,
+        itemId: itemId ?? 0,
+        unitId: unitId ?? 0,
+        unitFact: unitFact ?? 0,
+        quanitity: quanitity ?? 0,
+        price: price ?? 0,
+        bonus: bonus ?? 0,
+      );
 }
 
 extension DynamicToDouble on dynamic {

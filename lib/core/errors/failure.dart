@@ -40,3 +40,8 @@ final class UnExpectedFailure extends Failure {
 final class ProductNotFoundFailure extends Failure {
   const ProductNotFoundFailure({required String message}) : super(message);
 }
+
+final class DownloadsDirectoryNotFoundFailure extends Failure {
+  const DownloadsDirectoryNotFoundFailure()
+      : super('Downloads folder not found');
+}

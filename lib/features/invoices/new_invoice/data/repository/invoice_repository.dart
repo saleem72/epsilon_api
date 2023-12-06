@@ -133,10 +133,10 @@ class InvoiceRepository implements IInvoiceRepository {
   }
 
   @override
-  Future<Either<Failure, int>> createInvoice(NewInvoice invoice) async {
+  Future<Either<Failure, NewInvoice>> createInvoice(NewInvoice invoice) async {
     try {
-      final id = await _service.createInvoice(invoice);
-      return right(id);
+      final data = await _service.createInvoice(invoice);
+      return right(data);
     } catch (e) {
       return left(e.toFailure());
     }

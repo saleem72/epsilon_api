@@ -20,5 +20,5 @@ abstract class IInvoiceRepository {
     required int itemId,
     required int unitId,
   });
-  Future<Either<Failure, int>> createInvoice(NewInvoice invoice);
+  Future<Either<Failure, NewInvoice>> createInvoice(NewInvoice invoice);
 }

@@ -41,6 +41,9 @@ extension ObjectToException on Object {
       return ProductNotFoundFailure(
           message: (this as ProductNotFoundException).message);
     }
+    if (this is DownloadsDirectoryNotFoundException) {
+      return const DownloadsDirectoryNotFoundFailure();
+    }
     return UnExpectedFailure(message: toString());
   }
 }

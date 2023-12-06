@@ -89,3 +89,5 @@ class ProductNotFoundException extends AppException {
   const ProductNotFoundException({required String message})
       : super(message: message);
 }
+
+class DownloadsDirectoryNotFoundException extends AppException {}

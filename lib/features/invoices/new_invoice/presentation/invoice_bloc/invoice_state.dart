@@ -186,7 +186,7 @@ class InvoiceState extends Equatable {
       firstPay: 0,
       currCode: '',
       discountRate: 0,
-      number: '',
+      number: '103',
       billFinal: 0,
       totalTax: 0,
       includedTotalTax: 0,

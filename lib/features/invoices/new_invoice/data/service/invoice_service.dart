@@ -171,7 +171,7 @@ class InvoiceService {
     return result.data?.units ?? [];
   }
 
-  Future<int> createInvoice(NewInvoice invoice) async {
+  Future<NewInvoice> createInvoice(NewInvoice invoice) async {
     final token = safe.getToken() ?? '';
     final headers = {
       "Authorization": "Bearer $token",
@@ -198,10 +198,16 @@ class InvoiceService {
     // );
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
-      final data = addInvoiceResponseFromJson(response.body);
-      final str = data.data!.number ?? '';
-      final number = int.tryParse(str) ?? 0;
-      return number;
+      final AddInvoiceResponse data = addInvoiceResponseFromJson(response.body);
+      // final str = data.data!.number ?? '';
+      // // final number = int.tryParse(str) ?? 0;
+      // // return number;
+      if (data.data == null) {
+        throw const ServerException();
+      } else {
+        return data.data!.toInvoice();
+      }
+
       // final aaa = jsonDecode(response.body);
       // print(aaa);
       // return 87;

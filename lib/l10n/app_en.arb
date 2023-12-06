@@ -63,6 +63,7 @@
     "forbidden_failure": "You are not allowed to do this",
     "unauthorized_failure": "You need to re login again\nplease logout then login again",
     "server_error": "Server error",
+    "pdf_failure": "Create PDF Failure",
 
     "invalid_username_or_password": "Invalid username or password",
     "fail_to_connect_db": "Fail To Connect your database",

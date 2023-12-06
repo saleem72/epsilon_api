@@ -22,6 +22,7 @@ extension Translation on BuildContext {
       ServerFailure() => translate.server_error,
       UnExpectedFailure() => translate.unexpected_failure,
       ProductNotFoundFailure() => failure.message ?? '',
+      DownloadsDirectoryNotFoundFailure() => translate.pdf_failure,
     };
   }
 }
