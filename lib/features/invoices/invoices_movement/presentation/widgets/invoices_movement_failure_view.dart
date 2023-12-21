@@ -14,13 +14,23 @@ class InvoicesMovementFailureView extends StatelessWidget {
   final Failure? failure;
   @override
   Widget build(BuildContext context) {
+    return BlocBuilder<InvoicesMovementBloc, InvoicesMovementState>(
+      builder: (context, state) {
+        return _buildFailure(context, state);
+      },
+    );
+  }
+
+  Widget _buildFailure(BuildContext context, InvoicesMovementState state) {
     return failure == null
         ? const SizedBox.shrink()
         : GeneralErrorView(
-            onAction: () => context
-                .read<InvoicesMovementBloc>()
-                .add(InvoicesMovementClearFailureEvent()),
-            failure: failure,
+            onAction: () {
+              context
+                  .read<InvoicesMovementBloc>()
+                  .add(InvoicesMovementClearFailureEvent());
+            },
+            failure: state.failure,
           );
   }
 }

@@ -105,7 +105,7 @@
     "units": "الوحدات",
     "add_to_invoice": "اضافة منتج الى الفاتورة",
     "create_invoice": "اضافة فاتورة",
-    "create_pdf": "اضافة وحفظ بصيغة PDF",
+    "create_pdf": "اضافة وحفظ الفاتورة",
 
     "currency": "العملة",
     "bill_amount": "مبلغ الدفع",

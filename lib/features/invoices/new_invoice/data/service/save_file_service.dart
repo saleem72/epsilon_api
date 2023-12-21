@@ -11,6 +11,7 @@ import 'package:epsilon_api/core/errors/exceptions/object_exception_extension.da
 import 'package:epsilon_api/core/errors/failure.dart';
 import 'package:epsilon_api/features/invoices/new_invoice/data/service/invoice_builder.dart';
 import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:pdf/widgets.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -66,14 +67,21 @@ class SaveFileService {
   }
 
   Future<Directory?> _getDoanloadsDirectory() async {
-    final downloads = Directory('/storage/emulated/0/Download/');
-    final isExists = await downloads.exists();
+    if (Platform.isAndroid) {
+      final downloads = Directory('/storage/emulated/0/Download/');
+      final isExists = await downloads.exists();
 
-    if (isExists) {
-      return downloads;
-    } else {
-      return null;
+      if (isExists) {
+        return downloads;
+      } else {
+        return null;
+      }
+    } else if (Platform.isIOS) {
+      final Directory? downloadsDir = await getDownloadsDirectory();
+      return downloadsDir;
     }
+
+    return null;
   }
 
   Future<bool> _checkPermission() async {

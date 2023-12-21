@@ -86,6 +86,18 @@ class _AddInvoicesContentScreenState extends State<AddInvoicesContentScreen> {
             context.read<InvoiceBloc>().add(InvoiceClearSuccessEvent());
           },
         ),
+        const IgnorePointer(
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            resizeToAvoidBottomInset: false,
+            body: Column(
+              children: [
+                Spacer(),
+                InvoiceItemsTotalsView(),
+              ],
+            ),
+          ),
+        ),
       ],
     );
   }
@@ -142,17 +154,12 @@ class _AddInvoicesContentScreenState extends State<AddInvoicesContentScreen> {
               ],
             ),
           ),
-          Positioned(
-            bottom: 21,
-            left: 16,
-            right: 80,
-            child: InvoiceItemsTotalsView(state: state),
-            // child: Container(
-            //   height: 100,
-            //   color: Colors.green,
-            //   alignment: Alignment.center,
-            // ),
-          ),
+          // Positioned(
+          //   bottom: 21,
+          //   left: 16,
+          //   right: 80,
+          //   child: InvoiceItemsTotalsView(state: state),
+          // ),
         ],
       ),
     );
@@ -464,18 +471,28 @@ class _AddInvoicesContentScreenState extends State<AddInvoicesContentScreen> {
 class InvoiceItemsTotalsView extends StatelessWidget {
   const InvoiceItemsTotalsView({
     super.key,
-    required this.state,
   });
-  final InvoiceState state;
   @override
   Widget build(BuildContext context) {
+    return BlocBuilder<InvoiceBloc, InvoiceState>(
+      builder: (context, state) {
+        return _buildWidget(context, state);
+      },
+    );
+  }
+
+  AnimatedOpacity _buildWidget(BuildContext context, InvoiceState state) {
     final formatter = intl.NumberFormat('#,##0.##');
     return AnimatedOpacity(
       opacity: state.invoiceItems.isNotEmpty && state.showMain ? 1 : 0,
       duration: const Duration(milliseconds: 500),
       child: Container(
         height: 100,
-        // padding: const EdgeInsets.only(right: 80, left: 16),
+        padding: const EdgeInsets.only(
+          right: 80,
+          left: 16,
+          bottom: 21,
+        ),
         alignment: Alignment.bottomCenter,
         child: Column(
           mainAxisSize: MainAxisSize.min,

@@ -7,6 +7,7 @@ import 'package:epsilon_api/core/domian/models/searched_invoice.dart';
 import 'package:epsilon_api/core/widgets/app_date_picker.dart';
 import 'package:epsilon_api/core/widgets/app_dropdown_button.dart';
 import 'package:epsilon_api/core/widgets/dotted_dropdown_text_field.dart';
+import 'package:epsilon_api/core/widgets/error_view.dart';
 import 'package:epsilon_api/core/widgets/gradient_button.dart';
 import 'package:epsilon_api/features/invoices/new_invoice/presentation/widgets/triangle_icon.dart';
 import 'package:epsilon_api/core/extensions/build_context_extension.dart';
@@ -52,17 +53,30 @@ class _InvoicesMovementScreenContentState
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<InvoicesMovementBloc, InvoicesMovementState>(
-      builder: (context, state) {
+      builder: (_, state) {
         return Stack(
           fit: StackFit.expand,
           children: [
             _mainScaffold(context, state),
-            InvoicesMovementFailureView(failure: state.failure),
+            _buildFailure(context, state),
             InvoicesMovementLoadingView(isLoading: state.isLoading),
           ],
         );
       },
     );
+  }
+
+  Widget _buildFailure(BuildContext context, InvoicesMovementState state) {
+    return state.failure == null
+        ? const SizedBox.shrink()
+        : GeneralErrorView(
+            onAction: () {
+              context
+                  .read<InvoicesMovementBloc>()
+                  .add(InvoicesMovementClearFailureEvent());
+            },
+            failure: state.failure,
+          );
   }
 
   Scaffold _mainScaffold(BuildContext context, InvoicesMovementState state) {

@@ -36,7 +36,9 @@ class InvoiceState extends Equatable {
           previousValue + (element.price * element.quantity));
 
   double get invoiceTaxTotal => invoiceItems.fold(
-      0, (previousValue, element) => previousValue + element.tax);
+      0,
+      (previousValue, element) =>
+          previousValue + (element.tax * element.quantity));
 
   double get invoiceTotal => invoiceSubTotal + invoiceTaxTotal;
 
