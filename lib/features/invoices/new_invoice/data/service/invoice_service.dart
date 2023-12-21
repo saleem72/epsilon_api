@@ -1,5 +1,4 @@
 //
-import 'dart:developer' as developer;
 import 'dart:convert';
 
 import 'package:epsilon_api/core/data/dtos/compact_product_dto.dart';
@@ -186,8 +185,6 @@ class InvoiceService {
     final uri = Uri.parse(urlString);
     final body = jsonEncode(invoice.toMap());
     final response = await http.post(uri, headers: headers, body: body);
-    var temp = utf8.decode(response.bodyBytes);
-    developer.log("🎲 ${temp.toString()}", name: "adding_invoice");
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
       final AddInvoiceResponse data = addInvoiceResponseFromJson(response.body);

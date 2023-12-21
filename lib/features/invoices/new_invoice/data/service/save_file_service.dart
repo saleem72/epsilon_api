@@ -1,5 +1,6 @@
 //
 
+import 'dart:developer' as developer;
 import 'dart:convert';
 import 'dart:io';
 
@@ -84,7 +85,8 @@ class SaveFileService {
     return null;
   }
 
-  Future<bool> _checkPermission() async {
+  Future<PermissionStatus> _getAndroisPermission() async {
+    developer.log("🎲 Requestion Android Permission", name: "save_image");
     final deviceInfo = await DeviceInfoPlugin().deviceInfo;
     final sdkInt = deviceInfo.sdkInt;
 
@@ -92,6 +94,25 @@ class SaveFileService {
         ? await Permission.storage.request()
         : PermissionStatus.granted;
 
+    return status;
+  }
+
+  Future<PermissionStatus> _getIOSPermission() async {
+    developer.log("🎲 Requestion IOS Permission", name: "save_image");
+    return Permission.storage.request();
+  }
+
+  Future<bool> _checkPermission() async {
+    PermissionStatus status;
+    if (Platform.isAndroid) {
+      status = await _getAndroisPermission();
+    } else if (Platform.isIOS) {
+      status = await _getIOSPermission();
+    } else {
+      status = PermissionStatus.restricted;
+    }
+
+    developer.log("🎲 Permission $status", name: "save_image");
     if (status.isDenied) {
       final temp = await Permission.storage.request();
       if (temp.isGranted) {
