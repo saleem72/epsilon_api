@@ -43,6 +43,11 @@ class InvoiceItemListUi extends StatelessWidget {
                 flex: 1,
                 child: AppTableCell(text: context.translate.subject_quntity),
               ),
+              // const SizedBox(width: 4),
+              // Expanded(
+              //   flex: 1,
+              //   child: AppTableCell(text: context.translate.tax),
+              // ),
               const SizedBox(width: 4),
               Expanded(
                 flex: 1,
@@ -54,7 +59,6 @@ class InvoiceItemListUi extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(height: 4),
         ...invoiceItems.map((e) => InvoiceItemListUiRow(item: e)),
       ],
     );

@@ -114,3 +114,12 @@ class InvoiceFlipViewsEvent extends InvoiceEvent {
   @override
   List<Object> get props => [value];
 }
+
+class _InvoiceSaveEvent extends InvoiceEvent {
+  final NewInvoice invoice;
+  const _InvoiceSaveEvent({
+    required this.invoice,
+  });
+  @override
+  List<Object> get props => [invoice];
+}

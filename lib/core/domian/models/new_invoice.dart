@@ -16,6 +16,7 @@ class NewInvoice {
   double billFinal;
   double totalTax;
   int includedTotalTax;
+  String? image;
 
   NewInvoice({
     required this.id,
@@ -31,6 +32,7 @@ class NewInvoice {
     required this.billFinal,
     required this.totalTax,
     required this.includedTotalTax,
+    required this.image,
   });
   // "2023-11-15T10:14:08.333Z"
   Map<String, dynamic> toMap() {

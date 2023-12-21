@@ -99,6 +99,7 @@
     "invoice_note": "Note",
     "discount": "Discount",
     "taxs": "Taxs",
+    "tax": "Tax",
     "final_totoal": "Total",
     "product_search": "Search for product",
     "product_search_hint": "Code, Serial, Name",

@@ -186,6 +186,20 @@ class _DropdownTextFieldState extends State<DropdownTextField> {
             color: Colors.grey.shade400,
           ),
           isCollapsed: true,
+          suffix: isEditing
+              ? IconButton(
+                  onPressed: () {
+                    showOverlay();
+                    widget.onSelection('');
+                    widget.controller.clear();
+                  },
+                  icon: const Icon(
+                    Icons.close,
+                    color: AppColors.primaryDark,
+                    size: 20,
+                  ),
+                )
+              : const SizedBox.shrink(),
         ),
       ),
     );

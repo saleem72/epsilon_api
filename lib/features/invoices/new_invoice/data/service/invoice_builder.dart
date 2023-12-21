@@ -156,21 +156,21 @@ class InvoiceBuilder {
     );
   }
 
-  static Container _buildQR(PDFInvoice invoice, intl.DateFormat dateFormat) {
-    String qrString = """
-Invoice num: ${invoice.invoice.id},
-date: ${dateFormat.format(DateTime.now())},
-total: ${invoice.invoice.billFinal}
-""";
-    return Container(
-      height: 50,
-      width: 50,
-      child: BarcodeWidget(
-        barcode: Barcode.qrCode(),
-        data: qrString,
-      ),
-    );
-  }
+//   static Container _buildQR(PDFInvoice invoice, intl.DateFormat dateFormat) {
+//     String qrString = """
+// Invoice num: ${invoice.invoice.id},
+// date: ${dateFormat.format(DateTime.now())},
+// total: ${invoice.invoice.billFinal}
+// """;
+//     return Container(
+//       height: 50,
+//       width: 50,
+//       child: BarcodeWidget(
+//         barcode: Barcode.qrCode(),
+//         data: qrString,
+//       ),
+//     );
+//   }
 
   static Column _companyDetails(PDFInvoice invoice) {
     return Column(

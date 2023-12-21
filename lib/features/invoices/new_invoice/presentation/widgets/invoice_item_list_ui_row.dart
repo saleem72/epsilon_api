@@ -16,6 +16,7 @@ class InvoiceItemListUiRow extends StatelessWidget {
   final InvoiceUiItem item;
   @override
   Widget build(BuildContext context) {
+    // final numberFormatter = intl.NumberFormat('#,##0.#');
     return Slidable(
       key: ValueKey(item.id),
       startActionPane: ActionPane(
@@ -35,9 +36,13 @@ class InvoiceItemListUiRow extends StatelessWidget {
         ],
       ),
       child: Container(
-        margin: const EdgeInsets.only(bottom: 4),
-        decoration: BoxDecoration(
-          border: Border.all(),
+        // margin: const EdgeInsets.only(bottom: 4),
+        decoration: const BoxDecoration(
+          border: Border(
+            bottom: BorderSide(),
+            left: BorderSide(),
+            right: BorderSide(),
+          ),
         ),
         child: IntrinsicHeight(
           child: Row(
@@ -60,6 +65,11 @@ class InvoiceItemListUiRow extends StatelessWidget {
                 flex: 1,
                 child: AppTableCell(text: item.quantity.toString()),
               ),
+              // const SizedBox(width: 4),
+              // Expanded(
+              //   flex: 1,
+              //   child: AppTableCell(text: numberFormatter.format(item.tax)),
+              // ),
               const SizedBox(width: 4),
               Expanded(
                 flex: 1,

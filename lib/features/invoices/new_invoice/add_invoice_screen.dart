@@ -130,7 +130,7 @@ class _AddInvoicesContentScreenState extends State<AddInvoicesContentScreen> {
                 : CrossFadeState.showSecond,
           ),
           Positioned(
-            bottom: 32,
+            bottom: 21,
             right: 16,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
@@ -141,6 +141,17 @@ class _AddInvoicesContentScreenState extends State<AddInvoicesContentScreen> {
                 ),
               ],
             ),
+          ),
+          Positioned(
+            bottom: 21,
+            left: 16,
+            right: 80,
+            child: InvoiceItemsTotalsView(state: state),
+            // child: Container(
+            //   height: 100,
+            //   color: Colors.green,
+            //   alignment: Alignment.center,
+            // ),
           ),
         ],
       ),
@@ -258,30 +269,31 @@ class _AddInvoicesContentScreenState extends State<AddInvoicesContentScreen> {
         const SizedBox(height: 16),
         InvoiceItemListUi(invoiceItems: state.invoiceItems),
         const SizedBox(height: 16),
+
         // _createInvoiceButton(context, state.isInvoiceReady, state.invoiceTotal),
         // const SizedBox(height: 32),
       ],
     );
   }
 
-  Widget _createInvoiceButton(
-      BuildContext context, bool isInvoiceReady, double total) {
-    final formatter = intl.NumberFormat('#,##0.##');
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        GradientButton(
-          width: context.mediaQuery.size.width - 64,
-          label: context.translate.create_invoice,
-          secondLabel: total > 0 ? formatter.format(total) : '',
-          isEnabled: isInvoiceReady,
-          onPressed: () {
-            context.read<InvoiceBloc>().add(InvoiceCreateInvoiceEvent());
-          },
-        ),
-      ],
-    );
-  }
+  // Widget _createInvoiceButton(
+  //     BuildContext context, bool isInvoiceReady, double total) {
+  //   final formatter = intl.NumberFormat('#,##0.##');
+  //   return Row(
+  //     mainAxisAlignment: MainAxisAlignment.center,
+  //     children: [
+  //       GradientButton(
+  //         width: context.mediaQuery.size.width - 64,
+  //         label: context.translate.create_invoice,
+  //         secondLabel: total > 0 ? formatter.format(total) : '',
+  //         isEnabled: isInvoiceReady,
+  //         onPressed: () {
+  //           context.read<InvoiceBloc>().add(InvoiceCreateInvoiceEvent());
+  //         },
+  //       ),
+  //     ],
+  //   );
+  // }
 
   AppTextFieldWithLabel _quantityTextField(
       BuildContext context, InvoiceState state) {
@@ -449,6 +461,134 @@ class _AddInvoicesContentScreenState extends State<AddInvoicesContentScreen> {
   }
 }
 
+class InvoiceItemsTotalsView extends StatelessWidget {
+  const InvoiceItemsTotalsView({
+    super.key,
+    required this.state,
+  });
+  final InvoiceState state;
+  @override
+  Widget build(BuildContext context) {
+    final formatter = intl.NumberFormat('#,##0.##');
+    return AnimatedOpacity(
+      opacity: state.invoiceItems.isNotEmpty && state.showMain ? 1 : 0,
+      duration: const Duration(milliseconds: 500),
+      child: Container(
+        height: 100,
+        // padding: const EdgeInsets.only(right: 80, left: 16),
+        alignment: Alignment.bottomCenter,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                border: Border.all(),
+                color: Colors.grey.shade300,
+              ),
+              child: IntrinsicHeight(
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        // padding: const EdgeInsets.symmetric(vertical: 4),
+                        decoration: const BoxDecoration(
+                          border: Border(
+                            left: BorderSide(),
+                          ),
+                        ),
+                        alignment: Alignment.center,
+                        child: Text(
+                          context.translate.tax,
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 4),
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 4),
+                        decoration: const BoxDecoration(
+                          border: Border(
+                            left: BorderSide(),
+                          ),
+                        ),
+                        alignment: Alignment.center,
+                        child: Text(
+                          context.translate.sub_total,
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 4),
+                    Expanded(
+                      child: Container(
+                        alignment: Alignment.center,
+                        child: Text(
+                          context.translate.final_totoal,
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Container(
+              decoration: const BoxDecoration(
+                border: Border(
+                  left: BorderSide(),
+                  right: BorderSide(),
+                  bottom: BorderSide(),
+                ),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 4),
+                      decoration: const BoxDecoration(
+                        border: Border(
+                          left: BorderSide(),
+                        ),
+                      ),
+                      child: Text(
+                        formatter.format(state.invoiceTaxTotal),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 4),
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 4),
+                      decoration: const BoxDecoration(
+                        border: Border(
+                          left: BorderSide(),
+                        ),
+                      ),
+                      child: Text(
+                        formatter.format(state.invoiceSubTotal),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 4),
+                  Expanded(
+                    child: Text(
+                      formatter.format(state.invoiceTotal),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class AddInvoiceFlipButton extends StatelessWidget {
   const AddInvoiceFlipButton({
     super.key,
@@ -483,12 +623,12 @@ class SuccessAddInvoiceView extends StatelessWidget {
       builder: (context, state) {
         return state.addedSuccessfully == null
             ? const SizedBox.shrink()
-            : _content(context, state.addedSuccessfully!);
+            : _content(context, state.addedSuccessfully!, state.invoiceNumber);
       },
     );
   }
 
-  Container _content(BuildContext context, int number) {
+  Container _content(BuildContext context, int number, String? invoiceNumber) {
     return Container(
       color: Colors.black26,
       alignment: Alignment.center,
@@ -512,7 +652,7 @@ class SuccessAddInvoiceView extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          '${context.translate.add_invoice_success} ($number)',
+                          '${context.translate.add_invoice_success} ($invoiceNumber)',
                           style: Topology.largeTitle.copyWith(
                             color: AppColors.primaryDark,
                           ),

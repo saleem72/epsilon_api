@@ -1,10 +1,10 @@
 //
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:epsilon_api/core/domian/models/new_invoice.dart';
 import 'package:epsilon_api/core/domian/models/pdf_invoice.dart';
 import 'package:epsilon_api/core/errors/exceptions/app_exceptions.dart';
 import 'package:epsilon_api/core/errors/exceptions/object_exception_extension.dart';
@@ -43,12 +43,12 @@ class SaveFileService {
     }
   }
 
-  static Future<Uint8List> _loadCompanyImage(String path) async {
-    final file = await rootBundle.load('assets/images/logo.jpg');
-    return file.buffer.asUint8List();
-    // final file = File(path);
-    // return file.readAsBytes();
-  }
+  // static Future<Uint8List> _loadCompanyImage(String path) async {
+  //   final file = await rootBundle.load('assets/images/logo.jpg');
+  //   return file.buffer.asUint8List();
+  //   // final file = File(path);
+  //   // return file.readAsBytes();
+  // }
 
   Future<void> saveFileToDownloads(String fileName, Uint8List data) async {
     final downloads = await _getDoanloadsDirectory();
@@ -99,6 +99,23 @@ class SaveFileService {
       return true;
     }
     return false;
+  }
+
+  Future<void> saveInvoiceImage(
+      {required String fileName, required String imageStr}) async {
+    final downloads = await _getDoanloadsDirectory();
+    if (downloads == null) {
+      throw DownloadsDirectoryNotFoundException();
+    } else {
+      final hasPermission = await _checkPermission();
+      if (hasPermission) {
+        File target = File("${downloads.path}$fileName.jpg");
+        final data = base64Decode(imageStr);
+        await target.writeAsBytes(data, flush: true);
+      } else {
+        throw DownloadsDirectoryNotFoundException();
+      }
+    }
   }
 }
 

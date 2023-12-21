@@ -11,11 +11,13 @@ class InvoiceUiItem extends Equatable {
   final ProductUnit unit;
   final int quantity;
   final double price;
+  final double tax;
   const InvoiceUiItem({
     required this.product,
     required this.unit,
     required this.quantity,
     required this.price,
+    required this.tax,
   });
 
   double get total => price * quantity;
@@ -28,5 +30,6 @@ class InvoiceUiItem extends Equatable {
         unit,
         quantity,
         price,
+        tax,
       ];
 }

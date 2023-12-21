@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:epsilon_api/core/domian/models/product_price_tax.dart';
+
 GetPriceByUnitResponse getPriceByUnitResponseFromJson(String str) =>
     GetPriceByUnitResponse.fromJson(json.decode(str));
 
@@ -65,4 +67,11 @@ class GetPriceByUnitResponseData {
         "ItemId": itemId,
         "Tax": tax,
       };
+
+  ProductPriceTax toModel() => ProductPriceTax(
+        price: price ?? 0,
+        unitId: unitId ?? 0,
+        itemId: itemId ?? 0,
+        tax: tax ?? 0,
+      );
 }

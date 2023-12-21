@@ -27,11 +27,22 @@ class InvoiceState extends Equatable {
 
   final bool hasAddedItem;
   final int? addedSuccessfully;
+  final String? invoiceNumber;
+  final String? invoiceImage;
 
-  double get invoiceTotal => invoiceItems.fold(
+  double get invoiceSubTotal => invoiceItems.fold(
       0,
       (previousValue, element) =>
           previousValue + (element.price * element.quantity));
+
+  double get invoiceTaxTotal => invoiceItems.fold(
+      0, (previousValue, element) => previousValue + element.tax);
+
+  double get invoiceTotal => invoiceSubTotal + invoiceTaxTotal;
+
+  Uint8List? get memoryImage => invoiceImage == null
+      ? null
+      : const Base64Decoder().convert(invoiceImage!);
 
   const InvoiceState({
     required this.isLoading,
@@ -52,6 +63,8 @@ class InvoiceState extends Equatable {
     required this.isInvoiceReady,
     required this.addedSuccessfully,
     required this.showMain,
+    required this.invoiceNumber,
+    required this.invoiceImage,
   });
 
   factory InvoiceState.initial() => InvoiceState(
@@ -73,6 +86,8 @@ class InvoiceState extends Equatable {
         isInvoiceReady: false,
         addedSuccessfully: null,
         showMain: true,
+        invoiceNumber: null,
+        invoiceImage: null,
       );
 
   @override
@@ -95,6 +110,8 @@ class InvoiceState extends Equatable {
         isInvoiceReady,
         addedSuccessfully,
         showMain,
+        invoiceNumber,
+        invoiceImage,
       ];
 
   InvoiceState copyWith({
@@ -119,8 +136,10 @@ class InvoiceState extends Equatable {
     // bool? isItemReady,
     bool? hasAddedItem,
     int? addedSuccessfully,
+    String? invoiceNumber,
     bool clearSuccess = false,
     bool? showMain,
+    String? invoiceImage,
   }) {
     return InvoiceState(
       isLoading: isLoading ?? this.isLoading,
@@ -157,6 +176,8 @@ class InvoiceState extends Equatable {
           ? null
           : addedSuccessfully ?? this.addedSuccessfully,
       showMain: showMain ?? this.showMain,
+      invoiceNumber: invoiceNumber ?? this.invoiceNumber,
+      invoiceImage: invoiceImage ?? this.invoiceImage,
     );
   }
 
@@ -190,6 +211,7 @@ class InvoiceState extends Equatable {
       billFinal: 0,
       totalTax: 0,
       includedTotalTax: 0,
+      image: null,
     );
   }
 }

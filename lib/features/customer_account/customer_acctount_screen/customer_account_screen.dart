@@ -701,33 +701,33 @@ class BalanceTile extends StatelessWidget {
     );
   }
 
-  Widget _blanceLine(BuildContext context, TextStyle? boldText,
-      intl.NumberFormat dateFormatter) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      decoration: const BoxDecoration(
-        border: Border(
-          bottom: BorderSide(),
-          left: BorderSide(),
-          right: BorderSide(),
-        ),
-      ),
-      child: Row(
-        children: [
-          Text(
-            context.translate.balance,
-            style: boldText,
-          ),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Text(
-              dateFormatter.format(balance.balance),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  // Widget _blanceLine(BuildContext context, TextStyle? boldText,
+  //     intl.NumberFormat dateFormatter) {
+  //   return Container(
+  //     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+  //     decoration: const BoxDecoration(
+  //       border: Border(
+  //         bottom: BorderSide(),
+  //         left: BorderSide(),
+  //         right: BorderSide(),
+  //       ),
+  //     ),
+  //     child: Row(
+  //       children: [
+  //         Text(
+  //           context.translate.balance,
+  //           style: boldText,
+  //         ),
+  //         const SizedBox(width: 8),
+  //         Expanded(
+  //           child: Text(
+  //             dateFormatter.format(balance.balance),
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   Widget _numberCurrency(
       BuildContext context, TextStyle? boldText, Currency? currency) {

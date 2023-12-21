@@ -1,11 +1,10 @@
 //
+import 'dart:convert';
 import 'dart:developer' as developer;
 import 'dart:async';
-import 'dart:io';
-import 'package:epsilon_api/core/domian/models/company_info.dart';
-import 'package:epsilon_api/core/domian/models/pdf_invoice.dart';
 import 'package:epsilon_api/features/invoices/new_invoice/data/service/save_file_service.dart';
 import 'package:epsilon_api/features/invoices/new_invoice/domain/repository/i_invoice_repository.dart';
+import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'package:epsilon_api/core/domian/models/compact_customer.dart';
@@ -17,7 +16,6 @@ import 'package:epsilon_api/core/domian/models/product_unit.dart';
 import 'package:epsilon_api/core/errors/failure.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 part 'invoice_event.dart';
 part 'invoice_state.dart';
@@ -47,6 +45,7 @@ class InvoiceBloc extends Bloc<InvoiceEvent, InvoiceState> {
     on<InvoiceRemoveItemEvent>(_onRemoveItem);
     on<InvoiceCreateInvoiceEvent>(_onCreateInvoice);
     on<InvoiceCreateInvoiceWithPDFEvent>(_onCreateInvoiceWithPDF);
+    on<_InvoiceSaveEvent>(_onSaveImage);
     on<InvoiceClearSuccessEvent>(_onClearSuccess);
     on<InvoiceFlipViewsEvent>(_onFlipViews);
   }
@@ -204,13 +203,14 @@ class InvoiceBloc extends Bloc<InvoiceEvent, InvoiceState> {
 
     either.fold(
       (failure) => emit(state.copyWith(isLoading: false, failure: failure)),
-      (price) {
+      (data) {
         if (canAdd) {
           final item = InvoiceUiItem(
             product: state.selectedProduct!,
             unit: state.selectedUnit!,
             quantity: state.quantity,
-            price: price,
+            price: data.price,
+            tax: data.tax,
           );
           final items = state.invoiceItems.map((e) => e).toList();
           items.insert(0, item);
@@ -260,13 +260,15 @@ class InvoiceBloc extends Bloc<InvoiceEvent, InvoiceState> {
 
   FutureOr<void> _onCreateInvoice(
       InvoiceCreateInvoiceEvent event, Emitter<InvoiceState> emit) async {
-    final invoice = state.toInvoice();
+    final invoiceToCraete = state.toInvoice();
     emit(state.copyWith(isLoading: true));
-    final either = await _repository.createInvoice(invoice);
+    final either = await _repository.createInvoice(invoiceToCraete);
     either.fold(
       (failure) => emit(state.copyWith(failure: failure, isLoading: false)),
       (invoice) => emit(state.copyWith(
         addedSuccessfully: invoice.id,
+        invoiceNumber: invoice.number,
+        invoiceImage: invoice.image,
         isLoading: false,
       )),
     );
@@ -274,29 +276,37 @@ class InvoiceBloc extends Bloc<InvoiceEvent, InvoiceState> {
 
   FutureOr<void> _onCreateInvoiceWithPDF(InvoiceCreateInvoiceWithPDFEvent event,
       Emitter<InvoiceState> emit) async {
-    final invoice = state.toInvoice();
-    // emit(state.copyWith(isLoading: true));
-    // final either = await _repository.createInvoice(invoice);
-    // either.fold(
-    //   (failure) => emit(state.copyWith(failure: failure, isLoading: false)),
-    //   (id) => emit(state.copyWith(
-    //     addedSuccessfully: id,
-    //     isLoading: false,
-    //   )),
-    // );
-    final pdfInvoce = PDFInvoice(
-      invoice: invoice,
-      customer: state.selectedCustomer!,
-      invoiceItems: state.invoiceItems,
-      companyInfo: CompanyInfo.example(),
-    );
-    final either = await _serive.invoiceToPDF(pdfInvoce);
+    final invoiceToCreate = state.toInvoice();
+    emit(state.copyWith(isLoading: true));
+    final either = await _repository.createInvoice(invoiceToCreate);
     either.fold(
       (failure) => emit(state.copyWith(failure: failure, isLoading: false)),
-      (r) {
-        // emit(state.copyWith(addedSuccessfully: 3, isLoading: false));
-      },
+      (invoice) => add(_InvoiceSaveEvent(invoice: invoice)),
     );
+  }
+
+  FutureOr<void> _onSaveImage(
+      _InvoiceSaveEvent event, Emitter<InvoiceState> emit) async {
+    final invoice = event.invoice;
+    final imageStr = invoice.image;
+
+    if (imageStr == null) {
+      return;
+    }
+
+    final fileName =
+        '${(state.selectedCustomer?.customerName ?? '')}_${invoice.number}';
+    try {
+      await _serive.saveInvoiceImage(imageStr: imageStr, fileName: fileName);
+      emit(state.copyWith(
+        addedSuccessfully: invoice.id,
+        invoiceNumber: invoice.number,
+        invoiceImage: invoice.image,
+        isLoading: false,
+      ));
+    } catch (e) {
+      emit(state.copyWith(failure: const DownloadsDirectoryNotFoundFailure()));
+    }
   }
 
   FutureOr<void> _onClearSuccess(

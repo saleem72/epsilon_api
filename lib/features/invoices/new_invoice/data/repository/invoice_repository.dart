@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:epsilon_api/core/domian/models/invoice_primary_data.dart';
 import 'package:epsilon_api/core/domian/models/invoice_type.dart';
 import 'package:epsilon_api/core/domian/models/new_invoice.dart';
+import 'package:epsilon_api/core/domian/models/product_price_tax.dart';
 import 'package:epsilon_api/core/domian/models/product_unit.dart';
 import 'package:epsilon_api/core/domian/models/compact_customer.dart';
 import 'package:epsilon_api/core/domian/models/compact_product.dart';
@@ -115,7 +116,7 @@ class InvoiceRepository implements IInvoiceRepository {
   }
 
   @override
-  Future<Either<Failure, double>> fetchProductPrice({
+  Future<Either<Failure, ProductPriceTax>> fetchProductPrice({
     required int typeId,
     required int itemId,
     required int unitId,
@@ -126,7 +127,11 @@ class InvoiceRepository implements IInvoiceRepository {
         itemId: itemId,
         unitId: unitId,
       );
-      return right(data ?? 0);
+      if (data == null) {
+        return left(const UnExpectedFailure(message: 'can not get price'));
+      } else {
+        return right(data.toModel());
+      }
     } catch (e) {
       return left(e.toFailure());
     }

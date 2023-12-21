@@ -53,6 +53,7 @@ class AddInvoiceResponseData {
   double? dataFinal;
   double? totalTax;
   double? includedTotalTax;
+  String? image;
 
   AddInvoiceResponseData({
     this.id,
@@ -68,6 +69,7 @@ class AddInvoiceResponseData {
     this.dataFinal,
     this.totalTax,
     this.includedTotalTax,
+    this.image,
   });
 
   factory AddInvoiceResponseData.fromJson(Map<String, dynamic> json) =>
@@ -97,6 +99,7 @@ class AddInvoiceResponseData {
         includedTotalTax: (json["IncludedTotalTax"] is num)
             ? (json["IncludedTotalTax"] as num).toDouble()
             : null,
+        image: json['Image'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -131,6 +134,7 @@ class AddInvoiceResponseData {
         billFinal: dataFinal ?? 0,
         totalTax: totalTax ?? 0,
         includedTotalTax: includedTotalTax?.toInt() ?? 0,
+        image: image,
       );
 }
 

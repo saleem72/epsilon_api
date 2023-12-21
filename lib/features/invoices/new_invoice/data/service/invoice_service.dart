@@ -106,7 +106,7 @@ class InvoiceService {
     return _decodeUnitsResponse(response);
   }
 
-  Future<double?> fetchPrice({
+  Future<GetPriceByUnitResponseData?> fetchPrice({
     required int typeId,
     required int itemId,
     required int unitId,
@@ -136,7 +136,7 @@ class InvoiceService {
 
     final result = getPriceByUnitResponseFromJson(str);
 
-    return result.data?.price;
+    return result.data;
   }
 
   List<InvoiceTypeDTO> _decodeInvoiceTypesResponse(http.Response response) {
@@ -189,28 +189,14 @@ class InvoiceService {
     var temp = utf8.decode(response.bodyBytes);
     developer.log("🎲 ${temp.toString()}", name: "adding_invoice");
 
-    // final response = await apiHelper.post(
-    //   url: url,
-    //   endPoint: ApiEndPoints.addEntry,
-    //   headers: headers,
-    //   body: entry,
-    //   printResult: true,
-    // );
-
     if (response.statusCode >= 200 && response.statusCode < 300) {
       final AddInvoiceResponse data = addInvoiceResponseFromJson(response.body);
-      // final str = data.data!.number ?? '';
-      // // final number = int.tryParse(str) ?? 0;
-      // // return number;
+
       if (data.data == null) {
         throw const ServerException();
       } else {
         return data.data!.toInvoice();
       }
-
-      // final aaa = jsonDecode(response.body);
-      // print(aaa);
-      // return 87;
     } else {
       throw const ServerException();
     }
